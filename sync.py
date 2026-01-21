@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Intervals.icu → GitHub Repository Integration
-Exports training data to GitHub repository for LLM access.
-Uses repositories instead of Gists for static URLs and history.
+Intervals.icu → GitHub/Local JSON Export
+Exports training data for LLM access.
+Supports both automated GitHub sync and manual local export.
 """
 
 import requests
@@ -14,8 +14,8 @@ from typing import Dict, List
 import base64
 
 
-class PerplexitySync:
-    """Sync Intervals.icu data to GitHub repository"""
+class IntervalsSync:
+    """Sync Intervals.icu data to GitHub repository or local file"""
     
     INTERVALS_BASE_URL = "https://intervals.icu/api/v1"
     GITHUB_API_URL = "https://api.github.com"
@@ -98,7 +98,7 @@ class PerplexitySync:
                 "data_range_days": days_back,
                 "version": "1.0.0"
             },
-            "summary": self._compute_activity_summary(activities),
+            "summary": self._compute_activity_summary(activities, days_back),
             "current_status": {
                 "fitness": {
                     "ctl": ctl,
@@ -181,9 +181,9 @@ class PerplexitySync:
             icu_hr_zone_times = act.get("icu_hr_zone_times", [])
             if icu_hr_zone_times and isinstance(icu_hr_zone_times, list):
                 zone_labels = ["z1_time", "z2_time", "z3_time", "z4_time", "z5_time", "z6_time", "z7_time"]
-                for i, secs in enumerate(icu_hr_zone_times):
-                    if i < len(zone_labels):
-                        hr_zones[zone_labels[i]] = secs if secs is not None else 0
+                for idx, secs in enumerate(icu_hr_zone_times):
+                    if idx < len(zone_labels):
+                        hr_zones[zone_labels[idx]] = secs if secs is not None else 0
             
             icu_zone_times = act.get("icu_zone_times", [])
             if icu_zone_times:
@@ -302,7 +302,7 @@ class PerplexitySync:
             "avg_resting_hr": avg_rhr
         }
     
-    def _compute_activity_summary(self, activities: List[Dict]) -> Dict:
+    def _compute_activity_summary(self, activities: List[Dict], days_back: int = 7) -> Dict:
         """Compute summary by activity type with human-readable format"""
         from collections import defaultdict
         
@@ -333,7 +333,7 @@ class PerplexitySync:
             total_seconds += data["seconds"]
         
         return {
-            "period_description": "Last 7 days of training (including today)",
+            "period_description": f"Last {days_back} days of training (including today)",
             "note": "Duration calculated from API moving_time field. Minor differences (<30s) from Intervals.icu dashboard are normal due to rounding.",
             "total_duration_decimal_hours": round(total_seconds / 3600, 2),
             "total_activities": len(activities),
@@ -401,40 +401,47 @@ class PerplexitySync:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Sync Intervals.icu data to GitHub")
+    parser = argparse.ArgumentParser(description="Sync Intervals.icu data to GitHub or local file")
     parser.add_argument("--setup", action="store_true", help="Initial setup wizard")
     parser.add_argument("--athlete-id", help="Intervals.icu athlete ID")
     parser.add_argument("--intervals-key", help="Intervals.icu API key")
     parser.add_argument("--github-token", help="GitHub Personal Access Token")
     parser.add_argument("--github-repo", help="GitHub repo (format: username/repo)")
-    parser.add_argument("--days", type=int, default=7, help="Days of data to export")
-    parser.add_argument("--output", help="Save to file instead of GitHub")
+    parser.add_argument("--days", type=int, default=7, help="Days of data to export (default: 7)")
+    parser.add_argument("--output", help="Save to local file instead of GitHub")
     parser.add_argument("--anonymize", action="store_true", default=True, help="Remove identifying information (default: enabled)")
     parser.add_argument("--debug", action="store_true", help="Show debug output for API fields")
     
     args = parser.parse_args()
     
     if args.setup:
-        print("=== Intervals.icu → GitHub Setup ===\n")
+        print("=== Intervals.icu Sync Setup ===\n")
         athlete_id = input("Intervals.icu Athlete ID (e.g., i123456): ")
         intervals_key = input("Intervals.icu API Key: ")
-        github_token = input("GitHub Personal Access Token: ")
-        github_repo = input("GitHub Repository (username/repo): ")
+        github_token = input("GitHub Personal Access Token (or press Enter to skip): ")
+        github_repo = input("GitHub Repository (username/repo, or press Enter to skip): ")
         
         config = {
             "athlete_id": athlete_id,
             "intervals_key": intervals_key,
-            "github_token": github_token,
-            "github_repo": github_repo
         }
-        with open(".perplexity_config.json", "w") as f:
+        if github_token:
+            config["github_token"] = github_token
+        if github_repo:
+            config["github_repo"] = github_repo
+            
+        with open(".sync_config.json", "w") as f:
             json.dump(config, f, indent=2)
-        print("\n✅ Config saved to .perplexity_config.json")
+        print("\n✅ Config saved to .sync_config.json")
+        print("\nUsage:")
+        print("  Export locally:    python sync.py --output latest.json")
+        print("  Push to GitHub:    python sync.py")
+        print("  Different range:   python sync.py --days 14 --output 14days.json")
         return
     
     config = {}
-    if os.path.exists(".perplexity_config.json"):
-        with open(".perplexity_config.json") as f:
+    if os.path.exists(".sync_config.json"):
+        with open(".sync_config.json") as f:
             config = json.load(f)
     
     athlete_id = args.athlete_id or config.get("athlete_id") or os.getenv("ATHLETE_ID")
@@ -442,25 +449,25 @@ def main():
     github_token = args.github_token or config.get("github_token") or os.getenv("GITHUB_TOKEN")
     github_repo = args.github_repo or config.get("github_repo") or os.getenv("GITHUB_REPO")
     
-    print(f"📋 Configuration loaded:")
+    print(f"📋 Configuration:")
     print(f"   Athlete ID: {athlete_id[:5] + '...' if athlete_id else 'NOT SET'}")
     print(f"   Intervals Key: {intervals_key[:5] + '...' if intervals_key else 'NOT SET'}")
     print(f"   GitHub Repo: {github_repo or 'NOT SET'}")
     print(f"   GitHub Token: {'SET' if github_token else 'NOT SET'}")
+    print(f"   Days: {args.days}")
     
     if not athlete_id or not intervals_key:
-        print("Error: Missing credentials. Run with --setup first or set environment variables.")
+        print("\n❌ Error: Missing credentials.")
+        print("   Run: python sync.py --setup")
         return
     
     if not args.output and (not github_token or not github_repo):
-        print("Error: Missing GitHub credentials. Either:")
-        print("  1. Run with --setup to configure GitHub")
-        print("  2. Use --output filename.json to save locally")
-        print("  3. Set GITHUB_TOKEN and GITHUB_REPO environment variables")
+        print("\n❌ Error: Missing GitHub credentials for push.")
+        print("   Either use --output to save locally, or configure GitHub in --setup")
         return
     
-    print(f"\n🔄 Syncing Intervals.icu data for {athlete_id}...")
-    sync = PerplexitySync(athlete_id, intervals_key, github_token, github_repo, debug=args.debug)
+    print(f"\n🔄 Fetching {args.days} days of data...")
+    sync = IntervalsSync(athlete_id, intervals_key, github_token, github_repo, debug=args.debug)
     
     data = sync.collect_training_data(days_back=args.days, anonymize=args.anonymize)
     
@@ -468,13 +475,14 @@ def main():
         filepath = sync.save_to_file(data, args.output)
         if args.anonymize:
             print(f"   🔒 Anonymization: ENABLED")
-        print(f"\n✅ Data saved locally")
+        print(f"\n✅ Data saved to {filepath}")
+        print(f"\n💡 Tip: Paste contents to AI, or upload the file directly")
     else:
         raw_url = sync.publish_to_github(data)
         
         print(f"\n✅ Data published to GitHub")
         if args.anonymize:
-            print(f"   🔒 Anonymization: ENABLED (IDs and names removed)")
+            print(f"   🔒 Anonymization: ENABLED")
         print(f"\n📊 Static URL for LLMs:")
         print(f"   {raw_url}")
         print(f"\n💬 Example prompt:")
