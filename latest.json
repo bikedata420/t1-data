@@ -10,7 +10,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-01-23T11:55:31.715502",
+    "last_updated": "2026-01-23T13:55:14.263878",
     "data_range_days": 7,
     "version": "1.0.0"
   },
@@ -931,8 +931,8 @@
       "date": "2026-01-26T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 15m 153w\n- 15m 163w\n- 1h45m 165-180w\n- 15m 150w",
-      "planned_tss": 86,
+      "description": "\n- 15m 153w\n- 15m 163w\n- 1h30m 165-180w\n- 15m 150w",
+      "planned_tss": 76,
       "duration_hours": 0.0
     },
     {
@@ -949,8 +949,8 @@
       "date": "2026-01-27T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 15m 153w\n- 15m 163w\n- 1h45m 165-180w\n- 15m 150w",
-      "planned_tss": 86,
+      "description": "\n- 15m 153w\n- 15m 163w\n- 1h30m 165-180w\n- 15m 150w",
+      "planned_tss": 76,
       "duration_hours": 0.0
     },
     {
