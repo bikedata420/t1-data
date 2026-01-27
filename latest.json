@@ -3,21 +3,21 @@
     "instruction_for_ai": "DO NOT calculate totals from individual activities. Use the pre-calculated values in 'summary' and 'weekly_summary' sections below. These are already computed accurately from the API data.",
     "data_period": "Last 7 days (including today)",
     "quick_stats": {
-      "total_training_hours": 21.17,
+      "total_training_hours": 19.67,
       "total_activities": 16,
-      "total_tss": 691
+      "total_tss": 700
     }
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-01-27T14:23:08.792946",
+    "last_updated": "2026-01-27T15:03:24.137970",
     "data_range_days": 7,
     "version": "1.0.0"
   },
   "summary": {
     "period_description": "Last 7 days of training (including today)",
     "note": "Duration calculated from API moving_time field. Minor differences (<30s) from Intervals.icu dashboard are normal due to rounding.",
-    "total_duration_decimal_hours": 21.17,
+    "total_duration_decimal_hours": 19.67,
     "total_activities": 16,
     "by_activity_type": {
       "VirtualRide": {
@@ -27,9 +27,9 @@
         "distance_km": 488.4
       },
       "VirtualSki": {
-        "duration_decimal_hours": 2.62,
+        "duration_decimal_hours": 1.12,
         "count": 7,
-        "tss": 49,
+        "tss": 58,
         "distance_km": 15.2
       },
       "Walk": {
@@ -62,19 +62,19 @@
   "recent_activities": [
     {
       "id": "activity_1",
-      "date": "2026-01-27T12:50",
+      "date": "2026-01-27T12:50:00",
       "type": "VirtualSki",
       "name": "Training Session",
-      "duration_hours": 1.67,
+      "duration_hours": 0.17,
       "distance_km": 2.27,
-      "tss": null,
-      "intensity_factor": null,
+      "tss": 9,
+      "intensity_factor": 73.484695,
       "avg_power": null,
       "normalized_power": null,
-      "avg_hr": null,
+      "avg_hr": 149,
       "max_hr": null,
       "avg_cadence": null,
-      "avg_speed": 1.4,
+      "avg_speed": 13.6,
       "max_speed": null,
       "avg_pace": null,
       "avg_temp": null,
@@ -82,7 +82,7 @@
       "humidity": null,
       "wind_speed": null,
       "work_kj": null,
-      "calories": null,
+      "calories": 136,
       "carbs_used": null,
       "carbs_ingested": null,
       "variability_index": null,
@@ -1224,8 +1224,8 @@
     }
   ],
   "weekly_summary": {
-    "total_training_hours": 21.17,
-    "total_tss": 691,
+    "total_training_hours": 19.67,
+    "total_tss": 700,
     "activities_count": 16,
     "avg_hrv": 50.9,
     "avg_resting_hr": 45.3
