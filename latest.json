@@ -10,7 +10,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-01-28T11:00:47.821415",
+    "last_updated": "2026-01-28T11:47:36.320964",
     "data_range_days": 7,
     "version": "1.0.0"
   },
@@ -82,7 +82,7 @@
       "humidity": null,
       "wind_speed": null,
       "work_kj": 1084.6,
-      "calories": 1210,
+      "calories": 1084,
       "carbs_used": 214,
       "carbs_ingested": null,
       "variability_index": 1.0845771,
