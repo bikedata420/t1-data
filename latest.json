@@ -3,22 +3,22 @@
     "instruction_for_ai": "DO NOT calculate totals from individual activities. Use the pre-calculated values in 'summary' and 'weekly_summary' sections below. These are already computed accurately from the API data.",
     "data_period": "Last 7 days (including today)",
     "quick_stats": {
-      "total_training_hours": 20.58,
-      "total_activities": 17,
-      "total_tss": 704
+      "total_training_hours": 18.82,
+      "total_activities": 12,
+      "total_tss": 666
     }
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-01-30T23:51:48.285358",
+    "last_updated": "2026-01-31T04:48:11.525081",
     "data_range_days": 7,
     "version": "1.0.0"
   },
   "summary": {
     "period_description": "Last 7 days of training (including today)",
     "note": "Duration calculated from API moving_time field. Minor differences (<30s) from Intervals.icu dashboard are normal due to rounding.",
-    "total_duration_decimal_hours": 20.58,
-    "total_activities": 17,
+    "total_duration_decimal_hours": 18.82,
+    "total_activities": 12,
     "by_activity_type": {
       "VirtualRide": {
         "duration_decimal_hours": 15.51,
@@ -27,25 +27,25 @@
         "distance_km": 488.5
       },
       "VirtualSki": {
-        "duration_decimal_hours": 1.12,
-        "count": 7,
-        "tss": 59,
-        "distance_km": 15.3
+        "duration_decimal_hours": 0.5,
+        "count": 3,
+        "tss": 27,
+        "distance_km": 6.8
       },
       "Walk": {
-        "duration_decimal_hours": 3.95,
-        "count": 4,
-        "tss": 19,
-        "distance_km": 20.8
+        "duration_decimal_hours": 2.82,
+        "count": 3,
+        "tss": 13,
+        "distance_km": 14.7
       }
     }
   },
   "current_status": {
     "fitness": {
-      "ctl": 85.1409,
-      "atl": 108.12378,
-      "tsb": -22.98,
-      "ramp_rate": 3.0773926
+      "ctl": 83.96117,
+      "atl": 98.38939,
+      "tsb": -14.43,
+      "ramp_rate": 2.9344025
     },
     "thresholds": {
       "ftp": 287,
@@ -55,8 +55,8 @@
     },
     "current_metrics": {
       "weight_kg": 70.6,
-      "resting_hr": 46,
-      "hrv": 51.0
+      "resting_hr": 50,
+      "hrv": null
     }
   },
   "recent_activities": [
@@ -607,232 +607,9 @@
           "z7_time": 0
         }
       }
-    },
-    {
-      "id": "activity_13",
-      "date": "2026-01-24T15:03:59",
-      "type": "Walk",
-      "name": "Training Session",
-      "duration_hours": 1.13,
-      "distance_km": 6.04,
-      "tss": 6,
-      "intensity_factor": 22.92761,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 69,
-      "max_hr": 91,
-      "avg_cadence": 51.68744,
-      "avg_speed": 5.3,
-      "max_speed": 8.4,
-      "avg_pace": null,
-      "avg_temp": 0.14125209,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": 6.68044,
-      "work_kj": null,
-      "calories": 249,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "elevation_m": 65.0,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 4077,
-          "z2_time": 0,
-          "z3_time": 0,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
-    },
-    {
-      "id": "activity_14",
-      "date": "2026-01-24T12:02:00",
-      "type": "VirtualSki",
-      "name": "Training Session",
-      "duration_hours": 0.25,
-      "distance_km": 3.38,
-      "tss": 14,
-      "intensity_factor": 74.916435,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 146,
-      "max_hr": 156,
-      "avg_cadence": 38.97774,
-      "avg_speed": 13.5,
-      "max_speed": 13.9,
-      "avg_pace": null,
-      "avg_temp": null,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": null,
-      "work_kj": null,
-      "calories": 202,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "elevation_m": null,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 96,
-          "z2_time": 800,
-          "z3_time": 3,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
-    },
-    {
-      "id": "activity_15",
-      "date": "2026-01-24T11:48:00",
-      "type": "VirtualSki",
-      "name": "Training Session",
-      "duration_hours": 0.17,
-      "distance_km": 2.28,
-      "tss": 9,
-      "intensity_factor": null,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 143,
-      "max_hr": 154,
-      "avg_cadence": 38.86598,
-      "avg_speed": 13.7,
-      "max_speed": 14.1,
-      "avg_pace": null,
-      "avg_temp": null,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": null,
-      "work_kj": null,
-      "calories": 138,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "elevation_m": null,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 104,
-          "z2_time": 496,
-          "z3_time": 0,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
-    },
-    {
-      "id": "activity_16",
-      "date": "2026-01-24T11:36:30",
-      "type": "VirtualSki",
-      "name": "Training Session",
-      "duration_hours": 0.12,
-      "distance_km": 1.71,
-      "tss": 6,
-      "intensity_factor": null,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 137,
-      "max_hr": 152,
-      "avg_cadence": 38.49481,
-      "avg_speed": 13.7,
-      "max_speed": 13.9,
-      "avg_pace": null,
-      "avg_temp": null,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": null,
-      "work_kj": null,
-      "calories": 104,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "elevation_m": null,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 120,
-          "z2_time": 330,
-          "z3_time": 0,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
-    },
-    {
-      "id": "activity_17",
-      "date": "2026-01-24T11:28:00",
-      "type": "VirtualSki",
-      "name": "Training Session",
-      "duration_hours": 0.08,
-      "distance_km": 1.1,
-      "tss": 3,
-      "intensity_factor": null,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 119,
-      "max_hr": 140,
-      "avg_cadence": 37.95238,
-      "avg_speed": 13.2,
-      "max_speed": 13.6,
-      "avg_pace": null,
-      "avg_temp": null,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": null,
-      "work_kj": null,
-      "calories": 64,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "elevation_m": null,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 291,
-          "z2_time": 8,
-          "z3_time": 0,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
     }
   ],
   "wellness_data": [
-    {
-      "date": "2026-01-24",
-      "weight_kg": null,
-      "resting_hr": 44,
-      "hrv_rmssd": 54.0,
-      "hrv_sdnn": null,
-      "sleep_hours": 7.11,
-      "sleep_quality": 2,
-      "mental_energy": null,
-      "fatigue": null,
-      "soreness": null,
-      "avg_sleeping_hr": null
-    },
     {
       "date": "2026-01-25",
       "weight_kg": null,
@@ -910,20 +687,24 @@
       "fatigue": null,
       "soreness": null,
       "avg_sleeping_hr": null
+    },
+    {
+      "date": "2026-01-31",
+      "weight_kg": null,
+      "resting_hr": 50,
+      "hrv_rmssd": null,
+      "hrv_sdnn": null,
+      "sleep_hours": null,
+      "sleep_quality": null,
+      "mental_energy": null,
+      "fatigue": null,
+      "soreness": null,
+      "avg_sleeping_hr": null
     }
   ],
   "planned_workouts": [
     {
       "id": "event_1",
-      "date": "2026-01-30T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
-      "description": "- 15m 153w\n- 4h30m 162w\n- 15m 147w",
-      "planned_tss": 157,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_2",
       "date": "2026-01-31T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -932,7 +713,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_3",
+      "id": "event_2",
       "date": "2026-01-31T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -941,7 +722,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_4",
+      "id": "event_3",
       "date": "2026-01-31T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -950,7 +731,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_5",
+      "id": "event_4",
       "date": "2026-01-31T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -959,7 +740,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_6",
+      "id": "event_5",
       "date": "2026-02-01T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -968,7 +749,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_7",
+      "id": "event_6",
       "date": "2026-02-02T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -977,12 +758,21 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_8",
+      "id": "event_7",
       "date": "2026-02-02T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_8",
+      "date": "2026-02-03T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 15m 153w\n- 15m 163w\n- 1h15m 165-180w\n- 15m 150w",
+      "planned_tss": 68,
       "duration_hours": 0.0
     },
     {
@@ -990,21 +780,12 @@
       "date": "2026-02-03T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 15m 153w\n- 15m 163w\n- 1h15m 165-180w\n- 15m 150w",
-      "planned_tss": 68,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_10",
-      "date": "2026-02-03T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
-      "id": "event_11",
+      "id": "event_10",
       "date": "2026-02-04T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1013,7 +794,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_12",
+      "id": "event_11",
       "date": "2026-02-05T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1022,7 +803,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_13",
+      "id": "event_12",
       "date": "2026-02-05T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1031,7 +812,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_14",
+      "id": "event_13",
       "date": "2026-02-06T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1040,7 +821,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_15",
+      "id": "event_14",
       "date": "2026-02-06T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1049,7 +830,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_16",
+      "id": "event_15",
       "date": "2026-02-08T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1058,7 +839,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_17",
+      "id": "event_16",
       "date": "2026-02-09T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1067,12 +848,21 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_18",
+      "id": "event_17",
       "date": "2026-02-09T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_18",
+      "date": "2026-02-10T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 15m 153w\n- 15m 163w\n- 1h45m 165-180w\n- 15m 150w",
+      "planned_tss": 86,
       "duration_hours": 0.0
     },
     {
@@ -1080,21 +870,12 @@
       "date": "2026-02-10T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 15m 153w\n- 15m 163w\n- 1h45m 165-180w\n- 15m 150w",
-      "planned_tss": 86,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_20",
-      "date": "2026-02-10T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
-      "id": "event_21",
+      "id": "event_20",
       "date": "2026-02-11T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1103,7 +884,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_22",
+      "id": "event_21",
       "date": "2026-02-12T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1112,7 +893,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_23",
+      "id": "event_22",
       "date": "2026-02-12T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1121,7 +902,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_24",
+      "id": "event_23",
       "date": "2026-02-13T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1130,7 +911,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_25",
+      "id": "event_24",
       "date": "2026-02-13T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1139,7 +920,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_26",
+      "id": "event_25",
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1148,7 +929,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_27",
+      "id": "event_26",
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1157,7 +938,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_28",
+      "id": "event_27",
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1166,7 +947,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_29",
+      "id": "event_28",
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1175,7 +956,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_30",
+      "id": "event_29",
       "date": "2026-02-15T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1184,7 +965,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_31",
+      "id": "event_30",
       "date": "2026-02-16T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1193,12 +974,21 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_32",
+      "id": "event_31",
       "date": "2026-02-16T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_32",
+      "date": "2026-02-17T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 2h 165-180w",
+      "planned_tss": 73,
       "duration_hours": 0.0
     },
     {
@@ -1206,21 +996,12 @@
       "date": "2026-02-17T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 2h 165-180w",
-      "planned_tss": 73,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_34",
-      "date": "2026-02-17T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
-      "id": "event_35",
+      "id": "event_34",
       "date": "2026-02-18T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1229,7 +1010,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_36",
+      "id": "event_35",
       "date": "2026-02-19T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1238,7 +1019,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_37",
+      "id": "event_36",
       "date": "2026-02-19T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1247,7 +1028,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_38",
+      "id": "event_37",
       "date": "2026-02-20T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1256,20 +1037,56 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_39",
+      "id": "event_38",
       "date": "2026-02-20T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
       "duration_hours": 0.0
+    },
+    {
+      "id": "event_39",
+      "date": "2026-02-21T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 5m Z2 HR",
+      "planned_tss": 5,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_40",
+      "date": "2026-02-21T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 7m30s Z2 HR",
+      "planned_tss": 7,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_41",
+      "date": "2026-02-21T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 10m Z2 HR",
+      "planned_tss": 9,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_42",
+      "date": "2026-02-21T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 15m Z2 HR",
+      "planned_tss": 14,
+      "duration_hours": 0.0
     }
   ],
   "weekly_summary": {
-    "total_training_hours": 20.58,
-    "total_tss": 704,
-    "activities_count": 17,
-    "avg_hrv": 51.1,
-    "avg_resting_hr": 45.7
+    "total_training_hours": 18.82,
+    "total_tss": 666,
+    "activities_count": 12,
+    "avg_hrv": 50.7,
+    "avg_resting_hr": 46.6
   }
 }
