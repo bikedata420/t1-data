@@ -10,7 +10,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-01T16:58:30.646200",
+    "last_updated": "2026-02-01T17:52:54.102416",
     "data_range_days": 7,
     "version": "1.0.0"
   },
@@ -1017,8 +1017,8 @@
       "date": "2026-02-09T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 15m 153w\n- 15m 163w\n- 1h45m 165-180w\n- 15m 150w",
-      "planned_tss": 86,
+      "description": "\n- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w",
+      "planned_tss": 77,
       "duration_hours": 0.0
     },
     {
@@ -1035,8 +1035,8 @@
       "date": "2026-02-10T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 15m 153w\n- 15m 163w\n- 1h45m 165-180w\n- 15m 150w",
-      "planned_tss": 86,
+      "description": "- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w",
+      "planned_tss": 77,
       "duration_hours": 0.0
     },
     {
@@ -1053,7 +1053,7 @@
       "date": "2026-02-11T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 258w\n- 5m 150w\n\n3x\n- 10m 261w\n- 5m 150w\n\n- 10m 150w\n",
+      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 261w\n- 5m 150w\n\n3x\n- 10m 261w\n- 5m 150w\n\n- 10m 150w\n",
       "planned_tss": 89,
       "duration_hours": 0.0
     },
@@ -1086,11 +1086,11 @@
     },
     {
       "id": "event_20",
-      "date": "2026-02-13T00:00:00",
+      "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 10m Z2 HR",
-      "planned_tss": 9,
+      "description": "\n- 5m Z2 HR",
+      "planned_tss": 5,
       "duration_hours": 0.0
     },
     {
@@ -1098,8 +1098,8 @@
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 5m Z2 HR",
-      "planned_tss": 5,
+      "description": "\n- 7m30s Z2 HR",
+      "planned_tss": 7,
       "duration_hours": 0.0
     },
     {
@@ -1107,21 +1107,12 @@
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 7m30s Z2 HR",
-      "planned_tss": 7,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_23",
-      "date": "2026-02-14T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
-      "id": "event_24",
+      "id": "event_23",
       "date": "2026-02-14T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1130,12 +1121,21 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_25",
+      "id": "event_24",
       "date": "2026-02-15T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n2x\n- 5m 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n\n1x\n- 5m 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n\n- 31m30s 150w\n\n",
+      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n1x\n- 5m 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n\n2x\n- 5m 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n\n- 31m30s 150w\n\n",
       "planned_tss": 84,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_25",
+      "date": "2026-02-16T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "\n- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w",
+      "planned_tss": 77,
       "duration_hours": 0.0
     },
     {
@@ -1143,17 +1143,17 @@
       "date": "2026-02-16T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 2h 165-180w",
-      "planned_tss": 73,
+      "description": "\n- 10m Z2 HR",
+      "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
       "id": "event_27",
-      "date": "2026-02-16T00:00:00",
+      "date": "2026-02-17T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 10m Z2 HR",
-      "planned_tss": 9,
+      "description": "- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w",
+      "planned_tss": 77,
       "duration_hours": 0.0
     },
     {
@@ -1161,26 +1161,26 @@
       "date": "2026-02-17T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 2h 165-180w",
-      "planned_tss": 73,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_29",
-      "date": "2026-02-17T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
       "description": "\n- 10m Z2 HR",
       "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
-      "id": "event_30",
+      "id": "event_29",
       "date": "2026-02-18T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n2x\n- 10m 258w\n- 5m 150w\n\n2x\n- 10m 261w\n- 5m 150w\n\n- 10m 150w\n",
-      "planned_tss": 88,
+      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 261w\n- 5m 150w\n\n3x\n- 10m 261w\n- 5m 150w\n\n- 10m 150w\n",
+      "planned_tss": 89,
+      "duration_hours": 0.0
+    },
+    {
+      "id": "event_30",
+      "date": "2026-02-19T00:00:00",
+      "name": "Planned Workout",
+      "type": "WORKOUT",
+      "description": "- 15m 153w\n- 2h30m 162w\n- 15m 147w",
+      "planned_tss": 93,
       "duration_hours": 0.0
     },
     {
@@ -1188,39 +1188,21 @@
       "date": "2026-02-19T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 3h 155-170w",
-      "planned_tss": 97,
+      "description": "\n- 10m Z2 HR",
+      "planned_tss": 9,
       "duration_hours": 0.0
     },
     {
       "id": "event_32",
-      "date": "2026-02-19T00:00:00",
+      "date": "2026-02-20T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "\n- 10m Z2 HR",
-      "planned_tss": 9,
+      "description": "- 15m 153w\n- 5h 162w\n- 15m 147w",
+      "planned_tss": 173,
       "duration_hours": 0.0
     },
     {
       "id": "event_33",
-      "date": "2026-02-20T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
-      "description": "\n- 5h 155-170w",
-      "planned_tss": 161,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_34",
-      "date": "2026-02-20T00:00:00",
-      "name": "Planned Workout",
-      "type": "WORKOUT",
-      "description": "\n- 10m Z2 HR",
-      "planned_tss": 9,
-      "duration_hours": 0.0
-    },
-    {
-      "id": "event_35",
       "date": "2026-02-21T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1229,7 +1211,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_36",
+      "id": "event_34",
       "date": "2026-02-21T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1238,7 +1220,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_37",
+      "id": "event_35",
       "date": "2026-02-21T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1247,7 +1229,7 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_38",
+      "id": "event_36",
       "date": "2026-02-21T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
@@ -1256,12 +1238,12 @@
       "duration_hours": 0.0
     },
     {
-      "id": "event_39",
+      "id": "event_37",
       "date": "2026-02-22T00:00:00",
       "name": "Planned Workout",
       "type": "WORKOUT",
-      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n1x\n- 5m 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n- 15s 150w\n- 30s 315w\n\n2x\n- 5m 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n\n- 31m30s 150w\n\n",
-      "planned_tss": 83,
+      "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n1x\n- 5m 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n- 15s 150w\n- 30s 320w\n\n2x\n- 5m 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n\n- 31m30s 150w\n\n",
+      "planned_tss": 84,
       "duration_hours": 0.0
     }
   ],
