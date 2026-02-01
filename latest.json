@@ -10,7 +10,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-01T08:19:39.628126",
+    "last_updated": "2026-02-01T08:39:40.958719",
     "data_range_days": 7,
     "version": "1.0.0"
   },
@@ -42,10 +42,10 @@
   },
   "current_status": {
     "fitness": {
-      "ctl": 82.15,
-      "atl": 86.1,
-      "tsb": -3.95,
-      "ramp_rate": 3.03
+      "ctl": 81.99,
+      "atl": 85.29,
+      "tsb": -3.3,
+      "ramp_rate": 2.87
     },
     "thresholds": {
       "ftp": 287,
