@@ -3,28 +3,28 @@
     "instruction_for_ai": "DO NOT calculate totals from individual activities. Use the pre-calculated values in 'summary' and 'weekly_summary' sections below. These are already computed accurately from the API data.",
     "data_period": "Last 7 days (including today)",
     "quick_stats": {
-      "total_training_hours": 17.9,
-      "total_activities": 15,
-      "total_tss": 607
+      "total_training_hours": 19.4,
+      "total_activities": 16,
+      "total_tss": 681
     }
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-01T09:57:18.759842",
+    "last_updated": "2026-02-01T10:56:30.267677",
     "data_range_days": 7,
     "version": "1.0.0"
   },
   "summary": {
     "period_description": "Last 7 days of training (including today)",
     "note": "Duration calculated from API moving_time field. Minor differences (<30s) from Intervals.icu dashboard are normal due to rounding.",
-    "total_duration_decimal_hours": 17.9,
-    "total_activities": 15,
+    "total_duration_decimal_hours": 19.4,
+    "total_activities": 16,
     "by_activity_type": {
       "VirtualRide": {
-        "duration_decimal_hours": 14.0,
-        "count": 5,
-        "tss": 537,
-        "distance_km": 439.4
+        "duration_decimal_hours": 15.5,
+        "count": 6,
+        "tss": 611,
+        "distance_km": 486.3
       },
       "VirtualSki": {
         "duration_decimal_hours": 1.12,
@@ -62,6 +62,57 @@
   "recent_activities": [
     {
       "id": "activity_1",
+      "date": "2026-02-01T10:22:47",
+      "type": "VirtualRide",
+      "name": "Anaerobic",
+      "duration_hours": 1.5,
+      "distance_km": 46.83,
+      "tss": 74,
+      "intensity_factor": 70.181816,
+      "avg_power": 167,
+      "normalized_power": 193,
+      "avg_hr": 123,
+      "max_hr": 160,
+      "avg_cadence": 91.562996,
+      "avg_speed": 31.2,
+      "max_speed": 47.0,
+      "avg_pace": null,
+      "avg_temp": null,
+      "weather": null,
+      "humidity": null,
+      "wind_speed": null,
+      "work_kj": 904.1,
+      "calories": 1030,
+      "carbs_used": 228,
+      "carbs_ingested": null,
+      "variability_index": 1.1556886,
+      "decoupling": 4.4952025,
+      "elevation_m": 0.0,
+      "feel": null,
+      "rpe": null,
+      "zone_distribution": {
+        "hr_zones": {
+          "z1_time": 4703,
+          "z2_time": 660,
+          "z3_time": 45,
+          "z4_time": 0,
+          "z5_time": 0,
+          "z6_time": 0,
+          "z7_time": 0
+        },
+        "power_zones": {
+          "z1_time": 3630,
+          "z2_time": 1561,
+          "z3_time": 15,
+          "z4_time": 17,
+          "z5_time": 8,
+          "z6_time": 25,
+          "z7_time": 152
+        }
+      }
+    },
+    {
+      "id": "activity_2",
       "date": "2026-01-31T13:47:00",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -103,7 +154,7 @@
       }
     },
     {
-      "id": "activity_2",
+      "id": "activity_3",
       "date": "2026-01-31T13:32:00",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -145,7 +196,7 @@
       }
     },
     {
-      "id": "activity_3",
+      "id": "activity_4",
       "date": "2026-01-31T13:21:30",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -187,7 +238,7 @@
       }
     },
     {
-      "id": "activity_4",
+      "id": "activity_5",
       "date": "2026-01-31T13:15:00",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -229,7 +280,7 @@
       }
     },
     {
-      "id": "activity_5",
+      "id": "activity_6",
       "date": "2026-01-31T09:05:52",
       "type": "Walk",
       "name": "Training Session",
@@ -271,7 +322,7 @@
       }
     },
     {
-      "id": "activity_6",
+      "id": "activity_7",
       "date": "2026-01-30T10:04:43",
       "type": "VirtualRide",
       "name": "Endurance - Friday",
@@ -322,7 +373,7 @@
       }
     },
     {
-      "id": "activity_7",
+      "id": "activity_8",
       "date": "2026-01-29T13:20:00",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -364,7 +415,7 @@
       }
     },
     {
-      "id": "activity_8",
+      "id": "activity_9",
       "date": "2026-01-29T10:00:34",
       "type": "VirtualRide",
       "name": "Endurance - Thursday",
@@ -415,7 +466,7 @@
       }
     },
     {
-      "id": "activity_9",
+      "id": "activity_10",
       "date": "2026-01-28T17:49:17",
       "type": "Walk",
       "name": "Training Session",
@@ -457,7 +508,7 @@
       }
     },
     {
-      "id": "activity_10",
+      "id": "activity_11",
       "date": "2026-01-28T10:20:07",
       "type": "VirtualRide",
       "name": "Sweetspot 4x10min v2",
@@ -508,7 +559,7 @@
       }
     },
     {
-      "id": "activity_11",
+      "id": "activity_12",
       "date": "2026-01-27T18:24:04",
       "type": "Walk",
       "name": "Training Session",
@@ -550,7 +601,7 @@
       }
     },
     {
-      "id": "activity_12",
+      "id": "activity_13",
       "date": "2026-01-27T12:50:00",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -582,7 +633,7 @@
       "zone_distribution": null
     },
     {
-      "id": "activity_13",
+      "id": "activity_14",
       "date": "2026-01-27T10:05:40",
       "type": "VirtualRide",
       "name": "Endurance - Tuesday",
@@ -633,7 +684,7 @@
       }
     },
     {
-      "id": "activity_14",
+      "id": "activity_15",
       "date": "2026-01-26T12:45:00",
       "type": "VirtualSki",
       "name": "Training Session",
@@ -675,7 +726,7 @@
       }
     },
     {
-      "id": "activity_15",
+      "id": "activity_16",
       "date": "2026-01-26T10:07:32",
       "type": "VirtualRide",
       "name": "Endurance - Monday",
@@ -1173,9 +1224,9 @@
     }
   ],
   "weekly_summary": {
-    "total_training_hours": 17.9,
-    "total_tss": 607,
-    "activities_count": 15,
+    "total_training_hours": 19.4,
+    "total_tss": 681,
+    "activities_count": 16,
     "avg_hrv": 49.9,
     "avg_resting_hr": 46.0
   }
