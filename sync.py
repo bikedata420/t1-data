@@ -4,12 +4,12 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
-Version 3.1.0 - Complete Section 11 derived metrics
+Version 3.2.0 - Smart ramp rate logic
+  - Smart ramp_rate: uses decayed yesterday value if planned workouts not yet completed,
+    otherwise uses API value (which includes completed workouts correctly)
   - Uses API data for eFTP, W', P-max, VO2max, Sleep Score (from wellness endpoint)
   - Tracks indoor and outdoor FTP separately for Benchmark Index
   - Calculates ACWR, Monotony, Strain, Recovery Index locally
-  - Renamed ZQI to Z3 Percentage (grey zone to minimize)
-  - Added Z4+ Percentage (quality intensity per Seiler's model)
   - CTL/ATL/TSB calculated via decay (API values include planned workouts)
 """
 
@@ -311,11 +311,11 @@ class IntervalsSync:
             
             ctl = round(yesterday_ctl * ctl_decay, 2) if yesterday_ctl else None
             atl = round(yesterday_atl * atl_decay, 2) if yesterday_atl else None
-            ramp_rate = round(yesterday_ramp * ctl_decay, 2) if yesterday_ramp else None
         except:
             ctl = None
             atl = None
-            ramp_rate = None
+            yesterday_ramp = None
+            ctl_decay = math.exp(-1/42)  # Define decay even on error for ramp rate calc
         
         tsb = round(ctl - atl, 2) if (ctl is not None and atl is not None) else None
         
@@ -330,6 +330,21 @@ class IntervalsSync:
         # Split events into past (for consistency) and future (for display)
         past_events = [e for e in events if e.get("start_date_local", "")[:10] <= today]
         future_events = [e for e in events if e.get("start_date_local", "")[:10] >= today]
+        
+        # Smart ramp rate: check if today's planned workouts are completed
+        # API ramp_rate includes planned workouts, so if they're not done yet, it's inflated
+        todays_planned = [e for e in events if e.get("start_date_local", "")[:10] == today]
+        todays_activities = [a for a in activities_display if a.get("start_date_local", "")[:10] == today]
+        
+        # Determine which ramp rate to use
+        if todays_planned and not todays_activities:
+            # Planned workouts exist but nothing completed yet → use yesterday's ramp (decayed)
+            smart_ramp_rate = round(yesterday_ramp * ctl_decay, 2) if yesterday_ramp else api_ramp_rate
+            ramp_rate_note = "Using decayed yesterday value (today's planned workouts not yet completed)"
+        else:
+            # No planned workouts OR workouts completed → API value is correct
+            smart_ramp_rate = round(api_ramp_rate, 2) if api_ramp_rate else None
+            ramp_rate_note = "Using API value (no uncompleted planned workouts)"
         
         # Get both FTP values (user-set, not estimated)
         current_ftp_indoor = cycling_settings.get("indoor_ftp") if cycling_settings else None
@@ -364,8 +379,7 @@ class IntervalsSync:
             benchmark_indoor=(benchmark_index_indoor, ftp_8_weeks_ago_indoor, current_ftp_indoor),
             benchmark_outdoor=(benchmark_index_outdoor, ftp_8_weeks_ago_outdoor, current_ftp_outdoor),
             vo2max=vo2max,
-            sleep_score=sleep_score,
-            api_ramp_rate=api_ramp_rate
+            sleep_score=sleep_score
         )
         
         data = {
@@ -392,8 +406,8 @@ class IntervalsSync:
                     "ctl": ctl,
                     "atl": atl,
                     "tsb": tsb,
-                    "ramp_rate": ramp_rate,
-                    "ramp_rate_api": round(api_ramp_rate, 2) if api_ramp_rate else None,
+                    "ramp_rate": smart_ramp_rate,
+                    "ramp_rate_note": ramp_rate_note,
                     "fitness_note": "CTL/ATL/TSB calculated via decay formula (API values include planned workouts)"
                 },
                 "thresholds": {
@@ -430,7 +444,7 @@ class IntervalsSync:
                                     power_model: Dict,
                                     benchmark_indoor: Tuple[Optional[float], Optional[int], Optional[int]],
                                     benchmark_outdoor: Tuple[Optional[float], Optional[int], Optional[int]],
-                                    vo2max: float, sleep_score: float, api_ramp_rate: float) -> Dict:
+                                    vo2max: float, sleep_score: float) -> Dict:
         """
         Calculate Section 11 derived metrics.
         
@@ -633,7 +647,6 @@ class IntervalsSync:
             # Additional wellness metrics (from API)
             "vo2max": vo2max,
             "sleep_score": sleep_score,
-            "api_ramp_rate": round(api_ramp_rate, 2) if api_ramp_rate else None,
             
             # Validation metadata
             "calculation_timestamp": datetime.now().isoformat(),
