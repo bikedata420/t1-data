@@ -11,7 +11,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-05T14:33:33.041789",
+    "last_updated": "2026-02-05T14:44:12.486223",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.1.0"
@@ -47,8 +47,8 @@
       "ctl": 81.87,
       "atl": 79.55,
       "tsb": 2.32,
-      "ramp_rate": 1.5,
-      "ramp_rate_api": 0.65,
+      "ramp_rate": 0.65,
+      "ramp_rate_note": "Using API value (no uncompleted planned workouts)",
       "fitness_note": "CTL/ATL/TSB calculated via decay formula (API values include planned workouts)"
     },
     "thresholds": {
@@ -149,8 +149,7 @@
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
     "sleep_score": 78.0,
-    "api_ramp_rate": 0.65,
-    "calculation_timestamp": "2026-02-05T14:33:33.041681",
+    "calculation_timestamp": "2026-02-05T14:44:12.486130",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
