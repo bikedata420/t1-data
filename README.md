@@ -5,7 +5,7 @@
 
 ![Sync Status](https://github.com/bikedata420/t1-data/actions/workflows/auto-sync.yml/badge.svg)
 
-**Last successful sync:** 2026-02-07 20:56:00 UTC
+**Last successful sync:** 2026-02-07 21:52:37 UTC
 
 Automated export of cycling training data from Intervals.icu for AI analysis.
 
