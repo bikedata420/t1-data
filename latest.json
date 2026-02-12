@@ -11,10 +11,26 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-12T13:05:46.171073",
+    "last_updated": "2026-02-12T14:00:12.541470",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.2.0"
+    "version": "3.3.0"
+  },
+  "alerts": [
+    {
+      "metric": "monotony",
+      "value": 2.41,
+      "severity": "warning",
+      "threshold": 2.3,
+      "context": "Monotony 2.41 approaching overuse threshold. Alarm at 2.5.",
+      "persistence_days": null,
+      "tier": 2
+    }
+  ],
+  "history": {
+    "available": false,
+    "history_confidence": "low",
+    "note": "No history.json available. Longitudinal analysis limited to current 28-day window."
   },
   "summary": {
     "period_description": "Last 7 days of training (including today)",
@@ -147,7 +163,7 @@
     "p_max": 843,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-02-12T13:05:46.170968",
+    "calculation_timestamp": "2026-02-12T14:00:12.541336",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
