@@ -11,10 +11,10 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-14T07:22:19.178966",
+    "last_updated": "2026-02-14T07:23:40.728080",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.3.1"
+    "version": "3.3.2"
   },
   "alerts": [],
   "history": {
@@ -108,7 +108,7 @@
     "polarisation_index": 0.95,
     "polarisation_note": "Easy time (Z1+Z2) / Total - target ~80% in polarized training",
     "hard_days_this_week": 2,
-    "hard_days_note": "Days with >=120s Z4+ time. Per Seiler, session count is more meaningful than time-in-zone for high-volume athletes",
+    "hard_days_note": "Zone ladder: z3+ >= 30min, z4+ >= 10min, z5+ >= 5min, z6+ >= 2min, z7 >= 1min. Cumulative thresholds per Seiler/Foster \u2014 higher zones need less time to qualify as hard",
     "consistency_index": 0.86,
     "consistency_details": {
       "planned_days": 7,
@@ -158,7 +158,7 @@
     "p_max": 843,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-02-14T07:22:19.178206",
+    "calculation_timestamp": "2026-02-14T07:23:40.727337",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
