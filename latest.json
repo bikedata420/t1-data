@@ -11,22 +11,12 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-15T19:49:43.839301",
+    "last_updated": "2026-02-15T19:53:45.851831",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.3.2"
+    "version": "3.3.4"
   },
-  "alerts": [
-    {
-      "metric": "monotony",
-      "value": 2.58,
-      "severity": "alarm",
-      "threshold": 2.5,
-      "context": "Monotony 2.58 \u2265 2.5. Overuse risk elevated. Vary training load.",
-      "persistence_days": null,
-      "tier": 2
-    }
-  ],
+  "alerts": [],
   "history": {
     "available": true,
     "last_generated": "2026-02-14",
@@ -98,7 +88,12 @@
     "acwr": 1.08,
     "acwr_interpretation": "optimal",
     "monotony": 2.58,
-    "monotony_interpretation": "elevated",
+    "monotony_interpretation": "normal (primary sport 1.78, total 2.58 inflated by multi-sport)",
+    "primary_sport": "cycling",
+    "primary_sport_monotony": 1.78,
+    "primary_sport_tss_7d": 631.0,
+    "effective_monotony": 1.78,
+    "multi_sport_detected": true,
     "strain": 1845.0,
     "stress_tolerance": 7.2,
     "load_recovery_ratio": 7.8,
@@ -119,6 +114,27 @@
     "polarisation_note": "Easy time (Z1+Z2) / Total - target ~80% in polarized training",
     "hard_days_this_week": 2,
     "hard_days_note": "Zone ladder: z3+ >= 30min, z4+ >= 10min, z5+ >= 5min, z6+ >= 2min, z7 >= 1min. Cumulative thresholds per Seiler/Foster \u2014 higher zones need less time to qualify as hard",
+    "seiler_tid_7d": {
+      "z1_seconds": 71322,
+      "z2_seconds": 189,
+      "z3_seconds": 3504,
+      "z1_pct": 95.1,
+      "z2_pct": 0.3,
+      "z3_pct": 4.7,
+      "polarization_index": 3.25,
+      "classification": "Polarized"
+    },
+    "seiler_tid_7d_primary": {
+      "z1_seconds": 52158,
+      "z2_seconds": 189,
+      "z3_seconds": 3504,
+      "z1_pct": 93.4,
+      "z2_pct": 0.3,
+      "z3_pct": 6.3,
+      "polarization_index": 3.24,
+      "classification": "Polarized",
+      "sport": "cycling"
+    },
     "consistency_index": 0.86,
     "consistency_details": {
       "planned_days": 7,
@@ -168,7 +184,7 @@
     "p_max": 843,
     "power_model_source": "wellness.sportInfo",
     "vo2max": 62.0,
-    "calculation_timestamp": "2026-02-15T19:49:43.838544",
+    "calculation_timestamp": "2026-02-15T19:53:45.851097",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
