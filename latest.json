@@ -12,10 +12,10 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-23T17:36:30.725118",
+    "last_updated": "2026-02-23T18:38:37.457535",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.4.1"
+    "version": "3.5.0"
   },
   "alerts": [],
   "history": {
@@ -226,7 +226,7 @@
     "p_max": 843,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-02-23T17:36:30.724350",
+    "calculation_timestamp": "2026-02-23T18:38:37.456745",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
@@ -1307,5 +1307,15 @@
     "activities_count": 13,
     "avg_hrv": 47.7,
     "avg_resting_hr": 46.9
+  },
+  "race_calendar": {
+    "next_race": null,
+    "all_races": [],
+    "taper_alert": {
+      "active": false
+    },
+    "race_week": {
+      "active": false
+    }
   }
 }
