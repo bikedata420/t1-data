@@ -4,31 +4,20 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
-Version 3.4.0 - Aggregate Decoupling + Dual-Timeframe TID
-  - Durability trend: rolling 7d/28d mean decoupling from steady-state sessions
-  - Session filter: VI ≤ 1.05, VI > 0, ≥ 90min, power data required
-  - Dual-timeframe TID: 28d Seiler classification alongside existing 7d
-  - TID drift detection: consistent/shifting/acute_depolarization
-  - New 'capability' namespace in derived_metrics for capability-layer metrics
-  - Alert integration for durability declining/alarm and TID drift
+Version 3.5.0 - Race Calendar & Race-Week Protocol
+  - 90-day race calendar from Intervals.icu RACE_A/B/C event categories
+  - Three-layer race awareness: calendar (D-90), taper onset (D-14 to D-8), race week (D-7 to D-0)
+  - Race-week protocol: day-by-day load targets (% of CTL), zone guidance, purpose labels
+  - TSB projection for race day using PMC decay with zero assumed load
+  - Event duration classification (short/medium/long) from moving_time
+  - Carb loading triggers (≥90min events), opener scheduling (D-2), go/no-go checklist
+  - RACE_B lighter taper (50-65% budget vs 40-55% for RACE_A)
+  - Race-specific alerts integrated into main alerts array
 
-Version 3.3.4 - Seiler TID & Polarization Index
-  - Seiler 3-zone TID classification (Polarized/Pyramidal/Threshold/HIT/Base)
-  - Treff Polarization Index (PI) with proper edge-case handling
-  - Dual calculation: all-sport and primary-sport TID (like monotony)
-  - Correct 7→3 zone mapping: Seiler Z1=z1+z2, Z2=z3, Z3=z4+
-
-Version 3.3.0 - Alerts, History & Notifications
-  - Graduated alerts array with flag/alarm severity and persistence tracking
-  - Monotony deload context detection (suppresses false positives)
-  - Auto-generated history.json with tiered granularity (90d daily, 180d weekly, 1-3y monthly)
-  - History confidence scoring in latest.json output
-  - Upstream update notifications via GitHub Issues
-  - Smart fitness metrics: CTL/ATL/TSB/ramp_rate all use API values when today's
-    workouts are completed, decayed yesterday values when planned but not yet done
-  - Uses API data for eFTP, W', P-max, VO2max (from wellness endpoint)
-  - Tracks indoor and outdoor FTP separately for Benchmark Index
-  - Calculates ACWR, Monotony, Strain, Recovery Index locally
+Version 3.4.1 - KeyError fix, defensive .get(), anonymization improvements
+Version 3.4.0 - Aggregate durability (7d/28d decoupling), dual-timeframe TID, capability namespace
+Version 3.3.4 - Seiler TID classification, Treff PI, multi-sport TID, 7→3 zone mapping
+Version 3.3.0 - Graduated alerts, history.json, notifications, smart fitness metrics, ACWR/monotony/strain
 """
 
 import requests
