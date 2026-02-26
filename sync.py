@@ -4,6 +4,17 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
+Version 3.6.0 - Efficiency Factor (EF) tracking
+  - Pull icu_efficiency_factor (NP/Avg HR, Coggan) per activity from Intervals.icu API
+  - Aggregate EF 7d/28d with trend (improving/stable/declining)
+  - Qualifying filters: cycling, VI <= 1.05, >= 20min, power+HR
+  - Added to capability namespace alongside durability and TID comparison
+
+Version 3.5.1 - HRV Outlier Filter
+  - Add _is_valid_hrv() helper to filter sensor errors (10-250ms range)
+  - Applied to: baselines (7d/28d), Recovery Index, persistence counts, summaries
+  - Fixes false alarms from sensor glitches (e.g., 255ms Amazfit/Garmin errors)
+
 Version 3.5.0 - Race Calendar & Race-Week Protocol
   - 90-day race calendar from Intervals.icu RACE_A/B/C event categories
   - Three-layer race awareness: calendar (D-90), taper onset (D-14 to D-8), race week (D-7 to D-0)
@@ -42,7 +53,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.5.0"
+    VERSION = "3.6.0"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -480,7 +491,7 @@ class IntervalsSync:
                 "instruction_for_ai": "DO NOT calculate totals from individual activities. Use the pre-calculated values in 'summary', 'weekly_summary', and 'derived_metrics' sections below. These are already computed accurately from the API data.",
                 "data_period": f"Last {days_back} days (including today)",
                 "extended_data_note": f"ACWR and baselines calculated from {days_for_acwr} days of data",
-                "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d) and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability trend direction matters more than absolute values.",
+                "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values.",
                 "quick_stats": {
                     "total_training_hours": round(sum(act.get("moving_time", 0) for act in activities_display) / 3600, 2),
                     "total_activities": len(activities_display),
@@ -632,14 +643,14 @@ class IntervalsSync:
         strain = round(tss_7d_total * monotony, 0) if monotony else None
         
         # === BASELINES (7-day and extended) ===
-        hrv_values_7d = [w.get("hrv") for w in wellness_7d if w.get("hrv")]
+        hrv_values_7d = [w.get("hrv") for w in wellness_7d if self._is_valid_hrv(w.get("hrv"))]
         rhr_values_7d = [w.get("restingHR") for w in wellness_7d if w.get("restingHR")]
         
         hrv_baseline_7d = round(statistics.mean(hrv_values_7d), 1) if hrv_values_7d else None
         rhr_baseline_7d = round(statistics.mean(rhr_values_7d), 1) if rhr_values_7d else None
         
         # Extended baselines (for more stable reference)
-        hrv_values_ext = [w.get("hrv") for w in wellness_extended if w.get("hrv")]
+        hrv_values_ext = [w.get("hrv") for w in wellness_extended if self._is_valid_hrv(w.get("hrv"))]
         rhr_values_ext = [w.get("restingHR") for w in wellness_extended if w.get("restingHR")]
         
         hrv_baseline_28d = round(statistics.mean(hrv_values_ext), 1) if hrv_values_ext else None
@@ -648,7 +659,8 @@ class IntervalsSync:
         # === RECOVERY INDEX (RI) ===
         # Formula: (HRV_today / HRV_baseline) ÷ (RHR_today / RHR_baseline)
         # Interpretation: >1.0 = good recovery, <1.0 = poor recovery
-        latest_hrv = wellness_7d[-1].get("hrv") if wellness_7d else None
+        latest_hrv_raw = wellness_7d[-1].get("hrv") if wellness_7d else None
+        latest_hrv = latest_hrv_raw if self._is_valid_hrv(latest_hrv_raw) else None
         latest_rhr = wellness_7d[-1].get("restingHR") if wellness_7d else None
         
         if latest_hrv and latest_rhr and hrv_baseline_7d and rhr_baseline_7d:
@@ -731,6 +743,7 @@ class IntervalsSync:
 
         # === DURABILITY TREND (aggregate decoupling) ===
         durability = self._calculate_durability(activities_7d, activities_28d)
+        efficiency_factor = self._calculate_efficiency_factor(activities_7d, activities_28d)
 
         # === CONSISTENCY INDEX ===
         consistency_index, consistency_details = self._calculate_consistency_index(
@@ -854,6 +867,7 @@ class IntervalsSync:
             # Capability metrics (how fitness is expressed, not just load)
             "capability": {
                 "durability": durability,
+                "efficiency_factor": efficiency_factor,
                 "tid_comparison": tid_comparison,
             },
             
@@ -1395,6 +1409,84 @@ class IntervalsSync:
                      "(+/-1% = stable).")
         }
 
+    def _calculate_efficiency_factor(self, activities_7d: List[Dict],
+                                      activities_28d: List[Dict]) -> Dict:
+        """
+        Calculate aggregate Efficiency Factor (EF) as an aerobic fitness trend.
+
+        EF = Normalized Power / Average HR (Coggan). Intervals.icu provides
+        this as icu_efficiency_factor per activity.
+
+        Filters to qualifying sessions only:
+        - icu_efficiency_factor is not None
+        - Cycling types (Ride, VirtualRide, MountainBikeRide, GravelRide)
+        - icu_variability_index is not None and > 0 and <= 1.05 (steady-state)
+        - moving_time >= 1200 (20 minutes)
+
+        Per TrainingPeaks / Coggan: EF is only valid for aerobic, steady-state
+        efforts. Values under 20 minutes are not reliable. Low VI ensures
+        steady pacing for meaningful HR-power relationship.
+
+        Rising EF at the same intensity = improving aerobic fitness.
+        Compare like-for-like sessions only — EF varies with intensity.
+
+        Returns dict with 7d/28d means, qualifying session counts, and trend.
+        """
+        CYCLING_TYPES = {"Ride", "VirtualRide", "MountainBikeRide", "GravelRide"}
+
+        def _filter_qualifying(activities: List[Dict]) -> List[float]:
+            """Return EF values from qualifying sessions."""
+            qualifying = []
+            for act in activities:
+                ef = act.get("icu_efficiency_factor")
+                vi = act.get("icu_variability_index")
+                mt = act.get("moving_time", 0) or 0
+                act_type = act.get("type", "")
+
+                if (ef is not None
+                        and act_type in CYCLING_TYPES
+                        and vi is not None
+                        and vi > 0
+                        and vi <= 1.05
+                        and mt >= 1200):
+                    qualifying.append(ef)
+            return qualifying
+
+        vals_7d = _filter_qualifying(activities_7d)
+        vals_28d = _filter_qualifying(activities_28d)
+
+        # Compute means (need >= 2 qualifying sessions)
+        mean_7d = round(statistics.mean(vals_7d), 2) if len(vals_7d) >= 2 else None
+        mean_28d = round(statistics.mean(vals_28d), 2) if len(vals_28d) >= 2 else None
+
+        # Trend (requires both windows)
+        trend = None
+        if mean_7d is not None and mean_28d is not None:
+            delta = mean_7d - mean_28d
+            if delta > 0.03:
+                trend = "improving"
+            elif delta < -0.03:
+                trend = "declining"
+            else:
+                trend = "stable"
+
+        if self.debug:
+            print(f"  Efficiency Factor: 7d={mean_7d} ({len(vals_7d)} sessions), "
+                  f"28d={mean_28d} ({len(vals_28d)} sessions), trend={trend}")
+
+        return {
+            "mean_ef_7d": mean_7d,
+            "mean_ef_28d": mean_28d,
+            "qualifying_sessions_7d": len(vals_7d),
+            "qualifying_sessions_28d": len(vals_28d),
+            "trend": trend,
+            "note": ("Steady-state cycling sessions only (VI <= 1.05, VI > 0, "
+                     ">= 20min, power+HR data). Rising EF = improving aerobic "
+                     "efficiency. Compare like-for-like sessions only — "
+                     "EF varies with intensity. Trend compares 7d vs 28d mean "
+                     "(+/-0.03 = stable).")
+        }
+
     def _calculate_tid_comparison(self, seiler_tid_7d: Dict,
                                    seiler_tid_28d: Dict) -> Dict:
         """
@@ -1851,14 +1943,22 @@ class IntervalsSync:
             return f"deload pattern detected (7-day TSS {round(tss_7d_total)} is {round(deficit_pct)}% below 28-day weekly avg {round(weekly_avg_28d)})"
         
         return None
-    
+
+    @staticmethod
+    def _is_valid_hrv(value: float) -> bool:
+        """
+        Check if HRV value is within valid physiological range (10-250ms RMSSD).
+        Filters sensor errors while preserving legitimate high values in elite athletes.
+        """
+        return value is not None and 10 <= value <= 250
+
     def _count_hrv_low_days(self, wellness_7d: List[Dict], baseline: float) -> int:
         """Count consecutive days (from most recent) where HRV is ↓>20% below baseline"""
         threshold = baseline * 0.8
         count = 0
         for w in reversed(wellness_7d):
             hrv = w.get("hrv")
-            if hrv is not None and hrv < threshold:
+            if self._is_valid_hrv(hrv) and hrv < threshold:
                 count += 1
             else:
                 break
@@ -2229,8 +2329,8 @@ class IntervalsSync:
                 week_tss += day_tss
                 week_seconds += day_seconds
                 week_activities += len(day_activities)
-                
-                if wellness.get("hrv"):
+
+                if self._is_valid_hrv(wellness.get("hrv")):
                     week_hrv.append(wellness["hrv"])
                 if wellness.get("restingHR"):
                     week_rhr.append(wellness["restingHR"])
@@ -2371,8 +2471,9 @@ class IntervalsSync:
                 month_tss += day_tss
                 month_seconds += day_seconds
                 month_activities += len(day_activities)
-                
-                if wellness.get("hrv"):
+
+
+                if self._is_valid_hrv(wellness.get("hrv")):
                     month_hrv.append(wellness["hrv"])
                 if wellness.get("restingHR"):
                     month_rhr.append(wellness["restingHR"])
@@ -2815,6 +2916,7 @@ class IntervalsSync:
                 "carbs_ingested": carbs_ingested,
                 "variability_index": variability_index,
                 "decoupling": decoupling,
+                "efficiency_factor": act.get("icu_efficiency_factor"),
                 "elevation_m": act.get("total_elevation_gain"),
                 "feel": act.get("feel"),
                 "rpe": act.get("icu_rpe"),
@@ -3218,15 +3320,15 @@ class IntervalsSync:
         total_tss = sum(act.get("icu_training_load", 0) for act in activities if act.get("icu_training_load"))
         total_seconds = sum(act.get("moving_time", 0) for act in activities)
         total_hours = total_seconds / 3600
-        
+
         avg_hrv = None
         avg_rhr = None
         if wellness:
-            hrv_values = [w.get("hrv") for w in wellness if w.get("hrv")]
+            hrv_values = [w.get("hrv") for w in wellness if self._is_valid_hrv(w.get("hrv"))]
             rhr_values = [w.get("restingHR") for w in wellness if w.get("restingHR")]
             avg_hrv = round(sum(hrv_values) / len(hrv_values), 1) if hrv_values else None
             avg_rhr = round(sum(rhr_values) / len(rhr_values), 1) if rhr_values else None
-        
+
         return {
             "total_training_hours": round(total_hours, 2),
             "total_tss": round(total_tss, 0),
