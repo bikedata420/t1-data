@@ -12,18 +12,16 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-27T16:28:46.537458",
+    "last_updated": "2026-02-27T16:38:02.603806",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.6.0"
   },
   "alerts": [],
   "history": {
-    "available": true,
-    "last_generated": "2026-02-18",
-    "age_days": 8,
-    "total_months": 35,
-    "history_confidence": "high"
+    "available": false,
+    "history_confidence": "low",
+    "note": "No history.json available. Longitudinal analysis limited to current 28-day window."
   },
   "summary": {
     "period_description": "Last 7 days of training (including today)",
@@ -60,15 +58,53 @@
       "fitness_source": "From Intervals.icu API (reflects completed workouts)"
     },
     "thresholds": {
-      "ftp_outdoor": 287,
-      "ftp_indoor": 275,
       "eftp": 263.9,
-      "lthr": 174,
-      "max_hr": 191,
       "w_prime": 22726,
       "w_prime_kj": 22.7,
       "p_max": 843,
-      "vo2max": 56.0
+      "vo2max": 56.0,
+      "sports": {
+        "cycling": {
+          "lthr": 174,
+          "max_hr": 191,
+          "threshold_pace": null,
+          "pace_units": null,
+          "ftp": 287,
+          "ftp_indoor": 275
+        },
+        "run": {
+          "lthr": 170,
+          "max_hr": 187,
+          "threshold_pace": null,
+          "pace_units": null,
+          "ftp": null,
+          "ftp_indoor": null
+        },
+        "swim": {
+          "lthr": 170,
+          "max_hr": 187,
+          "threshold_pace": 0.8333333,
+          "pace_units": "SECS_100M",
+          "ftp": null,
+          "ftp_indoor": null
+        },
+        "walk": {
+          "lthr": 174,
+          "max_hr": 191,
+          "threshold_pace": null,
+          "pace_units": null,
+          "ftp": null,
+          "ftp_indoor": null
+        },
+        "ski": {
+          "lthr": 174,
+          "max_hr": 191,
+          "threshold_pace": null,
+          "pace_units": null,
+          "ftp": null,
+          "ftp_indoor": null
+        }
+      }
     },
     "current_metrics": {
       "weight_kg": 70.6,
@@ -234,7 +270,7 @@
     "p_max": 843,
     "power_model_source": "wellness.sportInfo",
     "vo2max": 56.0,
-    "calculation_timestamp": "2026-02-27T16:28:46.536650",
+    "calculation_timestamp": "2026-02-27T16:38:02.603589",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
