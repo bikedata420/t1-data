@@ -12,10 +12,10 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-02-28T15:51:43.279102",
+    "last_updated": "2026-02-28T16:14:34.555145",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.6.0"
+    "version": "3.6.1"
   },
   "alerts": [],
   "history": {
@@ -152,7 +152,7 @@
     "polarisation_index": 0.95,
     "polarisation_note": "Easy time (Z1+Z2) / Total - target ~80% in polarized training",
     "hard_days_this_week": 2,
-    "hard_days_note": "Zone ladder: z3+ >= 30min, z4+ >= 10min, z5+ >= 5min, z6+ >= 2min, z7 >= 1min. Cumulative thresholds per Seiler/Foster \u2014 higher zones need less time to qualify as hard",
+    "hard_days_note": "Power ladder: z3+ >= 30min, z4+ >= 10min, z5+ >= 5min, z6+ >= 2min, z7 >= 1min. HR fallback (when no power): z4+ >= 10min, z5+ >= 5min. Per Seiler 3-zone model + Foster. HR-based days flagged with intensity_basis: hr",
     "seiler_tid_7d": {
       "z1_seconds": 70598,
       "z2_seconds": 174,
@@ -273,7 +273,7 @@
     "p_max": 843,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-02-28T15:51:43.278289",
+    "calculation_timestamp": "2026-02-28T16:14:34.554285",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
