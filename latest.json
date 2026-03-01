@@ -1,6 +1,7 @@
 {
   "READ_THIS_FIRST": {
     "instruction_for_ai": "DO NOT calculate totals from individual activities. Use the pre-calculated values in 'summary', 'weekly_summary', and 'derived_metrics' sections below. These are already computed accurately from the API data.",
+    "display_formatting": "For durations and sleep, always display the '_formatted' fields (e.g., sleep_formatted, duration_formatted, total_training_formatted) instead of converting decimal '_hours' values. The formatted fields are pre-calculated from raw seconds and avoid rounding errors.",
     "data_period": "Last 7 days (including today)",
     "extended_data_note": "ACWR and baselines calculated from 28 days of data",
     "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values.",
@@ -13,10 +14,10 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-01T21:16:54.555400",
+    "last_updated": "2026-03-01T21:34:14.251817",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.6.3"
+    "version": "3.6.4"
   },
   "alerts": [],
   "history": {
@@ -275,7 +276,7 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": 62.0,
-    "calculation_timestamp": "2026-03-01T21:16:54.554571",
+    "calculation_timestamp": "2026-03-01T21:34:14.250999",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
