@@ -4,6 +4,12 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
+Version 3.6.4 - READ_THIS_FIRST display_formatting instruction + report template alignment
+  - Added display_formatting note in READ_THIS_FIRST directing AI to use _formatted fields
+  - All report templates updated: XhYm format for sleep, duration, training hours
+  - All report examples updated: zero decimal hours remaining in templates or prose
+  - Formatting Rule section added to all four templates (pre/post/weekly/block)
+
 Version 3.6.3 - Human-readable formatted fields (no virtual math)
   - duration_formatted on planned workouts (from moving_time seconds, not decimal hours)
   - sleep_formatted on current_status, wellness_data, and daily tier rows
@@ -65,7 +71,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.6.3"
+    VERSION = "3.6.4"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -498,6 +504,7 @@ class IntervalsSync:
         data = {
             "READ_THIS_FIRST": {
                 "instruction_for_ai": "DO NOT calculate totals from individual activities. Use the pre-calculated values in 'summary', 'weekly_summary', and 'derived_metrics' sections below. These are already computed accurately from the API data.",
+                "display_formatting": "For durations and sleep, always display the '_formatted' fields (e.g., sleep_formatted, duration_formatted, total_training_formatted) instead of converting decimal '_hours' values. The formatted fields are pre-calculated from raw seconds and avoid rounding errors.",
                 "data_period": f"Last {days_back} days (including today)",
                 "extended_data_note": f"ACWR and baselines calculated from {days_for_acwr} days of data",
                 "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values.",
