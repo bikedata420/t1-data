@@ -14,7 +14,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-01T21:52:49.009417",
+    "last_updated": "2026-03-01T22:18:52.540566",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.6.4"
@@ -276,7 +276,7 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": 62.0,
-    "calculation_timestamp": "2026-03-01T21:52:49.008585",
+    "calculation_timestamp": "2026-03-01T22:18:52.539725",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
@@ -1280,7 +1280,7 @@
     {
       "id": "event_1",
       "date": "2026-03-01",
-      "name": "Planned Workout",
+      "name": "Anaerobic",
       "type": "WORKOUT",
       "planned_tss": 69,
       "duration_hours": 1.5,
@@ -1291,7 +1291,7 @@
     {
       "id": "event_2",
       "date": "2026-03-02",
-      "name": "Planned Workout",
+      "name": "Endurance - Monday",
       "type": "WORKOUT",
       "planned_tss": 62,
       "duration_hours": 2.0,
@@ -1302,7 +1302,7 @@
     {
       "id": "event_3",
       "date": "2026-03-02",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1313,7 +1313,7 @@
     {
       "id": "event_4",
       "date": "2026-03-03",
-      "name": "Planned Workout",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 62,
       "duration_hours": 2.0,
@@ -1324,7 +1324,7 @@
     {
       "id": "event_5",
       "date": "2026-03-03",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1335,7 +1335,7 @@
     {
       "id": "event_6",
       "date": "2026-03-04",
-      "name": "Planned Workout",
+      "name": "Sweetspot 2x10m - Deload",
       "type": "WORKOUT",
       "planned_tss": 72,
       "duration_hours": 1.5,
@@ -1346,7 +1346,7 @@
     {
       "id": "event_7",
       "date": "2026-03-05",
-      "name": "Planned Workout",
+      "name": "Endurance - Thursday",
       "type": "WORKOUT",
       "planned_tss": 61,
       "duration_hours": 2.0,
@@ -1357,7 +1357,7 @@
     {
       "id": "event_8",
       "date": "2026-03-05",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1368,7 +1368,7 @@
     {
       "id": "event_9",
       "date": "2026-03-06",
-      "name": "Planned Workout",
+      "name": "Endurance - Friday",
       "type": "WORKOUT",
       "planned_tss": 93,
       "duration_hours": 3.0,
@@ -1379,7 +1379,7 @@
     {
       "id": "event_10",
       "date": "2026-03-06",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1390,7 +1390,7 @@
     {
       "id": "event_11",
       "date": "2026-03-08",
-      "name": "Planned Workout",
+      "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
       "planned_tss": 86,
       "duration_hours": 1.5,
@@ -1401,7 +1401,7 @@
     {
       "id": "event_12",
       "date": "2026-03-09",
-      "name": "Planned Workout",
+      "name": "Endurance - Monday",
       "type": "WORKOUT",
       "planned_tss": 77,
       "duration_hours": 2.25,
@@ -1412,7 +1412,7 @@
     {
       "id": "event_13",
       "date": "2026-03-09",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1423,7 +1423,7 @@
     {
       "id": "event_14",
       "date": "2026-03-10",
-      "name": "Planned Workout",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 77,
       "duration_hours": 2.25,
@@ -1434,7 +1434,7 @@
     {
       "id": "event_15",
       "date": "2026-03-10",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1445,7 +1445,7 @@
     {
       "id": "event_16",
       "date": "2026-03-11",
-      "name": "Planned Workout",
+      "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
       "planned_tss": 91,
       "duration_hours": 1.5,
@@ -1455,7 +1455,7 @@
     {
       "id": "event_17",
       "date": "2026-03-12",
-      "name": "Planned Workout",
+      "name": "Endurance - Thursday",
       "type": "WORKOUT",
       "planned_tss": 93,
       "duration_hours": 3.0,
@@ -1466,7 +1466,7 @@
     {
       "id": "event_18",
       "date": "2026-03-12",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1477,7 +1477,7 @@
     {
       "id": "event_19",
       "date": "2026-03-13",
-      "name": "Planned Workout",
+      "name": "Endurance - Friday",
       "type": "WORKOUT",
       "planned_tss": 157,
       "duration_hours": 5.0,
@@ -1488,7 +1488,7 @@
     {
       "id": "event_20",
       "date": "2026-03-14",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 3,
       "duration_hours": 0.08,
@@ -1499,7 +1499,7 @@
     {
       "id": "event_21",
       "date": "2026-03-14",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 5,
       "duration_hours": 0.12,
@@ -1510,7 +1510,7 @@
     {
       "id": "event_22",
       "date": "2026-03-14",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1521,7 +1521,7 @@
     {
       "id": "event_23",
       "date": "2026-03-14",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 14,
       "duration_hours": 0.25,
@@ -1532,7 +1532,7 @@
     {
       "id": "event_24",
       "date": "2026-03-15",
-      "name": "Planned Workout",
+      "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
       "planned_tss": 87,
       "duration_hours": 1.5,
@@ -1542,7 +1542,7 @@
     {
       "id": "event_25",
       "date": "2026-03-16",
-      "name": "Planned Workout",
+      "name": "Endurance - Monday",
       "type": "WORKOUT",
       "planned_tss": 77,
       "duration_hours": 2.25,
@@ -1553,7 +1553,7 @@
     {
       "id": "event_26",
       "date": "2026-03-16",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1564,7 +1564,7 @@
     {
       "id": "event_27",
       "date": "2026-03-17",
-      "name": "Planned Workout",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 77,
       "duration_hours": 2.25,
@@ -1575,7 +1575,7 @@
     {
       "id": "event_28",
       "date": "2026-03-17",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1586,7 +1586,7 @@
     {
       "id": "event_29",
       "date": "2026-03-18",
-      "name": "Planned Workout",
+      "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
       "planned_tss": 97,
       "duration_hours": 1.67,
@@ -1596,7 +1596,7 @@
     {
       "id": "event_30",
       "date": "2026-03-19",
-      "name": "Planned Workout",
+      "name": "Endurance - Thursday",
       "type": "WORKOUT",
       "planned_tss": 93,
       "duration_hours": 3.0,
@@ -1607,7 +1607,7 @@
     {
       "id": "event_31",
       "date": "2026-03-19",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1618,7 +1618,7 @@
     {
       "id": "event_32",
       "date": "2026-03-20",
-      "name": "Planned Workout",
+      "name": "Endurance - Friday",
       "type": "WORKOUT",
       "planned_tss": 173,
       "duration_hours": 5.5,
@@ -1629,7 +1629,7 @@
     {
       "id": "event_33",
       "date": "2026-03-21",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 5,
       "duration_hours": 0.08,
@@ -1640,7 +1640,7 @@
     {
       "id": "event_34",
       "date": "2026-03-21",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 7,
       "duration_hours": 0.12,
@@ -1651,7 +1651,7 @@
     {
       "id": "event_35",
       "date": "2026-03-21",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1662,7 +1662,7 @@
     {
       "id": "event_36",
       "date": "2026-03-21",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 14,
       "duration_hours": 0.25,
@@ -1673,7 +1673,7 @@
     {
       "id": "event_37",
       "date": "2026-03-22",
-      "name": "Planned Workout",
+      "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
       "planned_tss": 87,
       "duration_hours": 1.5,
@@ -1683,7 +1683,7 @@
     {
       "id": "event_38",
       "date": "2026-03-23",
-      "name": "Planned Workout",
+      "name": "Endurance - Monday",
       "type": "WORKOUT",
       "planned_tss": 77,
       "duration_hours": 2.25,
@@ -1694,7 +1694,7 @@
     {
       "id": "event_39",
       "date": "2026-03-23",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1705,7 +1705,7 @@
     {
       "id": "event_40",
       "date": "2026-03-24",
-      "name": "Planned Workout",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 77,
       "duration_hours": 2.25,
@@ -1716,7 +1716,7 @@
     {
       "id": "event_41",
       "date": "2026-03-24",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1727,7 +1727,7 @@
     {
       "id": "event_42",
       "date": "2026-03-25",
-      "name": "Planned Workout",
+      "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
       "planned_tss": 98,
       "duration_hours": 1.67,
@@ -1737,7 +1737,7 @@
     {
       "id": "event_43",
       "date": "2026-03-26",
-      "name": "Planned Workout",
+      "name": "Endurance - Thursday",
       "type": "WORKOUT",
       "planned_tss": 93,
       "duration_hours": 3.0,
@@ -1748,7 +1748,7 @@
     {
       "id": "event_44",
       "date": "2026-03-26",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1759,7 +1759,7 @@
     {
       "id": "event_45",
       "date": "2026-03-27",
-      "name": "Planned Workout",
+      "name": "Endurance - Friday",
       "type": "WORKOUT",
       "planned_tss": 189,
       "duration_hours": 6.0,
@@ -1770,7 +1770,7 @@
     {
       "id": "event_46",
       "date": "2026-03-28",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 5,
       "duration_hours": 0.08,
@@ -1781,7 +1781,7 @@
     {
       "id": "event_47",
       "date": "2026-03-28",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 7,
       "duration_hours": 0.12,
@@ -1792,7 +1792,7 @@
     {
       "id": "event_48",
       "date": "2026-03-28",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1803,7 +1803,7 @@
     {
       "id": "event_49",
       "date": "2026-03-28",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 14,
       "duration_hours": 0.25,
@@ -1814,7 +1814,7 @@
     {
       "id": "event_50",
       "date": "2026-03-29",
-      "name": "Planned Workout",
+      "name": "Anaerobic",
       "type": "WORKOUT",
       "planned_tss": 71,
       "duration_hours": 1.5,
@@ -1824,7 +1824,7 @@
     {
       "id": "event_51",
       "date": "2026-03-30",
-      "name": "Planned Workout",
+      "name": "Endurance - Monday",
       "type": "WORKOUT",
       "planned_tss": 62,
       "duration_hours": 2.0,
@@ -1835,7 +1835,7 @@
     {
       "id": "event_52",
       "date": "2026-03-30",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1846,7 +1846,7 @@
     {
       "id": "event_53",
       "date": "2026-03-31",
-      "name": "Planned Workout",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 62,
       "duration_hours": 2.0,
@@ -1857,7 +1857,7 @@
     {
       "id": "event_54",
       "date": "2026-03-31",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1868,7 +1868,7 @@
     {
       "id": "event_55",
       "date": "2026-04-01",
-      "name": "Planned Workout",
+      "name": "Sweetspot 2x10m - Deload",
       "type": "WORKOUT",
       "planned_tss": 74,
       "duration_hours": 1.5,
@@ -1878,7 +1878,7 @@
     {
       "id": "event_56",
       "date": "2026-04-02",
-      "name": "Planned Workout",
+      "name": "Endurance - Thursday",
       "type": "WORKOUT",
       "planned_tss": 61,
       "duration_hours": 2.0,
@@ -1889,7 +1889,7 @@
     {
       "id": "event_57",
       "date": "2026-04-02",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1900,7 +1900,7 @@
     {
       "id": "event_58",
       "date": "2026-04-03",
-      "name": "Planned Workout",
+      "name": "Endurance - Friday",
       "type": "WORKOUT",
       "planned_tss": 93,
       "duration_hours": 3.0,
@@ -1911,7 +1911,7 @@
     {
       "id": "event_59",
       "date": "2026-04-03",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1922,7 +1922,7 @@
     {
       "id": "event_60",
       "date": "2026-04-05",
-      "name": "Planned Workout",
+      "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
       "planned_tss": 87,
       "duration_hours": 1.5,
@@ -1932,7 +1932,7 @@
     {
       "id": "event_61",
       "date": "2026-04-06",
-      "name": "Planned Workout",
+      "name": "Endurance - Monday",
       "type": "WORKOUT",
       "planned_tss": 73,
       "duration_hours": 2.0,
@@ -1943,7 +1943,7 @@
     {
       "id": "event_62",
       "date": "2026-04-06",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1954,7 +1954,7 @@
     {
       "id": "event_63",
       "date": "2026-04-07",
-      "name": "Planned Workout",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 73,
       "duration_hours": 2.0,
@@ -1965,7 +1965,7 @@
     {
       "id": "event_64",
       "date": "2026-04-07",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -1976,7 +1976,7 @@
     {
       "id": "event_65",
       "date": "2026-04-08",
-      "name": "Planned Workout",
+      "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
       "planned_tss": 88,
       "duration_hours": 1.5,
@@ -1986,7 +1986,7 @@
     {
       "id": "event_66",
       "date": "2026-04-09",
-      "name": "Planned Workout",
+      "name": "Endurance - Thursday",
       "type": "WORKOUT",
       "planned_tss": 97,
       "duration_hours": 3.0,
@@ -1997,7 +1997,7 @@
     {
       "id": "event_67",
       "date": "2026-04-09",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -2008,7 +2008,7 @@
     {
       "id": "event_68",
       "date": "2026-04-10",
-      "name": "Planned Workout",
+      "name": "Endurance - Friday",
       "type": "WORKOUT",
       "planned_tss": 177,
       "duration_hours": 5.5,
@@ -2019,7 +2019,7 @@
     {
       "id": "event_69",
       "date": "2026-04-10",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -2030,7 +2030,7 @@
     {
       "id": "event_70",
       "date": "2026-04-11",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 5,
       "duration_hours": 0.08,
@@ -2041,7 +2041,7 @@
     {
       "id": "event_71",
       "date": "2026-04-11",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 7,
       "duration_hours": 0.12,
@@ -2052,7 +2052,7 @@
     {
       "id": "event_72",
       "date": "2026-04-11",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
       "duration_hours": 0.17,
@@ -2063,7 +2063,7 @@
     {
       "id": "event_73",
       "date": "2026-04-11",
-      "name": "Planned Workout",
+      "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 14,
       "duration_hours": 0.25,
@@ -2074,7 +2074,7 @@
     {
       "id": "event_74",
       "date": "2026-04-12",
-      "name": "Planned Workout",
+      "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
       "planned_tss": 83,
       "duration_hours": 1.5,
