@@ -4,6 +4,12 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
+Version 3.6.3 - Human-readable formatted fields (no virtual math)
+  - duration_formatted on planned workouts (from moving_time seconds, not decimal hours)
+  - sleep_formatted on current_status, wellness_data, and daily tier rows
+  - total_training_formatted on quick_stats and weekly_summary
+  - All formatted fields floored to minutes (no stray seconds in output)
+
 Version 3.6.2 - Workout Summary Generation & Tiered Detail
   - resolve=true on events API for structured workout_doc with resolved targets
   - Workout summary parser: Pattern A (explicit reps), Pattern B (flat alternating)
@@ -59,7 +65,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.6.2"
+    VERSION = "3.6.3"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -497,6 +503,7 @@ class IntervalsSync:
                 "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values.",
                 "quick_stats": {
                     "total_training_hours": round(sum(act.get("moving_time", 0) for act in activities_display) / 3600, 2),
+                    "total_training_formatted": self._format_duration(int(sum(act.get("moving_time", 0) for act in activities_display)) // 60 * 60),
                     "total_activities": len(activities_display),
                     "total_tss": round(sum(act.get("icu_training_load", 0) for act in activities_display if act.get("icu_training_load")), 0)
                 }
@@ -532,7 +539,8 @@ class IntervalsSync:
                     "resting_hr": latest_wellness.get("restingHR") or athlete.get("icu_resting_hr"),
                     "hrv": latest_wellness.get("hrv"),
                     "sleep_quality": latest_wellness.get("sleepQuality"),
-                    "sleep_hours": round(latest_wellness.get("sleepSecs", 0) / 3600, 2) if latest_wellness.get("sleepSecs") else None
+                    "sleep_hours": round(latest_wellness.get("sleepSecs", 0) / 3600, 2) if latest_wellness.get("sleepSecs") else None,
+                    "sleep_formatted": self._format_duration(int(latest_wellness.get("sleepSecs", 0)) // 60 * 60) if latest_wellness.get("sleepSecs") else None
                 }
             },
             "derived_metrics": derived_metrics,
@@ -2354,6 +2362,7 @@ class IntervalsSync:
                 "hrv": wellness.get("hrv"),
                 "rhr": wellness.get("restingHR"),
                 "sleep_hours": round(wellness.get("sleepSecs", 0) / 3600, 2) if wellness.get("sleepSecs") else None,
+                "sleep_formatted": self._format_duration(int(wellness.get("sleepSecs", 0)) // 60 * 60) if wellness.get("sleepSecs") else None,
                 "sleep_quality": wellness.get("sleepQuality"),
                 "feel": None,  # Not available in wellness, only in activities
                 "weight_kg": wellness.get("weight"),
@@ -3000,6 +3009,7 @@ class IntervalsSync:
                 "hrv_rmssd": w.get("hrv"),
                 "hrv_sdnn": w.get("hrvSdnn"),
                 "sleep_hours": round(w["sleepSecs"] / 3600, 2) if w.get("sleepSecs") else None,
+                "sleep_formatted": self._format_duration(int(w["sleepSecs"]) // 60 * 60) if w.get("sleepSecs") else None,
                 "sleep_quality": w.get("sleepQuality"),
                 "sleep_score": w.get("sleepScore"),
                 "mental_energy": w.get("mentalEnergy"),
@@ -3510,6 +3520,7 @@ class IntervalsSync:
                 "type": evt.get("category", ""),
                 "planned_tss": evt.get("icu_training_load"),
                 "duration_hours": round(evt.get("moving_time", 0) / 3600, 2),
+                "duration_formatted": self._format_duration(int(evt.get("moving_time", 0))),
                 "workout_summary": summary
             }
             
@@ -3896,6 +3907,7 @@ class IntervalsSync:
 
         return {
             "total_training_hours": round(total_hours, 2),
+            "total_training_formatted": self._format_duration(int(total_seconds) // 60 * 60),
             "total_tss": round(total_tss, 0),
             "activities_count": len(activities),
             "avg_hrv": avg_hrv,
