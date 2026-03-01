@@ -12,7 +12,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-01T20:17:17.195895",
+    "last_updated": "2026-03-01T20:42:34.152339",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.6.2"
@@ -273,7 +273,7 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": 62.0,
-    "calculation_timestamp": "2026-03-01T20:17:17.195084",
+    "calculation_timestamp": "2026-03-01T20:42:34.151523",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
@@ -1273,8 +1273,8 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 69,
-      "duration_hours": 0.0,
-      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 5\u00d710s @675W / 3m rec | 5\u00d710s @700W / 3m rec | 5\u00d710s @700W / 3m rec | 16m30s @150W",
+      "duration_hours": 1.5,
+      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 5\u00d710s @675W / 3m rec | 2 \u00d7 5\u00d710s @700W / 3m rec | 16m30s @150W",
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n\n- 10s 675w\n- 3m 150w\n- 10s 675w\n- 3m 150w\n- 10s 675w\n- 3m 150w\n- 10s 675w\n- 3m 150w\n- 10s 675w\n- 5m 150w\n\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 5m 150w\n\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 3m 150w\n- 10s 700w\n- 5m 150w\n\n- 16m30s 150w\n\n\n"
     },
     {
@@ -1283,7 +1283,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 62,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description": "\n- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
@@ -1293,7 +1293,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description": "\n- 10m Z2 HR"
     },
@@ -1303,7 +1303,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 62,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description": "\n- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
@@ -1313,7 +1313,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description": "\n- 10m Z2 HR"
     },
@@ -1323,8 +1323,8 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 72,
-      "duration_hours": 0.0,
-      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 1\u00d710m @265W / 5m rec | 1\u00d710m @265W / 5m rec | 40m @150W",
+      "duration_hours": 1.5,
+      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2 \u00d7 1\u00d710m @265W / 5m rec | 40m @150W",
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n- 40m 150w\n"
     },
     {
@@ -1333,7 +1333,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 61,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description": "- 15m 153w\n- 1h30m 162w\n- 15m 147w"
     },
@@ -1343,7 +1343,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description": "\n- 10m Z2 HR"
     },
@@ -1353,7 +1353,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 93,
-      "duration_hours": 0.0,
+      "duration_hours": 3.0,
       "workout_summary": null,
       "description": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
@@ -1363,7 +1363,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description": "\n- 10m Z2 HR"
     },
@@ -1373,7 +1373,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 86,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 2 sets \u00d7 12\u00d730s @325W / 15s rec (5m set rec) | 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W",
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n2x\n- 5m 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n\n1x\n- 5m 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n\n- 31m30s 150w\n\n"
     },
@@ -1383,7 +1383,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 77,
-      "duration_hours": 0.0,
+      "duration_hours": 2.25,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
@@ -1393,7 +1393,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1403,7 +1403,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 77,
-      "duration_hours": 0.0,
+      "duration_hours": 2.25,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
@@ -1413,7 +1413,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1423,7 +1423,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 91,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2\u00d710m @261W / 5m rec | 2\u00d710m @265W / 5m rec | 10m @150W"
     },
     {
@@ -1432,7 +1432,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 93,
-      "duration_hours": 0.0,
+      "duration_hours": 3.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
@@ -1442,7 +1442,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1452,7 +1452,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 157,
-      "duration_hours": 0.0,
+      "duration_hours": 5.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 4h30m 162w\n- 15m 147w"
     },
@@ -1462,7 +1462,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 3,
-      "duration_hours": 0.0,
+      "duration_hours": 0.08,
       "workout_summary": null,
       "description_preview": "- 5m Z1-Z2 HR"
     },
@@ -1472,7 +1472,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 5,
-      "duration_hours": 0.0,
+      "duration_hours": 0.12,
       "workout_summary": null,
       "description_preview": "- 7m30s Z1-Z2 HR"
     },
@@ -1482,7 +1482,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1492,7 +1492,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 14,
-      "duration_hours": 0.0,
+      "duration_hours": 0.25,
       "workout_summary": null,
       "description_preview": "- 15m Z2 HR"
     },
@@ -1502,7 +1502,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 87,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 12\u00d730s @325W / 15s rec (5m set rec) | 2 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
@@ -1511,7 +1511,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 77,
-      "duration_hours": 0.0,
+      "duration_hours": 2.25,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
@@ -1521,7 +1521,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1531,7 +1531,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 77,
-      "duration_hours": 0.0,
+      "duration_hours": 2.25,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
@@ -1541,7 +1541,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1551,8 +1551,8 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 97,
-      "duration_hours": 0.0,
-      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 1\u00d710m @261W / 5m rec | 3\u00d710m @265W / 5m rec | 10m @150W | 10m @150W"
+      "duration_hours": 1.67,
+      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 1\u00d710m @261W / 5m rec | 3\u00d710m @265W / 5m rec | 2 \u00d7 10m @150W"
     },
     {
       "id": "event_30",
@@ -1560,7 +1560,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 93,
-      "duration_hours": 0.0,
+      "duration_hours": 3.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
@@ -1570,7 +1570,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1580,7 +1580,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 173,
-      "duration_hours": 0.0,
+      "duration_hours": 5.5,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 5h 162w\n- 15m 147w"
     },
@@ -1590,7 +1590,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 5,
-      "duration_hours": 0.0,
+      "duration_hours": 0.08,
       "workout_summary": null,
       "description_preview": "- 5m Z2 HR"
     },
@@ -1600,7 +1600,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 7,
-      "duration_hours": 0.0,
+      "duration_hours": 0.12,
       "workout_summary": null,
       "description_preview": "- 7m30s Z2 HR"
     },
@@ -1610,7 +1610,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1620,7 +1620,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 14,
-      "duration_hours": 0.0,
+      "duration_hours": 0.25,
       "workout_summary": null,
       "description_preview": "- 15m Z2 HR"
     },
@@ -1630,7 +1630,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 87,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 3 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
@@ -1639,7 +1639,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 77,
-      "duration_hours": 0.0,
+      "duration_hours": 2.25,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
@@ -1649,7 +1649,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1659,7 +1659,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 77,
-      "duration_hours": 0.0,
+      "duration_hours": 2.25,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
@@ -1669,7 +1669,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1679,8 +1679,8 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 98,
-      "duration_hours": 0.0,
-      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 4\u00d710m @265W / 5m rec | 10m @150W | 10m @150W"
+      "duration_hours": 1.67,
+      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 4\u00d710m @265W / 5m rec | 2 \u00d7 10m @150W"
     },
     {
       "id": "event_43",
@@ -1688,7 +1688,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 93,
-      "duration_hours": 0.0,
+      "duration_hours": 3.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
@@ -1698,7 +1698,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1708,7 +1708,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 189,
-      "duration_hours": 0.0,
+      "duration_hours": 6.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 5h30m 162w\n- 15m 147w"
     },
@@ -1718,7 +1718,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 5,
-      "duration_hours": 0.0,
+      "duration_hours": 0.08,
       "workout_summary": null,
       "description_preview": "- 5m Z2 HR"
     },
@@ -1728,7 +1728,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 7,
-      "duration_hours": 0.0,
+      "duration_hours": 0.12,
       "workout_summary": null,
       "description_preview": "- 7m30s Z2 HR"
     },
@@ -1738,7 +1738,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1748,7 +1748,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 14,
-      "duration_hours": 0.0,
+      "duration_hours": 0.25,
       "workout_summary": null,
       "description_preview": "- 15m Z2 HR"
     },
@@ -1758,8 +1758,8 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 71,
-      "duration_hours": 0.0,
-      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 5\u00d710s @700W / 3m rec | 5\u00d710s @725W / 3m rec | 5\u00d710s @725W / 3m rec | 16m30s @150W"
+      "duration_hours": 1.5,
+      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 5\u00d710s @700W / 3m rec | 2 \u00d7 5\u00d710s @725W / 3m rec | 16m30s @150W"
     },
     {
       "id": "event_51",
@@ -1767,7 +1767,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 62,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
@@ -1777,7 +1777,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1787,7 +1787,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 62,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
@@ -1797,7 +1797,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1807,8 +1807,8 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 74,
-      "duration_hours": 0.0,
-      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 1\u00d710m @270W / 5m rec | 1\u00d710m @270W / 5m rec | 40m @150W"
+      "duration_hours": 1.5,
+      "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2 \u00d7 1\u00d710m @270W / 5m rec | 40m @150W"
     },
     {
       "id": "event_56",
@@ -1816,7 +1816,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 61,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 147w"
     },
@@ -1826,7 +1826,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1836,7 +1836,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 93,
-      "duration_hours": 0.0,
+      "duration_hours": 3.0,
       "workout_summary": null,
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
@@ -1846,7 +1846,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1856,7 +1856,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 87,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 2 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 12\u00d730s @335W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
@@ -1865,7 +1865,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 73,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description_preview": "- 2h 165-180w"
     },
@@ -1875,7 +1875,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1885,7 +1885,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 73,
-      "duration_hours": 0.0,
+      "duration_hours": 2.0,
       "workout_summary": null,
       "description_preview": "- 2h 165-180w"
     },
@@ -1895,7 +1895,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1905,7 +1905,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 88,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2\u00d710m @258W / 5m rec | 2\u00d710m @261W / 5m rec | 10m @150W"
     },
     {
@@ -1914,7 +1914,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 97,
-      "duration_hours": 0.0,
+      "duration_hours": 3.0,
       "workout_summary": null,
       "description_preview": "- 3h 155-170w"
     },
@@ -1924,7 +1924,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1934,7 +1934,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 177,
-      "duration_hours": 0.0,
+      "duration_hours": 5.5,
       "workout_summary": null,
       "description_preview": "- 5h30m 155-170w"
     },
@@ -1944,7 +1944,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1954,7 +1954,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 5,
-      "duration_hours": 0.0,
+      "duration_hours": 0.08,
       "workout_summary": null,
       "description_preview": "- 5m Z2 HR"
     },
@@ -1964,7 +1964,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 7,
-      "duration_hours": 0.0,
+      "duration_hours": 0.12,
       "workout_summary": null,
       "description_preview": "- 7m30s Z2 HR"
     },
@@ -1974,7 +1974,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 9,
-      "duration_hours": 0.0,
+      "duration_hours": 0.17,
       "workout_summary": null,
       "description_preview": "- 10m Z2 HR"
     },
@@ -1984,7 +1984,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 14,
-      "duration_hours": 0.0,
+      "duration_hours": 0.25,
       "workout_summary": null,
       "description_preview": "- 15m Z2 HR"
     },
@@ -1994,7 +1994,7 @@
       "name": "Planned Workout",
       "type": "WORKOUT",
       "planned_tss": 83,
-      "duration_hours": 0.0,
+      "duration_hours": 1.5,
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 12\u00d730s @315W / 15s rec (5m set rec) | 2 sets \u00d7 12\u00d730s @320W / 15s rec (5m set rec) | 31m30s @150W"
     }
   ],
