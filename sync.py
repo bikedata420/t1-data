@@ -4,6 +4,14 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
+Version 3.6.2 - Workout Summary Generation & Tiered Detail
+  - resolve=true on events API for structured workout_doc with resolved targets
+  - Workout summary parser: Pattern A (explicit reps), Pattern B (flat alternating)
+  - Strict guards: distinctness threshold, duration tolerance (±1s/±2s), normalized watts
+  - Tiered planned workout detail: days 0-7 full, days 8-42 skeleton + summary/preview
+  - workout_summary_stats telemetry (attempted, success, patternA/B, bail reasons)
+  - Fail-closed: unrecognized structures return null, raw description preserved
+
 Version 3.6.1 - Hard Day HR Zone Fallback
   - Hard day counter falls back to icu_hr_zone_times when power zones unavailable
   - Conservative 2-rung HR ladder (Z4+ >= 10min, Z5+ >= 5min) per Seiler 3-zone model
@@ -49,7 +57,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.6.1"
+    VERSION = "3.6.2"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -367,7 +375,7 @@ class IntervalsSync:
         print("Fetching planned workouts (past + future for Consistency Index + race calendar)...")
         oldest_events = (datetime.now() - timedelta(days=days_back - 1)).strftime("%Y-%m-%d")
         newest_ahead = (datetime.now() + timedelta(days=90)).strftime("%Y-%m-%d")
-        events = self._intervals_get("events", {"oldest": oldest_events, "newest": newest_ahead})
+        events = self._intervals_get("events", {"oldest": oldest_events, "newest": newest_ahead, "resolve": "true"})
         
         # Split events into past (for consistency), near future (for planned workouts display), and all future (for race calendar)
         past_events = [e for e in events if e.get("start_date_local", "")[:10] <= today]
@@ -528,7 +536,8 @@ class IntervalsSync:
             "derived_metrics": derived_metrics,
             "recent_activities": self._format_activities(activities_display, anonymize),
             "wellness_data": self._format_wellness(wellness),
-            "planned_workouts": self._format_events(near_future_events, anonymize),
+            "planned_workouts": self._format_events(near_future_events, anonymize, today=today),
+            "workout_summary_stats": getattr(self, '_summary_stats', {}),
             "weekly_summary": self._compute_weekly_summary(activities_display, wellness),
             "race_calendar": race_calendar
         }
@@ -3002,17 +3011,493 @@ class IntervalsSync:
         
         return formatted
     
-    def _format_events(self, events: List[Dict], anonymize: bool = False) -> List[Dict]:
-        """Format planned workouts"""
-        return [{
-            "id": f"event_{i+1}" if anonymize else evt.get("id", f"unknown_{i+1}"),
-            "date": evt.get("start_date_local", "unknown"),
-            "name": "Planned Workout" if anonymize else evt.get("name", ""),
-            "type": evt.get("category", ""),
-            "description": evt.get("description", ""),
-            "planned_tss": evt.get("icu_training_load"),
-            "duration_hours": round(evt.get("duration", 0) / 3600, 2)
-        } for i, evt in enumerate(events)]
+    def _summarize_workout_doc(self, workout_doc: Dict) -> str:
+        """
+        Summarize a structured workout_doc into a human-readable one-liner.
+        
+        Uses two deterministic patterns:
+          Pattern A: Explicit repeats (step has 'reps' + nested 'steps')
+          Pattern B: Flat alternating work/rest pairs (min 3 reps, strict guards)
+        
+        Returns summary string or None if workout doesn't match either pattern
+        or if workout_doc is missing/malformed. Never raises exceptions.
+        
+        Note: workout_doc availability depends on how the workout was created in
+        Intervals.icu. Workouts created via the builder will have it; imported or
+        manually typed workouts may not. When absent, raw description is preserved.
+        """
+        try:
+            if not workout_doc or not isinstance(workout_doc, dict):
+                return None
+            steps = workout_doc.get("steps")
+            if not steps or not isinstance(steps, list):
+                return None
+            
+            parts = []
+            for step in steps:
+                rendered = self._render_step(step)
+                if rendered:
+                    parts.append(rendered)
+            
+            if not parts:
+                return None
+            
+            # Check if any part is an interval summary (the whole point of this)
+            has_interval = any(
+                "×" in p or "sets" in p.lower() 
+                for p in parts
+            )
+            if not has_interval:
+                return None  # All flat steps — no wall-of-text problem, skip summary
+            
+            return " | ".join(parts)
+        except Exception:
+            return None
+    
+    def _render_step(self, step: Dict) -> str:
+        """Render a single workout_doc step. Returns string or None."""
+        try:
+            if not isinstance(step, dict):
+                return None
+            
+            # Pattern A: Explicit repeats
+            if "reps" in step and "steps" in step and isinstance(step["steps"], list):
+                return self._render_repeat_block(step)
+            
+            # Pattern B: Check later at block level (handled in _summarize_workout_doc 
+            # by scanning sequences). Individual flat steps just render simply.
+            return self._render_flat_step(step)
+        except Exception:
+            return None
+    
+    def _render_flat_step(self, step: Dict) -> str:
+        """Render a non-repeat step as 'duration @power'."""
+        try:
+            dur = step.get("duration")
+            if not dur or not isinstance(dur, (int, float)):
+                return None
+            
+            dur_str = self._format_duration(int(dur))
+            
+            # Get power target
+            power = step.get("_power") or step.get("power")
+            if power and isinstance(power, dict):
+                val = power.get("value")
+                if val is not None:
+                    return f"{dur_str} @{int(round(val))}W"
+            
+            # HR target
+            hr = step.get("_hr") or step.get("hr")
+            if hr and isinstance(hr, dict):
+                val = hr.get("value")
+                if val is not None:
+                    return f"{dur_str} @{int(round(val))}bpm"
+            
+            # Duration only (freeride, etc)
+            return f"{dur_str}"
+        except Exception:
+            return None
+    
+    def _render_repeat_block(self, step: Dict) -> str:
+        """
+        Render a repeat block (Pattern A).
+        
+        Handles:
+        - Simple: reps × (work + rest) → "N×dur @power / rest rec"
+        - With set recovery: first nested step is low-power rest, then alternating pairs
+        
+        Bails to None if nested structure has >3 unique step types or is too complex.
+        """
+        try:
+            reps = step.get("reps", 1)
+            nested = step.get("steps", [])
+            if not nested or not isinstance(nested, list):
+                return None
+            
+            # Simple case: 2 nested steps (work + rest)
+            if len(nested) == 2:
+                work, rest = nested[0], nested[1]
+                work_str = self._describe_work_step(work)
+                rest_str = self._describe_rest_duration(rest)
+                if work_str and rest_str:
+                    return f"{reps}×{work_str} / {rest_str} rec"
+                elif work_str:
+                    return f"{reps}×{work_str}"
+                return None
+            
+            # Check for alternating work/rest pattern inside nested steps
+            # (e.g., 30/15 sessions: set_recovery, then work, rest, work, rest...)
+            if len(nested) >= 3:
+                result = self._detect_alternating_in_nested(nested, reps)
+                if result:
+                    return result
+            
+            # Too complex — bail
+            return None
+        except Exception:
+            return None
+    
+    def _detect_alternating_in_nested(self, nested: List[Dict], outer_reps: int) -> str:
+        """
+        Detect alternating work/rest pairs inside a nested step list.
+        Used for 30/15-style sessions where the builder unrolls reps inside a set.
+        
+        Guards:
+        - Both work and rest must have numeric power targets
+        - All work targets within ±2W, all rest targets within ±2W
+        - All work durations equal, all rest durations equal (one tail exception allowed)
+        - Minimum 3 pairs
+        """
+        try:
+            # Check if first step is a set recovery (low power, before the main work)
+            set_rec = None
+            start_idx = 0
+            if len(nested) >= 5:  # need at least set_rec + 2 pairs
+                first = nested[0]
+                second = nested[1]
+                first_power = self._get_power(first)
+                second_power = self._get_power(second)
+                first_dur = first.get("duration", 0)
+                second_dur = second.get("duration", 0)
+                # Set recovery: longer duration, lower or equal power than work steps
+                if (first_power is not None and second_power is not None 
+                    and first_power <= second_power and first_dur > second_dur):
+                    set_rec = first
+                    start_idx = 1
+            
+            # Collect remaining steps as candidate pairs
+            remaining = nested[start_idx:]
+            if len(remaining) < 6:  # need at least 3 pairs
+                return None
+            
+            # Try to consume as (work, rest) pairs
+            pairs = []
+            i = 0
+            while i + 1 < len(remaining):
+                work = remaining[i]
+                rest = remaining[i + 1]
+                w_power = self._get_power(work)
+                r_power = self._get_power(rest)
+                w_dur = work.get("duration")
+                r_dur = rest.get("duration")
+                
+                if w_power is None or r_power is None or w_dur is None or r_dur is None:
+                    return None  # Can't compare — bail
+                w_power = int(round(w_power))
+                r_power = int(round(r_power))
+                if w_power <= r_power:
+                    return None  # Work should be harder than rest
+                if abs(w_power - r_power) < max(10, 0.05 * w_power):
+                    return None  # Targets must be meaningfully distinct
+                
+                pairs.append((w_dur, w_power, r_dur, r_power))
+                i += 2
+            
+            if len(pairs) < 3:
+                return None
+            
+            # Consistency check
+            ref_w_dur, ref_w_power, ref_r_dur, ref_r_power = pairs[0]
+            for j, (wd, wp, rd, rp) in enumerate(pairs):
+                if wd != ref_w_dur:
+                    return None  # Work durations must match exactly
+                if abs(wp - ref_w_power) > 2:
+                    return None  # Work power within ±2W
+                if abs(rp - ref_r_power) > 2:
+                    return None  # Rest power within ±2W
+                # Rest duration: allow last pair to differ (tail exception)
+                if rd != ref_r_dur and j < len(pairs) - 1:
+                    return None
+            
+            # Build summary
+            n_reps = len(pairs)
+            work_dur_str = self._format_duration(ref_w_dur)
+            work_power = int(round(ref_w_power))
+            rest_dur_str = self._format_duration(ref_r_dur)
+            
+            inner = f"{n_reps}×{work_dur_str} @{work_power}W / {rest_dur_str} rec"
+            
+            if outer_reps > 1:
+                if set_rec:
+                    sr_dur = self._format_duration(set_rec.get("duration", 0))
+                    return f"{outer_reps} sets × {inner} ({sr_dur} set rec)"
+                return f"{outer_reps} sets × {inner}"
+            
+            if set_rec:
+                sr_dur = self._format_duration(set_rec.get("duration", 0))
+                return f"{inner} ({sr_dur} set rec)"
+            return inner
+        except Exception:
+            return None
+    
+    def _get_power(self, step: Dict) -> float:
+        """Extract resolved power value from a step. Returns float or None."""
+        try:
+            power = step.get("_power") or step.get("power")
+            if power and isinstance(power, dict):
+                val = power.get("value")
+                if val is not None:
+                    return float(val)
+            return None
+        except Exception:
+            return None
+    
+    def _describe_work_step(self, step: Dict) -> str:
+        """Describe a work step as 'dur @power'."""
+        try:
+            dur = step.get("duration")
+            if not dur:
+                return None
+            dur_str = self._format_duration(int(dur))
+            
+            power = self._get_power(step)
+            if power is not None:
+                return f"{dur_str} @{int(round(power))}W"
+            
+            hr = step.get("_hr") or step.get("hr")
+            if hr and isinstance(hr, dict):
+                val = hr.get("value")
+                if val is not None:
+                    return f"{dur_str} @{int(round(val))}bpm"
+            
+            return dur_str
+        except Exception:
+            return None
+    
+    def _describe_rest_duration(self, step: Dict) -> str:
+        """Describe a rest step duration."""
+        try:
+            dur = step.get("duration")
+            if not dur:
+                return None
+            return self._format_duration(int(dur))
+        except Exception:
+            return None
+    
+    @staticmethod
+    def _format_duration(seconds: int) -> str:
+        """Format seconds into human-readable duration (e.g., 300 → '5m', 90 → '1m30s')."""
+        if seconds <= 0:
+            return "0s"
+        hours = seconds // 3600
+        minutes = (seconds % 3600) // 60
+        secs = seconds % 60
+        
+        parts = []
+        if hours:
+            parts.append(f"{hours}h")
+        if minutes:
+            parts.append(f"{minutes}m")
+        if secs:
+            parts.append(f"{secs}s")
+        return "".join(parts) if parts else "0s"
+    
+    def _detect_flat_alternating(self, workout_doc: Dict) -> str:
+        """
+        Pattern B: Detect flat alternating work/rest pairs in top-level steps.
+        
+        For workouts like sprint openers where intervals are unrolled without
+        repeat markers. Scans top-level steps for blocks of alternating high/low
+        power pairs separated by non-matching steps (warmup, cooldown, etc).
+        
+        Guards:
+        - Both work and rest must have numeric power targets (via _power or power)
+        - All work targets within ±2W, all rest targets within ±2W
+        - All work durations equal, all rest durations equal (one tail exception)
+        - Minimum 3 pairs per block
+        - Work power must be higher than rest power
+        """
+        try:
+            steps = workout_doc.get("steps")
+            if not steps or not isinstance(steps, list) or len(steps) < 6:
+                return None
+            
+            # Skip steps that are repeat blocks (already handled by Pattern A)
+            if any(s.get("reps") for s in steps if isinstance(s, dict)):
+                return None
+            
+            # Collect (duration, power) for each step
+            step_data = []
+            for s in steps:
+                if not isinstance(s, dict):
+                    return None
+                dur = s.get("duration")
+                power = self._get_power(s)
+                step_data.append((dur, power))
+            
+            # Try to find alternating blocks
+            # Strategy: scan for regions where pairs repeat
+            parts = []
+            i = 0
+            while i < len(step_data):
+                dur_i, pow_i = step_data[i]
+                
+                # Try to start an alternating block at position i
+                if (i + 1 < len(step_data) 
+                    and dur_i is not None and pow_i is not None
+                    and step_data[i+1][0] is not None and step_data[i+1][1] is not None):
+                    
+                    block = self._try_alternating_block(step_data, i)
+                    if block:
+                        count, work_dur, work_power, rest_dur = block
+                        wd_str = self._format_duration(work_dur)
+                        rd_str = self._format_duration(rest_dur)
+                        parts.append(f"{count}×{wd_str} @{int(round(work_power))}W / {rd_str} rec")
+                        i += count * 2
+                        continue
+                
+                # Not part of an alternating block — render as flat step
+                if dur_i is not None:
+                    flat = self._render_flat_step(steps[i])
+                    if flat:
+                        parts.append(flat)
+                i += 1
+            
+            if not parts:
+                return None
+            
+            # Only return if we found at least one alternating block
+            has_block = any("×" in p for p in parts)
+            if not has_block:
+                return None
+            
+            return " | ".join(parts)
+        except Exception:
+            return None
+    
+    def _try_alternating_block(self, step_data: List, start: int) -> tuple:
+        """
+        Try to consume an alternating work/rest block starting at 'start'.
+        Returns (count, work_dur, work_power, rest_dur) or None.
+        """
+        try:
+            ref_w_dur, ref_w_power = step_data[start]
+            ref_r_dur, ref_r_power = step_data[start + 1]
+            
+            if ref_w_power is None or ref_r_power is None:
+                return None
+            # Normalize watts to ints before all comparisons
+            ref_w_power = int(round(ref_w_power))
+            ref_r_power = int(round(ref_r_power))
+            if ref_w_power <= ref_r_power:
+                return None  # Work must be harder than rest
+            if abs(ref_w_power - ref_r_power) < max(10, 0.05 * ref_w_power):
+                return None  # Targets must be meaningfully distinct
+            if ref_w_dur is None or ref_r_dur is None:
+                return None
+            
+            count = 1
+            j = start + 2
+            while j + 1 < len(step_data):
+                wd, wp = step_data[j]
+                rd, rp = step_data[j + 1]
+                
+                if wp is None or rp is None or wd is None or rd is None:
+                    break
+                wp = int(round(wp))
+                rp = int(round(rp))
+                if abs(wd - ref_w_dur) > 1:
+                    break  # Work duration tolerance ±1s
+                if abs(wp - ref_w_power) > 2:
+                    break
+                if abs(rp - ref_r_power) > 2:
+                    break
+                # Rest duration: allow tail exception on last pair
+                if abs(rd - ref_r_dur) > 2:
+                    # Long rest (≥1.5× normal) = set break — always consume as tail
+                    if rd >= ref_r_dur * 1.5:
+                        count += 1
+                        j += 2
+                        break
+                    # Otherwise check if more matching pairs follow
+                    if j + 3 < len(step_data):
+                        nwd, nwp = step_data[j + 2]
+                        if (nwd is not None and abs(nwd - ref_w_dur) <= 1 
+                            and nwp is not None and abs(int(round(nwp)) - ref_w_power) <= 2):
+                            break  # Not the last pair — strict fail
+                    count += 1
+                    j += 2
+                    break  # Tail exception consumed, stop
+                
+                count += 1
+                j += 2
+            
+            if count < 3:
+                return None
+            
+            return (count, ref_w_dur, ref_w_power, ref_r_dur)
+        except Exception:
+            return None
+    
+    def _format_events(self, events: List[Dict], anonymize: bool = False, today: str = None) -> List[Dict]:
+        """
+        Format planned workouts with workout_summary and tiered detail (v3.6.2).
+        
+        Tiering:
+        - Days 0-7: full output (description + workout_summary + all fields)
+        - Days 8-42: skeleton (name, date, type, TSS, duration, workout_summary).
+          If workout_summary is null, keeps description_preview (first 3 lines).
+        
+        Sets self._summary_stats with coverage telemetry.
+        """
+        if today is None:
+            today = datetime.now().strftime("%Y-%m-%d")
+        
+        day7_cutoff = (datetime.strptime(today, "%Y-%m-%d") + timedelta(days=7)).strftime("%Y-%m-%d")
+        
+        stats = {"attempted": 0, "success": 0, "patternA": 0, "patternB": 0,
+                 "bail_no_workout_doc": 0, "bail_no_match": 0}
+        
+        result = []
+        for i, evt in enumerate(events):
+            evt_date = (evt.get("start_date_local") or "unknown")[:10]
+            is_near = evt_date <= day7_cutoff
+            
+            # Generate workout_summary from workout_doc
+            workout_doc = evt.get("workout_doc")
+            summary = None
+            
+            if workout_doc and isinstance(workout_doc, dict) and workout_doc.get("steps"):
+                stats["attempted"] += 1
+                summary = self._summarize_workout_doc(workout_doc)
+                if summary:
+                    stats["patternA"] += 1
+                else:
+                    # Try Pattern B (flat alternating)
+                    summary = self._detect_flat_alternating(workout_doc)
+                    if summary:
+                        stats["patternB"] += 1
+                    else:
+                        stats["bail_no_match"] += 1
+                if summary:
+                    stats["success"] += 1
+            elif evt.get("description", "").strip():
+                stats["bail_no_workout_doc"] += 1
+            
+            entry = {
+                "id": f"event_{i+1}" if anonymize else evt.get("id", f"unknown_{i+1}"),
+                "date": evt_date,
+                "name": "Planned Workout" if anonymize else evt.get("name", ""),
+                "type": evt.get("category", ""),
+                "planned_tss": evt.get("icu_training_load"),
+                "duration_hours": round(evt.get("duration", 0) / 3600, 2),
+                "workout_summary": summary
+            }
+            
+            if is_near:
+                # Days 0-7: full detail
+                entry["description"] = evt.get("description", "")
+            else:
+                # Days 8-42: skeleton only
+                if summary is None:
+                    desc = evt.get("description", "")
+                    lines = [l.strip() for l in desc.split("\n") if l.strip()][:3]
+                    entry["description_preview"] = "\n".join(lines) if lines else None
+            
+            result.append(entry)
+        
+        self._summary_stats = stats
+        return result
     
     def _build_race_calendar(self, future_events: List[Dict], current_ctl: float,
                               current_atl: float, current_tsb: float,
