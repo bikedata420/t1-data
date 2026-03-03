@@ -14,7 +14,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-03T20:29:05.417508",
+    "last_updated": "2026-03-03T20:32:40.894803",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.6.5"
@@ -276,7 +276,7 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-03-03T20:29:05.416680",
+    "calculation_timestamp": "2026-03-03T20:32:40.893996",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
@@ -426,7 +426,10 @@
           "z6_time": 0,
           "z7_time": 0
         }
-      }
+      },
+      "coach_notes": [
+        "Test 2"
+      ]
     },
     {
       "id": "i128902309",
@@ -1309,6 +1312,7 @@
       "duration_formatted": "1h30m",
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2 \u00d7 1\u00d710m @265W / 5m rec | 40m @150W",
       "coach_notes": [
+        "Test 2",
         "Test"
       ],
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n- 40m 150w"
