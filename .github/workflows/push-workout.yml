@@ -3,16 +3,50 @@ name: Push Workout to Intervals.icu
 on:
   workflow_dispatch:
     inputs:
+      command:
+        description: 'Subcommand: push, list, move, delete'
+        required: false
+        default: 'push'
+        type: choice
+        options:
+          - push
+          - list
+          - move
+          - delete
       workouts:
-        description: 'JSON array of workouts or single workout object'
-        required: true
+        description: 'JSON workout(s) — required for push'
+        required: false
         type: string
+      event_id:
+        description: 'Event ID — required for move/delete'
+        required: false
+        type: string
+      date:
+        description: 'Target date YYYY-MM-DD — required for move'
+        required: false
+        type: string
+      oldest:
+        description: 'List start date (default: today)'
+        required: false
+        type: string
+      newest:
+        description: 'List end date (default: +6 days)'
+        required: false
+        type: string
+      confirm:
+        description: 'Execute write (false = preview only)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 permissions:
   contents: read
 
 jobs:
-  push:
+  run:
     runs-on: ubuntu-latest
 
     steps:
@@ -48,29 +82,70 @@ jobs:
           fi
           echo "Secrets configured"
 
-      - name: Write workout payload
-        run: |
-          cat << 'PAYLOAD_EOF' > /tmp/workouts.json
-          ${{ github.event.inputs.workouts }}
-          PAYLOAD_EOF
-          echo "Payload:"
-          cat /tmp/workouts.json
-
-      - name: Push workout(s)
+      - name: Run push.py
         env:
           ATHLETE_ID: ${{ secrets.ATHLETE_ID }}
           INTERVALS_KEY: ${{ secrets.INTERVALS_KEY }}
         run: |
-          python push.py \
-            --athlete-id "$ATHLETE_ID" \
-            --api-key "$INTERVALS_KEY" \
-            --json /tmp/workouts.json
+          CMD="${{ github.event.inputs.command }}"
+          CONFIRM="${{ github.event.inputs.confirm }}"
+
+          case "$CMD" in
+            push)
+              if [ -z "${{ github.event.inputs.workouts }}" ]; then
+                echo '{"success": false, "error": "workouts input is required for push"}'
+                exit 1
+              fi
+              cat << 'PAYLOAD_EOF' > /tmp/workouts.json
+          ${{ github.event.inputs.workouts }}
+          PAYLOAD_EOF
+              echo "Payload:"
+              cat /tmp/workouts.json
+              ARGS="push --json /tmp/workouts.json"
+              ;;
+            list)
+              ARGS="list"
+              if [ -n "${{ github.event.inputs.oldest }}" ]; then
+                ARGS="$ARGS --oldest ${{ github.event.inputs.oldest }}"
+              fi
+              if [ -n "${{ github.event.inputs.newest }}" ]; then
+                ARGS="$ARGS --newest ${{ github.event.inputs.newest }}"
+              fi
+              ;;
+            move)
+              if [ -z "${{ github.event.inputs.event_id }}" ] || [ -z "${{ github.event.inputs.date }}" ]; then
+                echo '{"success": false, "error": "event_id and date are required for move"}'
+                exit 1
+              fi
+              ARGS="move --event-id ${{ github.event.inputs.event_id }} --date ${{ github.event.inputs.date }}"
+              ;;
+            delete)
+              if [ -z "${{ github.event.inputs.event_id }}" ]; then
+                echo '{"success": false, "error": "event_id is required for delete"}'
+                exit 1
+              fi
+              ARGS="delete --event-id ${{ github.event.inputs.event_id }}"
+              ;;
+            *)
+              echo '{"success": false, "error": "unknown command: '"$CMD"'"}'
+              exit 1
+              ;;
+          esac
+
+          # Add --confirm for write operations when approved
+          if [ "$CONFIRM" = "true" ] && [ "$CMD" != "list" ]; then
+            ARGS="$ARGS --confirm"
+          fi
+
+          echo "Running: python push.py $ARGS"
+          python push.py $ARGS
 
       - name: Notify on failure
         if: failure()
         run: |
-          echo "Workout push failed! Check logs above."
+          echo "push.py failed! Check logs above."
           echo "Common issues:"
           echo "  - Invalid workout JSON format"
           echo "  - Invalid date (must be today or future)"
+          echo "  - Event ID not found"
           echo "  - Intervals.icu API unreachable"
