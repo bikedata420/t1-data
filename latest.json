@@ -6,15 +6,15 @@
     "extended_data_note": "ACWR and baselines calculated from 28 days of data",
     "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values.",
     "quick_stats": {
-      "total_training_hours": 21.11,
-      "total_training_formatted": "21h6m",
-      "total_activities": 19,
-      "total_tss": 692
+      "total_training_hours": 17.9,
+      "total_training_formatted": "17h53m",
+      "total_activities": 16,
+      "total_tss": 598
     }
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-02T23:46:07.326681",
+    "last_updated": "2026-03-03T01:10:17.547193",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.6.4"
@@ -30,36 +30,36 @@
   "summary": {
     "period_description": "Last 7 days of training (including today)",
     "note": "Duration calculated from API moving_time field.",
-    "total_duration_decimal_hours": 21.11,
-    "total_activities": 19,
+    "total_duration_decimal_hours": 17.9,
+    "total_activities": 16,
     "by_activity_type": {
       "VirtualRide": {
-        "duration_decimal_hours": 15.75,
-        "count": 6,
-        "tss": 616,
-        "distance_km": 493.3
+        "duration_decimal_hours": 13.5,
+        "count": 5,
+        "tss": 533,
+        "distance_km": 422.6
       },
       "VirtualSki": {
-        "duration_decimal_hours": 1.12,
-        "count": 7,
-        "tss": 51,
-        "distance_km": 15.5
+        "duration_decimal_hours": 0.96,
+        "count": 6,
+        "tss": 43,
+        "distance_km": 13.2
       },
       "Walk": {
-        "duration_decimal_hours": 4.24,
-        "count": 6,
-        "tss": 25,
-        "distance_km": 22.4
+        "duration_decimal_hours": 3.44,
+        "count": 5,
+        "tss": 22,
+        "distance_km": 18.2
       }
     }
   },
   "current_status": {
     "fitness": {
-      "ctl": 89.05,
-      "atl": 94.44,
-      "tsb": -5.39,
-      "ramp_rate": 1.67,
-      "fitness_source": "From Intervals.icu API (reflects completed workouts)"
+      "ctl": 86.96,
+      "atl": 81.87,
+      "tsb": 5.09,
+      "ramp_rate": 1.63,
+      "fitness_source": "Decayed from yesterday (today's planned workouts not yet completed)"
     },
     "thresholds": {
       "eftp": 263.9,
@@ -112,137 +112,136 @@
     },
     "current_metrics": {
       "weight_kg": 70.6,
-      "resting_hr": 44,
-      "hrv": 51.0,
-      "sleep_quality": 3,
-      "sleep_hours": 7.78,
-      "sleep_formatted": "7h46m"
+      "resting_hr": 49,
+      "hrv": null,
+      "sleep_quality": null,
+      "sleep_hours": null,
+      "sleep_formatted": null
     }
   },
   "derived_metrics": {
-    "recovery_index": 1.08,
-    "hrv_baseline_7d": 48.9,
-    "rhr_baseline_7d": 45.6,
-    "hrv_baseline_28d": 49.5,
-    "rhr_baseline_28d": 46.0,
-    "latest_hrv": 51.0,
-    "latest_rhr": 44,
-    "acwr": 1.05,
+    "recovery_index": null,
+    "hrv_baseline_7d": 48.7,
+    "rhr_baseline_7d": 45.9,
+    "hrv_baseline_28d": 49.4,
+    "rhr_baseline_28d": 46.2,
+    "latest_hrv": null,
+    "latest_rhr": 49,
+    "acwr": 0.94,
     "acwr_interpretation": "optimal",
-    "monotony": 2.02,
-    "monotony_interpretation": "normal (primary sport 1.56, total 2.02 inflated by multi-sport)",
+    "monotony": 1.38,
+    "monotony_interpretation": "normal (primary sport 1.16, total 1.38 inflated by multi-sport)",
     "primary_sport": "cycling",
-    "primary_sport_monotony": 1.56,
-    "primary_sport_tss_7d": 616.0,
-    "effective_monotony": 1.56,
+    "primary_sport_monotony": 1.16,
+    "primary_sport_tss_7d": 533.0,
+    "effective_monotony": 1.16,
     "multi_sport_detected": true,
-    "strain": 1398.0,
-    "stress_tolerance": 6.9,
-    "load_recovery_ratio": 6.4,
-    "tss_7d_total": 692.0,
-    "tss_28d_total": 2634.0,
+    "strain": 825.0,
+    "stress_tolerance": 6.0,
+    "load_recovery_ratio": null,
+    "tss_7d_total": 598.0,
+    "tss_28d_total": 2552.0,
     "zone_distribution_7d": {
-      "z1_hours": 7.58,
-      "z2_hours": 12.81,
+      "z1_hours": 6.42,
+      "z2_hours": 10.75,
       "z3_hours": 0.02,
       "z4_plus_hours": 0.71,
-      "total_hours": 21.12
+      "total_hours": 17.91
     },
     "grey_zone_percentage": 0.1,
     "grey_zone_note": "Gray Zone % (Z3/tempo) - minimize in polarized training",
-    "quality_intensity_percentage": 3.4,
+    "quality_intensity_percentage": 4.0,
     "quality_intensity_note": "Quality Intensity % (Z4+/threshold+) - target ~20% in polarized training",
-    "polarisation_index": 0.97,
+    "polarisation_index": 0.96,
     "polarisation_note": "Easy time (Z1+Z2) / Total - target ~80% in polarized training",
     "hard_days_this_week": 2,
     "hard_days_note": "Power ladder: z3+ >= 30min, z4+ >= 10min, z5+ >= 5min, z6+ >= 2min, z7 >= 1min. HR fallback (when no power): z4+ >= 10min, z5+ >= 5min. Per Seiler 3-zone model + Foster. HR-based days flagged with intensity_basis: hr",
     "seiler_tid_7d": {
-      "z1_seconds": 73394,
-      "z2_seconds": 87,
-      "z3_seconds": 2562,
-      "z1_pct": 96.5,
+      "z1_seconds": 61826,
+      "z2_seconds": 81,
+      "z3_seconds": 2554,
+      "z1_pct": 95.9,
       "z2_pct": 0.1,
-      "z3_pct": 3.4,
-      "polarization_index": 3.45,
+      "z3_pct": 4.0,
+      "polarization_index": 3.48,
       "classification": "Polarized"
     },
     "seiler_tid_7d_primary": {
-      "z1_seconds": 54075,
-      "z2_seconds": 84,
-      "z3_seconds": 2562,
-      "z1_pct": 95.3,
-      "z2_pct": 0.1,
-      "z3_pct": 4.5,
-      "polarization_index": 3.46,
+      "z1_seconds": 45982,
+      "z2_seconds": 81,
+      "z3_seconds": 2554,
+      "z1_pct": 94.6,
+      "z2_pct": 0.2,
+      "z3_pct": 5.3,
+      "polarization_index": 3.47,
       "classification": "Polarized",
       "sport": "cycling"
     },
     "seiler_tid_28d": {
-      "z1_seconds": 271746,
-      "z2_seconds": 643,
-      "z3_seconds": 12475,
-      "z1_pct": 95.4,
+      "z1_seconds": 259439,
+      "z2_seconds": 642,
+      "z3_seconds": 12472,
+      "z1_pct": 95.2,
       "z2_pct": 0.2,
-      "z3_pct": 4.4,
+      "z3_pct": 4.6,
       "polarization_index": 3.27,
       "classification": "Polarized"
     },
     "seiler_tid_28d_primary": {
-      "z1_seconds": 199424,
-      "z2_seconds": 640,
-      "z3_seconds": 12475,
-      "z1_pct": 93.8,
+      "z1_seconds": 192225,
+      "z2_seconds": 639,
+      "z3_seconds": 12472,
+      "z1_pct": 93.6,
       "z2_pct": 0.3,
-      "z3_pct": 5.9,
+      "z3_pct": 6.1,
       "polarization_index": 3.26,
       "classification": "Polarized",
       "sport": "cycling"
     },
     "capability": {
       "durability": {
-        "mean_decoupling_7d": 2.39,
-        "mean_decoupling_28d": 1.76,
+        "mean_decoupling_7d": 3.05,
+        "mean_decoupling_28d": 1.87,
         "high_drift_count_7d": 0,
         "high_drift_count_28d": 0,
-        "qualifying_sessions_7d": 4,
-        "qualifying_sessions_28d": 16,
-        "trend": "stable",
+        "qualifying_sessions_7d": 3,
+        "qualifying_sessions_28d": 15,
+        "trend": "declining",
         "note": "Steady-state power sessions only (VI <= 1.05, VI > 0, >= 90min, power data). Negative decoupling = strong durability. Trend compares 7d vs 28d mean (+/-1% = stable)."
       },
       "efficiency_factor": {
         "mean_ef_7d": 1.42,
         "mean_ef_28d": 1.43,
-        "qualifying_sessions_7d": 4,
-        "qualifying_sessions_28d": 16,
+        "qualifying_sessions_7d": 3,
+        "qualifying_sessions_28d": 15,
         "trend": "stable",
         "note": "Steady-state cycling sessions only (VI <= 1.05, VI > 0, >= 20min, power+HR data). Rising EF = improving aerobic efficiency. Compare like-for-like sessions only \u2014 EF varies with intensity. Trend compares 7d vs 28d mean (+/-0.03 = stable)."
       },
       "tid_comparison": {
         "classification_7d": "Polarized",
         "classification_28d": "Polarized",
-        "pi_7d": 3.45,
+        "pi_7d": 3.48,
         "pi_28d": 3.27,
-        "pi_delta": 0.18,
+        "pi_delta": 0.21,
         "drift": "consistent",
         "note": "Compares 7d vs 28d Seiler TID to detect distribution shifts. pi_delta positive = more polarized acutely."
       }
     },
-    "consistency_index": 0.86,
+    "consistency_index": 0.71,
     "consistency_details": {
       "planned_days": 7,
-      "completed_days": 6,
-      "matched_days": 6,
+      "completed_days": 5,
+      "matched_days": 5,
       "planned_dates": [
-        "2026-02-24",
         "2026-02-25",
         "2026-02-26",
         "2026-02-27",
         "2026-02-28",
         "2026-03-01",
-        "2026-03-02"
+        "2026-03-02",
+        "2026-03-03"
       ],
       "completed_dates": [
-        "2026-02-24",
         "2026-02-25",
         "2026-02-26",
         "2026-02-27",
@@ -250,10 +249,10 @@
         "2026-03-02"
       ]
     },
-    "phase_detected": "Build",
+    "phase_detected": "Taper",
     "phase_triggers": [
-      "ACWR 1.05 in 0.8-1.3",
-      "Hard days 2/week >= 2"
+      "TSB 5.09 positive",
+      "CTL stable/declining"
     ],
     "seasonal_context": "Late Base / Build",
     "benchmark_indoor": {
@@ -276,12 +275,12 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-03-02T23:46:07.325751",
+    "calculation_timestamp": "2026-03-03T01:10:17.546364",
     "data_quality": {
-      "hrv_data_points": 7,
+      "hrv_data_points": 6,
       "rhr_data_points": 7,
-      "activities_7d": 19,
-      "activities_28d": 65,
+      "activities_7d": 16,
+      "activities_28d": 62,
       "planned_workouts_7d": 13,
       "ftp_history_days": {
         "indoor": 0,
@@ -1022,163 +1021,9 @@
           "z7_time": 0
         }
       }
-    },
-    {
-      "id": "activity_17",
-      "date": "2026-02-24T17:01:22",
-      "type": "Walk",
-      "name": "Training Session",
-      "duration_hours": 0.8,
-      "distance_km": 4.19,
-      "tss": 3,
-      "intensity_factor": 19.381748,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 68,
-      "max_hr": 97,
-      "avg_cadence": 51.966984,
-      "avg_speed": 5.2,
-      "max_speed": 7.1,
-      "avg_pace": null,
-      "avg_temp": 0.959528,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": 2.3751664,
-      "work_kj": null,
-      "calories": 141,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "efficiency_factor": null,
-      "elevation_m": 31.0,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 2878,
-          "z2_time": 0,
-          "z3_time": 0,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
-    },
-    {
-      "id": "activity_18",
-      "date": "2026-02-24T12:44:00",
-      "type": "VirtualSki",
-      "name": "SkiErg",
-      "duration_hours": 0.17,
-      "distance_km": 2.3,
-      "tss": 8,
-      "intensity_factor": null,
-      "avg_power": null,
-      "normalized_power": null,
-      "avg_hr": 140,
-      "max_hr": 156,
-      "avg_cadence": 41.315533,
-      "avg_speed": 13.8,
-      "max_speed": 14.0,
-      "avg_pace": null,
-      "avg_temp": null,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": null,
-      "work_kj": null,
-      "calories": 141,
-      "carbs_used": null,
-      "carbs_ingested": null,
-      "variability_index": null,
-      "decoupling": null,
-      "efficiency_factor": null,
-      "elevation_m": null,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 192,
-          "z2_time": 405,
-          "z3_time": 3,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
-    },
-    {
-      "id": "activity_19",
-      "date": "2026-02-24T10:12:58",
-      "type": "VirtualRide",
-      "name": "Endurance - Tuesday",
-      "duration_hours": 2.25,
-      "distance_km": 70.64,
-      "tss": 83,
-      "intensity_factor": 60.727272,
-      "avg_power": 167,
-      "normalized_power": 167,
-      "avg_hr": 116,
-      "max_hr": 133,
-      "avg_cadence": 90.7329,
-      "avg_speed": 31.4,
-      "max_speed": 32.5,
-      "avg_pace": null,
-      "avg_temp": null,
-      "weather": null,
-      "humidity": null,
-      "wind_speed": null,
-      "work_kj": 1351.9,
-      "calories": 1351,
-      "carbs_used": 253,
-      "carbs_ingested": null,
-      "variability_index": 1.0,
-      "decoupling": 0.38349167,
-      "efficiency_factor": 1.4396552,
-      "elevation_m": 0.0,
-      "feel": null,
-      "rpe": null,
-      "zone_distribution": {
-        "hr_zones": {
-          "z1_time": 8104,
-          "z2_time": 0,
-          "z3_time": 0,
-          "z4_time": 0,
-          "z5_time": 0,
-          "z6_time": 0,
-          "z7_time": 0
-        },
-        "power_zones": {
-          "z1_time": 1101,
-          "z2_time": 6992,
-          "z3_time": 3,
-          "z4_time": 4,
-          "z5_time": 4,
-          "z6_time": 0,
-          "z7_time": 0
-        }
-      }
     }
   ],
   "wellness_data": [
-    {
-      "date": "2026-02-24",
-      "weight_kg": null,
-      "resting_hr": 47,
-      "hrv_rmssd": 50.0,
-      "hrv_sdnn": null,
-      "sleep_hours": 7.66,
-      "sleep_formatted": "7h39m",
-      "sleep_quality": 3,
-      "sleep_score": 77.0,
-      "mental_energy": null,
-      "fatigue": null,
-      "soreness": null,
-      "avg_sleeping_hr": null,
-      "vo2max": null
-    },
     {
       "date": "2026-02-25",
       "weight_kg": null,
@@ -1274,13 +1119,29 @@
       "soreness": null,
       "avg_sleeping_hr": null,
       "vo2max": null
+    },
+    {
+      "date": "2026-03-03",
+      "weight_kg": null,
+      "resting_hr": 49,
+      "hrv_rmssd": null,
+      "hrv_sdnn": null,
+      "sleep_hours": null,
+      "sleep_formatted": null,
+      "sleep_quality": null,
+      "sleep_score": null,
+      "mental_energy": null,
+      "fatigue": null,
+      "soreness": null,
+      "avg_sleeping_hr": null,
+      "vo2max": null
     }
   ],
   "planned_workouts": [
     {
       "id": "event_1",
-      "date": "2026-03-02",
-      "name": "Endurance - Monday",
+      "date": "2026-03-03",
+      "name": "Endurance - Tuesday",
       "type": "WORKOUT",
       "planned_tss": 62,
       "duration_hours": 2.0,
@@ -1290,7 +1151,7 @@
     },
     {
       "id": "event_2",
-      "date": "2026-03-02",
+      "date": "2026-03-03",
       "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
@@ -1301,28 +1162,6 @@
     },
     {
       "id": "event_3",
-      "date": "2026-03-03",
-      "name": "Endurance - Tuesday",
-      "type": "WORKOUT",
-      "planned_tss": 62,
-      "duration_hours": 2.0,
-      "duration_formatted": "2h",
-      "workout_summary": null,
-      "description": "\n- 15m 153w\n- 1h30m 162w\n- 15m 150w"
-    },
-    {
-      "id": "event_4",
-      "date": "2026-03-03",
-      "name": "SkiErg",
-      "type": "WORKOUT",
-      "planned_tss": 9,
-      "duration_hours": 0.17,
-      "duration_formatted": "10m",
-      "workout_summary": null,
-      "description": "\n- 10m Z2 HR"
-    },
-    {
-      "id": "event_5",
       "date": "2026-03-04",
       "name": "Sweetspot 2x10m - Deload",
       "type": "WORKOUT",
@@ -1333,7 +1172,7 @@
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n- 40m 150w\n"
     },
     {
-      "id": "event_6",
+      "id": "event_4",
       "date": "2026-03-05",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1344,7 +1183,7 @@
       "description": "- 15m 153w\n- 1h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_7",
+      "id": "event_5",
       "date": "2026-03-05",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1355,7 +1194,7 @@
       "description": "\n- 10m Z2 HR"
     },
     {
-      "id": "event_8",
+      "id": "event_6",
       "date": "2026-03-06",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1366,7 +1205,7 @@
       "description": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_9",
+      "id": "event_7",
       "date": "2026-03-06",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1377,7 +1216,7 @@
       "description": "\n- 10m Z2 HR"
     },
     {
-      "id": "event_10",
+      "id": "event_8",
       "date": "2026-03-08",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1388,7 +1227,7 @@
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n2x\n- 5m 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n\n1x\n- 5m 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n\n- 31m30s 150w\n\n"
     },
     {
-      "id": "event_11",
+      "id": "event_9",
       "date": "2026-03-09",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1399,7 +1238,7 @@
       "description": "\n- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w"
     },
     {
-      "id": "event_12",
+      "id": "event_10",
       "date": "2026-03-09",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1410,7 +1249,7 @@
       "description": "\n- 10m Z2 HR"
     },
     {
-      "id": "event_13",
+      "id": "event_11",
       "date": "2026-03-10",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1418,10 +1257,10 @@
       "duration_hours": 2.25,
       "duration_formatted": "2h15m",
       "workout_summary": null,
-      "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
+      "description": "- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w"
     },
     {
-      "id": "event_14",
+      "id": "event_12",
       "date": "2026-03-10",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1429,10 +1268,10 @@
       "duration_hours": 0.17,
       "duration_formatted": "10m",
       "workout_summary": null,
-      "description_preview": "- 10m Z2 HR"
+      "description": "\n- 10m Z2 HR"
     },
     {
-      "id": "event_15",
+      "id": "event_13",
       "date": "2026-03-11",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1442,7 +1281,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2\u00d710m @261W / 5m rec | 2\u00d710m @265W / 5m rec | 10m @150W"
     },
     {
-      "id": "event_16",
+      "id": "event_14",
       "date": "2026-03-12",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1453,7 +1292,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_17",
+      "id": "event_15",
       "date": "2026-03-12",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1464,7 +1303,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_18",
+      "id": "event_16",
       "date": "2026-03-13",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1475,7 +1314,7 @@
       "description_preview": "- 15m 153w\n- 4h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_19",
+      "id": "event_17",
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1486,7 +1325,7 @@
       "description_preview": "- 5m Z1-Z2 HR"
     },
     {
-      "id": "event_20",
+      "id": "event_18",
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1497,7 +1336,7 @@
       "description_preview": "- 7m30s Z1-Z2 HR"
     },
     {
-      "id": "event_21",
+      "id": "event_19",
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1508,7 +1347,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_22",
+      "id": "event_20",
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1519,7 +1358,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_23",
+      "id": "event_21",
       "date": "2026-03-15",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1529,7 +1368,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 12\u00d730s @325W / 15s rec (5m set rec) | 2 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_24",
+      "id": "event_22",
       "date": "2026-03-16",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1540,8 +1379,30 @@
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
     {
-      "id": "event_25",
+      "id": "event_23",
       "date": "2026-03-16",
+      "name": "SkiErg",
+      "type": "WORKOUT",
+      "planned_tss": 9,
+      "duration_hours": 0.17,
+      "duration_formatted": "10m",
+      "workout_summary": null,
+      "description_preview": "- 10m Z2 HR"
+    },
+    {
+      "id": "event_24",
+      "date": "2026-03-17",
+      "name": "Endurance - Tuesday",
+      "type": "WORKOUT",
+      "planned_tss": 77,
+      "duration_hours": 2.25,
+      "duration_formatted": "2h15m",
+      "workout_summary": null,
+      "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
+    },
+    {
+      "id": "event_25",
+      "date": "2026-03-17",
       "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
@@ -1552,28 +1413,6 @@
     },
     {
       "id": "event_26",
-      "date": "2026-03-17",
-      "name": "Endurance - Tuesday",
-      "type": "WORKOUT",
-      "planned_tss": 77,
-      "duration_hours": 2.25,
-      "duration_formatted": "2h15m",
-      "workout_summary": null,
-      "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
-    },
-    {
-      "id": "event_27",
-      "date": "2026-03-17",
-      "name": "SkiErg",
-      "type": "WORKOUT",
-      "planned_tss": 9,
-      "duration_hours": 0.17,
-      "duration_formatted": "10m",
-      "workout_summary": null,
-      "description_preview": "- 10m Z2 HR"
-    },
-    {
-      "id": "event_28",
       "date": "2026-03-18",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1583,7 +1422,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 1\u00d710m @261W / 5m rec | 3\u00d710m @265W / 5m rec | 2 \u00d7 10m @150W"
     },
     {
-      "id": "event_29",
+      "id": "event_27",
       "date": "2026-03-19",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1594,7 +1433,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_30",
+      "id": "event_28",
       "date": "2026-03-19",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1605,7 +1444,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_31",
+      "id": "event_29",
       "date": "2026-03-20",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1616,7 +1455,7 @@
       "description_preview": "- 15m 153w\n- 5h 162w\n- 15m 147w"
     },
     {
-      "id": "event_32",
+      "id": "event_30",
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1627,7 +1466,7 @@
       "description_preview": "- 5m Z2 HR"
     },
     {
-      "id": "event_33",
+      "id": "event_31",
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1638,7 +1477,7 @@
       "description_preview": "- 7m30s Z2 HR"
     },
     {
-      "id": "event_34",
+      "id": "event_32",
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1649,7 +1488,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_35",
+      "id": "event_33",
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1660,7 +1499,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_36",
+      "id": "event_34",
       "date": "2026-03-22",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1670,7 +1509,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 3 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_37",
+      "id": "event_35",
       "date": "2026-03-23",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1681,8 +1520,30 @@
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
     {
-      "id": "event_38",
+      "id": "event_36",
       "date": "2026-03-23",
+      "name": "SkiErg",
+      "type": "WORKOUT",
+      "planned_tss": 9,
+      "duration_hours": 0.17,
+      "duration_formatted": "10m",
+      "workout_summary": null,
+      "description_preview": "- 10m Z2 HR"
+    },
+    {
+      "id": "event_37",
+      "date": "2026-03-24",
+      "name": "Endurance - Tuesday",
+      "type": "WORKOUT",
+      "planned_tss": 77,
+      "duration_hours": 2.25,
+      "duration_formatted": "2h15m",
+      "workout_summary": null,
+      "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
+    },
+    {
+      "id": "event_38",
+      "date": "2026-03-24",
       "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
@@ -1693,28 +1554,6 @@
     },
     {
       "id": "event_39",
-      "date": "2026-03-24",
-      "name": "Endurance - Tuesday",
-      "type": "WORKOUT",
-      "planned_tss": 77,
-      "duration_hours": 2.25,
-      "duration_formatted": "2h15m",
-      "workout_summary": null,
-      "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
-    },
-    {
-      "id": "event_40",
-      "date": "2026-03-24",
-      "name": "SkiErg",
-      "type": "WORKOUT",
-      "planned_tss": 9,
-      "duration_hours": 0.17,
-      "duration_formatted": "10m",
-      "workout_summary": null,
-      "description_preview": "- 10m Z2 HR"
-    },
-    {
-      "id": "event_41",
       "date": "2026-03-25",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1724,7 +1563,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 4\u00d710m @265W / 5m rec | 2 \u00d7 10m @150W"
     },
     {
-      "id": "event_42",
+      "id": "event_40",
       "date": "2026-03-26",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1735,7 +1574,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_43",
+      "id": "event_41",
       "date": "2026-03-26",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1746,7 +1585,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_44",
+      "id": "event_42",
       "date": "2026-03-27",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1757,7 +1596,7 @@
       "description_preview": "- 15m 153w\n- 5h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_45",
+      "id": "event_43",
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1768,7 +1607,7 @@
       "description_preview": "- 5m Z2 HR"
     },
     {
-      "id": "event_46",
+      "id": "event_44",
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1779,7 +1618,7 @@
       "description_preview": "- 7m30s Z2 HR"
     },
     {
-      "id": "event_47",
+      "id": "event_45",
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1790,7 +1629,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_48",
+      "id": "event_46",
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1801,7 +1640,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_49",
+      "id": "event_47",
       "date": "2026-03-29",
       "name": "Anaerobic",
       "type": "WORKOUT",
@@ -1811,7 +1650,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 5\u00d710s @700W / 3m rec | 2 \u00d7 5\u00d710s @725W / 3m rec | 16m30s @150W"
     },
     {
-      "id": "event_50",
+      "id": "event_48",
       "date": "2026-03-30",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1822,8 +1661,30 @@
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
     {
-      "id": "event_51",
+      "id": "event_49",
       "date": "2026-03-30",
+      "name": "SkiErg",
+      "type": "WORKOUT",
+      "planned_tss": 9,
+      "duration_hours": 0.17,
+      "duration_formatted": "10m",
+      "workout_summary": null,
+      "description_preview": "- 10m Z2 HR"
+    },
+    {
+      "id": "event_50",
+      "date": "2026-03-31",
+      "name": "Endurance - Tuesday",
+      "type": "WORKOUT",
+      "planned_tss": 62,
+      "duration_hours": 2.0,
+      "duration_formatted": "2h",
+      "workout_summary": null,
+      "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
+    },
+    {
+      "id": "event_51",
+      "date": "2026-03-31",
       "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
@@ -1834,28 +1695,6 @@
     },
     {
       "id": "event_52",
-      "date": "2026-03-31",
-      "name": "Endurance - Tuesday",
-      "type": "WORKOUT",
-      "planned_tss": 62,
-      "duration_hours": 2.0,
-      "duration_formatted": "2h",
-      "workout_summary": null,
-      "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
-    },
-    {
-      "id": "event_53",
-      "date": "2026-03-31",
-      "name": "SkiErg",
-      "type": "WORKOUT",
-      "planned_tss": 9,
-      "duration_hours": 0.17,
-      "duration_formatted": "10m",
-      "workout_summary": null,
-      "description_preview": "- 10m Z2 HR"
-    },
-    {
-      "id": "event_54",
       "date": "2026-04-01",
       "name": "Sweetspot 2x10m - Deload",
       "type": "WORKOUT",
@@ -1865,7 +1704,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2 \u00d7 1\u00d710m @270W / 5m rec | 40m @150W"
     },
     {
-      "id": "event_55",
+      "id": "event_53",
       "date": "2026-04-02",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1876,7 +1715,7 @@
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_56",
+      "id": "event_54",
       "date": "2026-04-02",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1887,7 +1726,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_57",
+      "id": "event_55",
       "date": "2026-04-03",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1898,7 +1737,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_58",
+      "id": "event_56",
       "date": "2026-04-03",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1909,7 +1748,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_59",
+      "id": "event_57",
       "date": "2026-04-05",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1919,7 +1758,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 2 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 12\u00d730s @335W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_60",
+      "id": "event_58",
       "date": "2026-04-06",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1930,7 +1769,7 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_61",
+      "id": "event_59",
       "date": "2026-04-06",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1941,7 +1780,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_62",
+      "id": "event_60",
       "date": "2026-04-07",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1952,7 +1791,7 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_63",
+      "id": "event_61",
       "date": "2026-04-07",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1963,7 +1802,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_64",
+      "id": "event_62",
       "date": "2026-04-08",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1973,7 +1812,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2\u00d710m @258W / 5m rec | 2\u00d710m @261W / 5m rec | 10m @150W"
     },
     {
-      "id": "event_65",
+      "id": "event_63",
       "date": "2026-04-09",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1984,7 +1823,7 @@
       "description_preview": "- 3h 155-170w"
     },
     {
-      "id": "event_66",
+      "id": "event_64",
       "date": "2026-04-09",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1995,7 +1834,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_67",
+      "id": "event_65",
       "date": "2026-04-10",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -2006,7 +1845,7 @@
       "description_preview": "- 5h30m 155-170w"
     },
     {
-      "id": "event_68",
+      "id": "event_66",
       "date": "2026-04-10",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2017,7 +1856,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_69",
+      "id": "event_67",
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2028,7 +1867,7 @@
       "description_preview": "- 5m Z2 HR"
     },
     {
-      "id": "event_70",
+      "id": "event_68",
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2039,7 +1878,7 @@
       "description_preview": "- 7m30s Z2 HR"
     },
     {
-      "id": "event_71",
+      "id": "event_69",
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2050,7 +1889,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_72",
+      "id": "event_70",
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2061,7 +1900,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_73",
+      "id": "event_71",
       "date": "2026-04-12",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -2071,7 +1910,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 12\u00d730s @315W / 15s rec (5m set rec) | 2 sets \u00d7 12\u00d730s @320W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_74",
+      "id": "event_72",
       "date": "2026-04-13",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -2082,8 +1921,30 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_75",
+      "id": "event_73",
       "date": "2026-04-13",
+      "name": "SkiErg",
+      "type": "WORKOUT",
+      "planned_tss": 9,
+      "duration_hours": 0.17,
+      "duration_formatted": "10m",
+      "workout_summary": null,
+      "description_preview": "- 10m Z2 HR"
+    },
+    {
+      "id": "event_74",
+      "date": "2026-04-14",
+      "name": "Endurance - Tuesday",
+      "type": "WORKOUT",
+      "planned_tss": 73,
+      "duration_hours": 2.0,
+      "duration_formatted": "2h",
+      "workout_summary": null,
+      "description_preview": "- 2h 165-180w"
+    },
+    {
+      "id": "event_75",
+      "date": "2026-04-14",
       "name": "SkiErg",
       "type": "WORKOUT",
       "planned_tss": 9,
@@ -2102,12 +1963,12 @@
     "bail_no_match": 63
   },
   "weekly_summary": {
-    "total_training_hours": 21.11,
-    "total_training_formatted": "21h6m",
-    "total_tss": 692,
-    "activities_count": 19,
-    "avg_hrv": 48.9,
-    "avg_resting_hr": 45.6
+    "total_training_hours": 17.9,
+    "total_training_formatted": "17h53m",
+    "total_tss": 598,
+    "activities_count": 16,
+    "avg_hrv": 48.7,
+    "avg_resting_hr": 45.9
   },
   "race_calendar": {
     "next_race": null,
