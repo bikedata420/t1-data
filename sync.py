@@ -1,8 +1,16 @@
+
 #!/usr/bin/env python3
 """
 Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
+
+Version 3.6.5 - Activity notes + coach annotations on planned workouts
+  - Pull activity messages (notes/chat) via /activity/{id}/messages for has_messages activities
+  - New "notes" array on recent_activities when messages exist (skipped when anonymized)
+  - Parse NOTE: lines from planned workout descriptions into "coach_notes" array
+  - NOTE: lines stripped from description to avoid duplication in workout display
+  - Supports push.py v0.3 annotate round-trip (write via push.py, read via sync.py)
 
 Version 3.6.4 - READ_THIS_FIRST display_formatting instruction + report template alignment
   - Added display_formatting note in READ_THIS_FIRST directing AI to use _formatted fields
@@ -16,29 +24,9 @@ Version 3.6.3 - Human-readable formatted fields (no virtual math)
   - total_training_formatted on quick_stats and weekly_summary
   - All formatted fields floored to minutes (no stray seconds in output)
 
-Version 3.6.2 - Workout Summary Generation & Tiered Detail
-  - resolve=true on events API for structured workout_doc with resolved targets
-  - Workout summary parser: Pattern A (explicit reps), Pattern B (flat alternating)
-  - Strict guards: distinctness threshold, duration tolerance (±1s/±2s), normalized watts
-  - Consecutive identical interval block merging (strict string equality)
-  - Fixed duration_hours: read moving_time (not duration) from events API
-  - Tiered planned workout detail: days 0-7 full, days 8-42 skeleton + summary/preview
-  - workout_summary_stats telemetry (attempted, success, patternA/B, bail reasons)
-  - Fail-closed: unrecognized structures return null, raw description preserved
-
-Version 3.6.1 - Hard Day HR Zone Fallback
-  - Hard day counter falls back to icu_hr_zone_times when power zones unavailable
-  - Conservative 2-rung HR ladder (Z4+ >= 10min, Z5+ >= 5min) per Seiler 3-zone model
-  - Shared _get_activity_zones() and _classify_hard_day() helpers across all call sites
-  - Daily tier rows include intensity_basis field (power/hr/mixed/null)
-  - is_hard_day returns null when no zone data exists (not false)
-  - _aggregate_zones() refactored to use shared helper
-
-Version 3.6.0 - Efficiency Factor (EF) tracking
-  - Pull icu_efficiency_factor (NP/Avg HR, Coggan) per activity from Intervals.icu API
-  - Aggregate EF 7d/28d with trend (improving/stable/declining)
-  - Qualifying filters: cycling, VI <= 1.05, >= 20min, power+HR
-  - Added to capability namespace alongside durability and TID comparison
+Version 3.6.2 - Workout summary parser (Pattern A/B), tiered planned workout detail (0-7d full, 8-42d skeleton)
+Version 3.6.1 - Hard day HR zone fallback (2-rung ladder), intensity_basis audit field
+Version 3.6.0 - Efficiency Factor (EF) tracking, 7d/28d aggregate with trend
 
 Version 3.5.1 - HRV outlier filter (_is_valid_hrv(), 10-250ms range), applied to baselines/RI/summaries
 Version 3.5.0 - Race calendar (90-day, RACE_A/B/C), race-week protocol (D-7 to D-0), TSB projection
@@ -71,7 +59,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.6.4"
+    VERSION = "3.6.5"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -123,6 +111,23 @@ class IntervalsSync:
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
         return response.json()
+
+    def _get_activity_messages(self, activity_id: str) -> List[str]:
+        """Fetch messages/notes for a completed activity. Returns list of text strings."""
+        url = f"{self.INTERVALS_BASE_URL}/activity/{activity_id}/messages"
+        headers = {
+            "Authorization": f"Basic {self.intervals_auth}",
+            "Accept": "application/json"
+        }
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            messages = response.json()
+            if isinstance(messages, list):
+                return [m.get("text", "") for m in messages if m.get("text", "").strip()]
+            return []
+        except Exception:
+            return []
     
     def _fetch_today_wellness(self) -> Dict:
         """
@@ -3000,6 +3005,14 @@ class IntervalsSync:
                 "rpe": act.get("icu_rpe"),
                 "zone_distribution": zone_dist
             }
+
+            # Fetch activity notes/messages if available (v0.3)
+            if not anonymize and act.get("has_messages"):
+                activity_id = act.get("id")
+                if activity_id:
+                    notes = self._get_activity_messages(activity_id)
+                    if notes:
+                        activity["notes"] = notes
             
             formatted.append(activity)
         
@@ -3519,7 +3532,25 @@ class IntervalsSync:
                     stats["success"] += 1
             elif evt.get("description", "").strip():
                 stats["bail_no_workout_doc"] += 1
-            
+
+            # Parse NOTE: lines from description (v0.3 — coach annotations)
+            raw_desc = evt.get("description", "")
+            coach_notes = []
+            clean_desc_lines = []
+            past_notes = False
+            for line in raw_desc.split("\n"):
+                stripped = line.strip()
+                if not past_notes and stripped.upper().startswith("NOTE:"):
+                    note_text = stripped[5:].strip()
+                    if note_text:
+                        coach_notes.append(note_text)
+                elif not past_notes and stripped == "":
+                    continue  # skip blank lines between NOTE: lines and workout
+                else:
+                    past_notes = True
+                    clean_desc_lines.append(line)
+            clean_desc = "\n".join(clean_desc_lines).strip()
+
             entry = {
                 "id": f"event_{i+1}" if anonymize else evt.get("id", f"unknown_{i+1}"),
                 "date": evt_date,
@@ -3530,15 +3561,17 @@ class IntervalsSync:
                 "duration_formatted": self._format_duration(int(evt.get("moving_time", 0))),
                 "workout_summary": summary
             }
+
+            if coach_notes:
+                entry["coach_notes"] = coach_notes
             
             if is_near:
                 # Days 0-7: full detail
-                entry["description"] = evt.get("description", "")
+                entry["description"] = clean_desc
             else:
                 # Days 8-42: skeleton only
                 if summary is None:
-                    desc = evt.get("description", "")
-                    lines = [l.strip() for l in desc.split("\n") if l.strip()][:3]
+                    lines = [l.strip() for l in clean_desc.split("\n") if l.strip()][:3]
                     entry["description_preview"] = "\n".join(lines) if lines else None
             
             result.append(entry)
