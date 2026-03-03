@@ -64,6 +64,14 @@ on:
         description: 'Note text — for annotate'
         required: false
         type: string
+      chat:
+        description: 'Post to activity chat instead of description — for annotate'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
       confirm:
         description: 'Execute write (false = preview only)'
         required: false
@@ -189,6 +197,9 @@ jobs:
               else
                 echo '{"success": false, "error": "activity_id or event_id is required for annotate"}'
                 exit 1
+              fi
+              if [ "${{ github.event.inputs.chat }}" = "true" ]; then
+                ARGS="$ARGS --chat"
               fi
               ;;
             *)
