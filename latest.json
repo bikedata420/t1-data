@@ -14,7 +14,7 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-03T19:59:39.857122",
+    "last_updated": "2026-03-03T20:09:00.953362",
     "data_range_days": 7,
     "extended_range_days": 28,
     "version": "3.6.5"
@@ -276,7 +276,7 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": null,
-    "calculation_timestamp": "2026-03-03T19:59:39.856258",
+    "calculation_timestamp": "2026-03-03T20:09:00.952523",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
@@ -291,7 +291,7 @@
   },
   "recent_activities": [
     {
-      "id": "activity_1",
+      "id": "i129240706",
       "date": "2026-03-03T17:19:40",
       "type": "Walk",
       "name": "Training Session",
@@ -334,7 +334,7 @@
       }
     },
     {
-      "id": "activity_2",
+      "id": "i129160576",
       "date": "2026-03-03T12:30:00",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -377,7 +377,7 @@
       }
     },
     {
-      "id": "activity_3",
+      "id": "i129153753",
       "date": "2026-03-03T10:14:05",
       "type": "VirtualRide",
       "name": "Endurance - Tuesday",
@@ -429,7 +429,7 @@
       }
     },
     {
-      "id": "activity_4",
+      "id": "i128902309",
       "date": "2026-03-02T12:56:00",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -472,7 +472,7 @@
       }
     },
     {
-      "id": "activity_5",
+      "id": "i128897190",
       "date": "2026-03-02T10:38:56",
       "type": "VirtualRide",
       "name": "Endurance - Monday",
@@ -524,7 +524,7 @@
       }
     },
     {
-      "id": "activity_6",
+      "id": "i128747788",
       "date": "2026-03-01T17:28:58",
       "type": "Walk",
       "name": "Training Session",
@@ -567,7 +567,7 @@
       }
     },
     {
-      "id": "activity_7",
+      "id": "i128631919",
       "date": "2026-03-01T10:21:15",
       "type": "VirtualRide",
       "name": "Anaerobic",
@@ -619,7 +619,7 @@
       }
     },
     {
-      "id": "activity_8",
+      "id": "i128526276",
       "date": "2026-02-28T19:25:04",
       "type": "Walk",
       "name": "Training Session",
@@ -662,7 +662,7 @@
       }
     },
     {
-      "id": "activity_9",
+      "id": "i128456738",
       "date": "2026-02-28T14:37:00",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -705,7 +705,7 @@
       }
     },
     {
-      "id": "activity_10",
+      "id": "i128456731",
       "date": "2026-02-28T14:20:00",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -748,7 +748,7 @@
       }
     },
     {
-      "id": "activity_11",
+      "id": "i128456722",
       "date": "2026-02-28T14:09:30",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -791,7 +791,7 @@
       }
     },
     {
-      "id": "activity_12",
+      "id": "i128456720",
       "date": "2026-02-28T14:03:00",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -834,7 +834,7 @@
       }
     },
     {
-      "id": "activity_13",
+      "id": "i128256892",
       "date": "2026-02-27T16:41:31",
       "type": "Walk",
       "name": "Training Session",
@@ -877,7 +877,7 @@
       }
     },
     {
-      "id": "activity_14",
+      "id": "i128227599",
       "date": "2026-02-27T09:32:06",
       "type": "VirtualRide",
       "name": "Endurance - Friday",
@@ -929,7 +929,7 @@
       }
     },
     {
-      "id": "activity_15",
+      "id": "i128026357",
       "date": "2026-02-26T16:20:29",
       "type": "Walk",
       "name": "Training Session",
@@ -972,7 +972,7 @@
       }
     },
     {
-      "id": "activity_16",
+      "id": "i127984812",
       "date": "2026-02-26T13:27:00",
       "type": "VirtualSki",
       "name": "SkiErg",
@@ -1015,7 +1015,7 @@
       }
     },
     {
-      "id": "activity_17",
+      "id": "i127979487",
       "date": "2026-02-26T10:09:17",
       "type": "VirtualRide",
       "name": "Endurance - Thursday",
@@ -1067,7 +1067,7 @@
       }
     },
     {
-      "id": "activity_18",
+      "id": "i127831184",
       "date": "2026-02-25T18:04:49",
       "type": "Walk",
       "name": "Training Session",
@@ -1110,7 +1110,7 @@
       }
     },
     {
-      "id": "activity_19",
+      "id": "i127739884",
       "date": "2026-02-25T10:51:38",
       "type": "VirtualRide",
       "name": "Sweetspot 4x10min v2",
@@ -1278,7 +1278,7 @@
   ],
   "planned_workouts": [
     {
-      "id": "event_1",
+      "id": 91620877,
       "date": "2026-03-03",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1289,7 +1289,7 @@
       "description": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
     {
-      "id": "event_2",
+      "id": 92876369,
       "date": "2026-03-03",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1300,7 +1300,7 @@
       "description": "- 10m Z2 HR"
     },
     {
-      "id": "event_3",
+      "id": 91620569,
       "date": "2026-03-04",
       "name": "Sweetspot 2x10m - Deload",
       "type": "WORKOUT",
@@ -1308,10 +1308,13 @@
       "duration_hours": 1.5,
       "duration_formatted": "1h30m",
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2 \u00d7 1\u00d710m @265W / 5m rec | 40m @150W",
+      "coach_notes": [
+        "Test"
+      ],
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n1x\n- 10m 265w\n- 5m 150w\n\n- 40m 150w"
     },
     {
-      "id": "event_4",
+      "id": 91620978,
       "date": "2026-03-05",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1322,7 +1325,7 @@
       "description": "- 15m 153w\n- 1h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_5",
+      "id": 92876373,
       "date": "2026-03-05",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1333,7 +1336,7 @@
       "description": "- 10m Z2 HR"
     },
     {
-      "id": "event_6",
+      "id": 91621069,
       "date": "2026-03-06",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1344,7 +1347,7 @@
       "description": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_7",
+      "id": 92876377,
       "date": "2026-03-06",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1355,7 +1358,7 @@
       "description": "- 10m Z2 HR"
     },
     {
-      "id": "event_8",
+      "id": 91614126,
       "date": "2026-03-08",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1366,7 +1369,7 @@
       "description": "- 5m 155w\n- 5m 175w\n- 5m 195w\n\n2x\n- 5m 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n- 15s 150w\n- 30s 325w\n\n1x\n- 5m 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n- 15s 150w\n- 30s 330w\n\n- 31m30s 150w"
     },
     {
-      "id": "event_9",
+      "id": 91615097,
       "date": "2026-03-09",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1377,7 +1380,7 @@
       "description": "- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w"
     },
     {
-      "id": "event_10",
+      "id": 91621090,
       "date": "2026-03-09",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1388,7 +1391,7 @@
       "description": "- 10m Z2 HR"
     },
     {
-      "id": "event_11",
+      "id": 91615172,
       "date": "2026-03-10",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1399,7 +1402,7 @@
       "description": "- 15m 153w\n- 15m 163w\n- 1h30m 173w\n- 15m 150w"
     },
     {
-      "id": "event_12",
+      "id": 91621096,
       "date": "2026-03-10",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1410,7 +1413,7 @@
       "description": "- 10m Z2 HR"
     },
     {
-      "id": "event_13",
+      "id": 91614476,
       "date": "2026-03-11",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1420,7 +1423,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2\u00d710m @261W / 5m rec | 2\u00d710m @265W / 5m rec | 10m @150W"
     },
     {
-      "id": "event_14",
+      "id": 91615675,
       "date": "2026-03-12",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1431,7 +1434,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_15",
+      "id": 91621082,
       "date": "2026-03-12",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1442,7 +1445,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_16",
+      "id": 91620260,
       "date": "2026-03-13",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1453,7 +1456,7 @@
       "description_preview": "- 15m 153w\n- 4h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_17",
+      "id": 92874794,
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1464,7 +1467,7 @@
       "description_preview": "- 5m Z1-Z2 HR"
     },
     {
-      "id": "event_18",
+      "id": 92874827,
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1475,7 +1478,7 @@
       "description_preview": "- 7m30s Z1-Z2 HR"
     },
     {
-      "id": "event_19",
+      "id": 92874843,
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1486,7 +1489,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_20",
+      "id": 92874852,
       "date": "2026-03-14",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1497,7 +1500,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_21",
+      "id": 91620741,
       "date": "2026-03-15",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1507,7 +1510,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 12\u00d730s @325W / 15s rec (5m set rec) | 2 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_22",
+      "id": 94943162,
       "date": "2026-03-16",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1518,7 +1521,7 @@
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
     {
-      "id": "event_23",
+      "id": 94943367,
       "date": "2026-03-16",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1529,7 +1532,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_24",
+      "id": 94943392,
       "date": "2026-03-17",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1540,7 +1543,7 @@
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
     {
-      "id": "event_25",
+      "id": 94943499,
       "date": "2026-03-17",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1551,7 +1554,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_26",
+      "id": 83933460,
       "date": "2026-03-18",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1561,7 +1564,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 1\u00d710m @261W / 5m rec | 3\u00d710m @265W / 5m rec | 2 \u00d7 10m @150W"
     },
     {
-      "id": "event_27",
+      "id": 94944613,
       "date": "2026-03-19",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1572,7 +1575,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_28",
+      "id": 94944619,
       "date": "2026-03-19",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1583,7 +1586,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_29",
+      "id": 94943712,
       "date": "2026-03-20",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1594,7 +1597,7 @@
       "description_preview": "- 15m 153w\n- 5h 162w\n- 15m 147w"
     },
     {
-      "id": "event_30",
+      "id": 83934196,
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1605,7 +1608,7 @@
       "description_preview": "- 5m Z2 HR"
     },
     {
-      "id": "event_31",
+      "id": 83934219,
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1616,7 +1619,7 @@
       "description_preview": "- 7m30s Z2 HR"
     },
     {
-      "id": "event_32",
+      "id": 83934269,
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1627,7 +1630,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_33",
+      "id": 83934351,
       "date": "2026-03-21",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1638,7 +1641,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_34",
+      "id": 83933379,
       "date": "2026-03-22",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1648,7 +1651,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 3 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_35",
+      "id": 94943213,
       "date": "2026-03-23",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1659,7 +1662,7 @@
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
     {
-      "id": "event_36",
+      "id": 94943371,
       "date": "2026-03-23",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1670,7 +1673,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_37",
+      "id": 94943406,
       "date": "2026-03-24",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1681,7 +1684,7 @@
       "description_preview": "- 15m 153w\n- 15m 163w\n- 1h30m 173w"
     },
     {
-      "id": "event_38",
+      "id": 94943511,
       "date": "2026-03-24",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1692,7 +1695,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_39",
+      "id": 83933465,
       "date": "2026-03-25",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1702,7 +1705,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 4\u00d710m @265W / 5m rec | 2 \u00d7 10m @150W"
     },
     {
-      "id": "event_40",
+      "id": 94943575,
       "date": "2026-03-26",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1713,7 +1716,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_41",
+      "id": 94943595,
       "date": "2026-03-26",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1724,7 +1727,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_42",
+      "id": 94943721,
       "date": "2026-03-27",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1735,7 +1738,7 @@
       "description_preview": "- 15m 153w\n- 5h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_43",
+      "id": 83934200,
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1746,7 +1749,7 @@
       "description_preview": "- 5m Z2 HR"
     },
     {
-      "id": "event_44",
+      "id": 83934226,
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1757,7 +1760,7 @@
       "description_preview": "- 7m30s Z2 HR"
     },
     {
-      "id": "event_45",
+      "id": 83934273,
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1768,7 +1771,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_46",
+      "id": 83934364,
       "date": "2026-03-28",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1779,7 +1782,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_47",
+      "id": 83948950,
       "date": "2026-03-29",
       "name": "Anaerobic",
       "type": "WORKOUT",
@@ -1789,7 +1792,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 5\u00d710s @700W / 3m rec | 2 \u00d7 5\u00d710s @725W / 3m rec | 16m30s @150W"
     },
     {
-      "id": "event_48",
+      "id": 94944710,
       "date": "2026-03-30",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1800,7 +1803,7 @@
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
     {
-      "id": "event_49",
+      "id": 94945082,
       "date": "2026-03-30",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1811,7 +1814,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_50",
+      "id": 94944776,
       "date": "2026-03-31",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1822,7 +1825,7 @@
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 150w"
     },
     {
-      "id": "event_51",
+      "id": 94945089,
       "date": "2026-03-31",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1833,7 +1836,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_52",
+      "id": 94943820,
       "date": "2026-04-01",
       "name": "Sweetspot 2x10m - Deload",
       "type": "WORKOUT",
@@ -1843,7 +1846,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2 \u00d7 1\u00d710m @270W / 5m rec | 40m @150W"
     },
     {
-      "id": "event_53",
+      "id": 94944958,
       "date": "2026-04-02",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1854,7 +1857,7 @@
       "description_preview": "- 15m 153w\n- 1h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_54",
+      "id": 94945094,
       "date": "2026-04-02",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1865,7 +1868,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_55",
+      "id": 94945056,
       "date": "2026-04-03",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1876,7 +1879,7 @@
       "description_preview": "- 15m 153w\n- 2h30m 162w\n- 15m 147w"
     },
     {
-      "id": "event_56",
+      "id": 94945101,
       "date": "2026-04-03",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1887,7 +1890,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_57",
+      "id": 83933953,
       "date": "2026-04-05",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -1897,7 +1900,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 2 sets \u00d7 12\u00d730s @330W / 15s rec (5m set rec) | 12\u00d730s @335W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_58",
+      "id": 83935788,
       "date": "2026-04-06",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -1908,7 +1911,7 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_59",
+      "id": 83939442,
       "date": "2026-04-06",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1919,7 +1922,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_60",
+      "id": 83936624,
       "date": "2026-04-07",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -1930,7 +1933,7 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_61",
+      "id": 83939448,
       "date": "2026-04-07",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1941,7 +1944,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_62",
+      "id": 83935839,
       "date": "2026-04-08",
       "name": "Sweetspot 4x10min v2",
       "type": "WORKOUT",
@@ -1951,7 +1954,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 5m @150W | 2\u00d710m @258W / 5m rec | 2\u00d710m @261W / 5m rec | 10m @150W"
     },
     {
-      "id": "event_63",
+      "id": 83935884,
       "date": "2026-04-09",
       "name": "Endurance - Thursday",
       "type": "WORKOUT",
@@ -1962,7 +1965,7 @@
       "description_preview": "- 3h 155-170w"
     },
     {
-      "id": "event_64",
+      "id": 83939450,
       "date": "2026-04-09",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1973,7 +1976,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_65",
+      "id": 83935931,
       "date": "2026-04-10",
       "name": "Endurance - Friday",
       "type": "WORKOUT",
@@ -1984,7 +1987,7 @@
       "description_preview": "- 5h30m 155-170w"
     },
     {
-      "id": "event_66",
+      "id": 83939462,
       "date": "2026-04-10",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -1995,7 +1998,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_67",
+      "id": 83940361,
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2006,7 +2009,7 @@
       "description_preview": "- 5m Z2 HR"
     },
     {
-      "id": "event_68",
+      "id": 83940447,
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2017,7 +2020,7 @@
       "description_preview": "- 7m30s Z2 HR"
     },
     {
-      "id": "event_69",
+      "id": 83940511,
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2028,7 +2031,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_70",
+      "id": 83940602,
       "date": "2026-04-11",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2039,7 +2042,7 @@
       "description_preview": "- 15m Z2 HR"
     },
     {
-      "id": "event_71",
+      "id": 83935942,
       "date": "2026-04-12",
       "name": "VO2MAX Short Intervals v2",
       "type": "WORKOUT",
@@ -2049,7 +2052,7 @@
       "workout_summary": "5m @155W | 5m @175W | 5m @195W | 12\u00d730s @315W / 15s rec (5m set rec) | 2 sets \u00d7 12\u00d730s @320W / 15s rec (5m set rec) | 31m30s @150W"
     },
     {
-      "id": "event_72",
+      "id": 83936066,
       "date": "2026-04-13",
       "name": "Endurance - Monday",
       "type": "WORKOUT",
@@ -2060,7 +2063,7 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_73",
+      "id": 83939469,
       "date": "2026-04-13",
       "name": "SkiErg",
       "type": "WORKOUT",
@@ -2071,7 +2074,7 @@
       "description_preview": "- 10m Z2 HR"
     },
     {
-      "id": "event_74",
+      "id": 83936612,
       "date": "2026-04-14",
       "name": "Endurance - Tuesday",
       "type": "WORKOUT",
@@ -2082,7 +2085,7 @@
       "description_preview": "- 2h 165-180w"
     },
     {
-      "id": "event_75",
+      "id": 83939475,
       "date": "2026-04-14",
       "name": "SkiErg",
       "type": "WORKOUT",
