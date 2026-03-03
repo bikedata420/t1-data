@@ -1,0 +1,76 @@
+name: Push Workout to Intervals.icu
+
+on:
+  workflow_dispatch:
+    inputs:
+      workouts:
+        description: 'JSON array of workouts or single workout object'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Verify push.py exists
+        run: |
+          if [ ! -f push.py ]; then
+            echo "push.py not found in repository root!"
+            echo "Copy from https://github.com/CrankAddict/section-11/tree/main/examples/agentic/"
+            exit 1
+          fi
+          echo "push.py found"
+
+      - name: Verify secrets
+        run: |
+          if [ -z "${{ secrets.ATHLETE_ID }}" ]; then
+            echo "ATHLETE_ID secret not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.INTERVALS_KEY }}" ]; then
+            echo "INTERVALS_KEY secret not set!"
+            exit 1
+          fi
+          echo "Secrets configured"
+
+      - name: Write workout payload
+        run: |
+          cat << 'PAYLOAD_EOF' > /tmp/workouts.json
+          ${{ github.event.inputs.workouts }}
+          PAYLOAD_EOF
+          echo "Payload:"
+          cat /tmp/workouts.json
+
+      - name: Push workout(s)
+        env:
+          ATHLETE_ID: ${{ secrets.ATHLETE_ID }}
+          INTERVALS_KEY: ${{ secrets.INTERVALS_KEY }}
+        run: |
+          python push.py \
+            --athlete-id "$ATHLETE_ID" \
+            --api-key "$INTERVALS_KEY" \
+            --json /tmp/workouts.json
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "Workout push failed! Check logs above."
+          echo "Common issues:"
+          echo "  - Invalid workout JSON format"
+          echo "  - Invalid date (must be today or future)"
+          echo "  - Intervals.icu API unreachable"
