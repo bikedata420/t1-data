@@ -547,7 +547,7 @@ class IntervalsPush:
             response = self._get_raw(url)
             messages = []
             if isinstance(response, list):
-                messages = [{"text": m.get("text", ""), "created": m.get("created")} for m in response]
+                messages = [{"text": m.get("content", m.get("text", "")), "created": m.get("created")} for m in response]
             return {"success": True, "messages": messages}
         except Exception as e:
             return {"success": False, "error": self._handle_error(e)}
@@ -573,7 +573,7 @@ class IntervalsPush:
 
         try:
             url = f"{self.BASE_URL}/activity/{activity_id}/messages"
-            response = self._post_raw(url, {"text": message.strip()})
+            response = self._post_raw(url, {"content": message.strip()})
             return {
                 "success": True,
                 "target": "activity",
