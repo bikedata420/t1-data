@@ -125,7 +125,7 @@ class IntervalsSync:
             response.raise_for_status()
             messages = response.json()
             if isinstance(messages, list):
-                return [m.get("text", "") for m in messages if m.get("text", "").strip()]
+                return [m.get("content", m.get("text", "")) for m in messages if (m.get("content") or m.get("text", "")).strip()]
             return []
         except Exception:
             return []
