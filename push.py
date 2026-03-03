@@ -26,6 +26,7 @@ Usage:
   python push.py delete --event-id 123 --confirm
   python push.py set-threshold --sport Ride --ftp 295 --confirm
   python push.py annotate --activity-id abc --message "Knee pain" --confirm
+  python push.py annotate --activity-id abc --message "Knee pain" --chat --confirm
   python push.py annotate --event-id 123 --message "Focus cadence" --confirm
   python push.py --json week.json --confirm           # backward compat
 
@@ -464,6 +465,13 @@ class IntervalsPush:
         response.raise_for_status()
         return response.json()
 
+    def _put_raw(self, url: str, payload: dict) -> any:
+        """PUT to an absolute Intervals.icu URL."""
+        import requests
+        response = requests.put(url, headers=self._headers(), json=payload)
+        response.raise_for_status()
+        return response.json()
+
     # ── Set threshold ──────────────────────────────────────────────
 
     def _resolve_sport_type(self, sport: str) -> str:
@@ -552,31 +560,83 @@ class IntervalsPush:
         except Exception as e:
             return {"success": False, "error": self._handle_error(e)}
 
-    def preview_annotate_activity(self, activity_id: str, message: str) -> dict:
+    def get_activity(self, activity_id: str) -> dict:
+        """Fetch a completed activity by ID."""
+        try:
+            url = f"{self.BASE_URL}/activity/{activity_id}"
+            response = self._get_raw(url)
+            return {"success": True, "activity": response}
+        except Exception as e:
+            return {"success": False, "error": self._handle_error(e)}
+
+    def preview_annotate_activity(self, activity_id: str, message: str, chat: bool = False) -> dict:
         """Preview adding a note to a completed activity."""
         if not message or not message.strip():
             return {"success": False, "mode": "preview", "error": "message is required"}
 
-        return {
+        result = {
             "success": True,
             "mode": "preview",
-            "target": "activity",
+            "target": "activity_chat" if chat else "activity_description",
             "activity_id": activity_id,
             "message": message.strip(),
             "note": "Preview only - add --confirm to post this note",
         }
 
-    def annotate_activity(self, activity_id: str, message: str) -> dict:
-        """Post a note to a completed activity's messages/chat."""
+        if not chat:
+            # Fetch activity to show current description context
+            current = self.get_activity(activity_id)
+            if current["success"]:
+                act = current["activity"]
+                result["name"] = act.get("name")
+                result["date"] = (act.get("start_date_local") or "")[:10]
+
+        return result
+
+    def annotate_activity(self, activity_id: str, message: str, chat: bool = False) -> dict:
+        """Add a note to a completed activity. Default: description. --chat: messages endpoint."""
         if not message or not message.strip():
             return {"success": False, "error": "message is required"}
 
+        if chat:
+            return self._annotate_activity_chat(activity_id, message)
+        return self._annotate_activity_description(activity_id, message)
+
+    def _annotate_activity_chat(self, activity_id: str, message: str) -> dict:
+        """Post a note to a completed activity's messages/chat."""
         try:
             url = f"{self.BASE_URL}/activity/{activity_id}/messages"
-            response = self._post_raw(url, {"content": message.strip()})
+            self._post_raw(url, {"content": message.strip()})
             return {
                 "success": True,
-                "target": "activity",
+                "target": "activity_chat",
+                "activity_id": activity_id,
+                "message": message.strip(),
+            }
+        except Exception as e:
+            return {"success": False, "error": self._handle_error(e)}
+
+    def _annotate_activity_description(self, activity_id: str, message: str) -> dict:
+        """Prepend a NOTE: line to a completed activity's description."""
+        try:
+            current = self.get_activity(activity_id)
+            if not current["success"]:
+                return {"success": False, "error": current["error"]}
+
+            act = current["activity"]
+            existing_desc = act.get("description") or ""
+            note_line = f"NOTE: {message.strip()}"
+
+            if existing_desc:
+                new_desc = f"{note_line}\n\n{existing_desc}"
+            else:
+                new_desc = note_line
+
+            url = f"{self.BASE_URL}/activity/{activity_id}"
+            self._put_raw(url, {"description": new_desc})
+            return {
+                "success": True,
+                "target": "activity_description",
                 "activity_id": activity_id,
                 "message": message.strip(),
             }
@@ -765,10 +825,11 @@ def _cmd_annotate(args, pusher: IntervalsPush):
         _output({"success": False, "error": "provide --activity-id (completed) or --event-id (planned)"})
 
     if args.activity_id:
+        chat = getattr(args, "chat", False)
         if not args.confirm:
-            _output(pusher.preview_annotate_activity(args.activity_id, args.message))
+            _output(pusher.preview_annotate_activity(args.activity_id, args.message, chat=chat))
         else:
-            _output(pusher.annotate_activity(args.activity_id, args.message))
+            _output(pusher.annotate_activity(args.activity_id, args.message, chat=chat))
     else:
         if not args.confirm:
             _output(pusher.preview_annotate_event(args.event_id, args.message))
@@ -831,6 +892,7 @@ def main():
     annotate_parser.add_argument("--activity-id", dest="activity_id", help="Completed activity ID (from sync.py output)")
     annotate_parser.add_argument("--event-id", type=int, dest="event_id", help="Planned workout event ID")
     annotate_parser.add_argument("--message", required=True, help="Note text to add")
+    annotate_parser.add_argument("--chat", action="store_true", help="Post to activity chat/messages instead of description (activity only)")
     annotate_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
 
     # Backward compatibility: if no subcommand in argv, default to push.
