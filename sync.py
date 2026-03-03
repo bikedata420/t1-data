@@ -7,9 +7,10 @@ Supports both automated GitHub sync and manual local export.
 
 Version 3.6.5 - Activity notes + coach annotations on planned workouts
   - Pull activity messages (notes/chat) via /activity/{id}/messages for has_messages activities
-  - New "notes" array on recent_activities when messages exist (skipped when anonymized)
+  - New "notes" array on recent_activities when messages exist
   - Parse NOTE: lines from planned workout descriptions into "coach_notes" array
   - NOTE: lines stripped from description to avoid duplication in workout display
+  - Activity and event IDs always real (opaque keys, not PII) — enables annotate round-trip
   - Supports push.py v0.3 annotate round-trip (write via push.py, read via sync.py)
 
 Version 3.6.4 - READ_THIS_FIRST display_formatting instruction + report template alignment
@@ -2973,7 +2974,7 @@ class IntervalsSync:
                     activity_name = "Training Session"
             
             activity = {
-                "id": f"activity_{i+1}" if anonymize else act.get("id", f"unknown_{i+1}"),
+                "id": act.get("id", f"unknown_{i+1}"),
                 "date": act.get("start_date_local", "unknown"),
                 "type": act.get("type", "Unknown"),
                 "name": activity_name,
@@ -3007,7 +3008,7 @@ class IntervalsSync:
             }
 
             # Fetch activity notes/messages if available (v0.3)
-            if not anonymize and act.get("has_messages"):
+            if act.get("has_messages"):
                 activity_id = act.get("id")
                 if activity_id:
                     notes = self._get_activity_messages(activity_id)
@@ -3552,7 +3553,7 @@ class IntervalsSync:
             clean_desc = "\n".join(clean_desc_lines).strip()
 
             entry = {
-                "id": f"event_{i+1}" if anonymize else evt.get("id", f"unknown_{i+1}"),
+                "id": evt.get("id", f"unknown_{i+1}"),
                 "date": evt_date,
                 "name": evt.get("name", ""),
                 "type": evt.get("category", ""),
