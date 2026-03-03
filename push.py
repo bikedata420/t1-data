@@ -60,7 +60,7 @@ class IntervalsPush:
     """Manage planned workouts on Intervals.icu calendar."""
 
     BASE_URL = "https://intervals.icu/api/v1"
-    VERSION = "2.0.0"
+    VERSION = "0.2"
 
     VALID_TYPES = {
         "Ride", "VirtualRide", "MountainBikeRide", "GravelRide", "EBikeRide",
@@ -589,11 +589,30 @@ def main():
     delete_parser.add_argument("--event-id", type=int, required=True, help="Event ID to delete")
     delete_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
 
-    # Backward compatibility: if no known subcommand in argv, default to push.
-    # This lets old-style invocation (e.g. --json week.json) still work.
+    # Backward compatibility: if no subcommand in argv, default to push.
+    # Must insert 'push' at the right position (after top-level flags like
+    # --athlete-id/--api-key, before subcommand-specific flags like --json).
     known_commands = {"push", "list", "move", "delete"}
-    if not known_commands.intersection(sys.argv[1:]):
-        sys.argv.insert(1, "push")
+    # Top-level flags that consume a value
+    top_level_value_flags = {"--athlete-id", "--api-key"}
+
+    argv = sys.argv[1:]
+    has_subcommand = False
+    i = 0
+    while i < len(argv):
+        arg = argv[i]
+        if arg in top_level_value_flags:
+            i += 2  # skip flag + value
+        elif arg in known_commands:
+            has_subcommand = True
+            break
+        elif arg in ("-h", "--help"):
+            break  # let argparse handle help naturally
+        else:
+            break
+
+    if not has_subcommand and not any(a in ("-h", "--help") for a in argv):
+        sys.argv.insert(1 + i, "push")
 
     args = parser.parse_args()
 
