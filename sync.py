@@ -6,10 +6,10 @@ Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
 Version 3.6.5 - Activity notes + coach annotations on planned workouts
-  - Pull activity messages (notes/chat) via /activity/{id}/messages for has_messages activities
-  - New "notes" array on recent_activities when messages exist
+  - Parse NOTE: lines from activity descriptions into "coach_notes" array
   - Parse NOTE: lines from planned workout descriptions into "coach_notes" array
-  - NOTE: lines stripped from description to avoid duplication in workout display
+  - NOTE: lines stripped from planned workout descriptions to avoid duplication
+  - Fetch activity chat messages (has_messages) into "chat_notes" array
   - Activity and event IDs always real (opaque keys, not PII) — enables annotate round-trip
   - Supports push.py v0.3 annotate round-trip (write via push.py, read via sync.py)
 
@@ -3007,13 +3007,28 @@ class IntervalsSync:
                 "zone_distribution": zone_dist
             }
 
-            # Fetch activity notes/messages if available (v0.3)
+            # Parse NOTE: lines from activity description (v0.3 — coach annotations)
+            raw_desc = act.get("description") or ""
+            if raw_desc.strip():
+                coach_notes = []
+                for line in raw_desc.split("\n"):
+                    stripped = line.strip()
+                    if stripped.upper().startswith("NOTE:"):
+                        note_text = stripped[5:].strip()
+                        if note_text:
+                            coach_notes.append(note_text)
+                    elif stripped:
+                        break  # stop at first non-NOTE, non-blank line
+                if coach_notes:
+                    activity["coach_notes"] = coach_notes
+
+            # Fetch activity chat messages if available (v0.3 — --chat annotations)
             if act.get("has_messages"):
                 activity_id = act.get("id")
                 if activity_id:
                     notes = self._get_activity_messages(activity_id)
                     if notes:
-                        activity["notes"] = notes
+                        activity["chat_notes"] = notes
             
             formatted.append(activity)
         
