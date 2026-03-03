@@ -6,36 +6,28 @@ Part of Section 11 (https://github.com/CrankAddict/section-11).
 For agentic AI platforms with code execution or GitHub Actions.
 
 Subcommands:
-  push    Add workouts to calendar (default if no subcommand given)
-  list    Show planned workouts for a date range
-  move    Move a workout to a different date
-  delete  Remove a workout from the calendar
+  push           Add workouts to calendar (default if no subcommand given)
+  list           Show planned workouts for a date range
+  move           Move a workout to a different date
+  delete         Remove a workout from the calendar
+  set-threshold  Update sport-specific thresholds (FTP, LTHR, etc.)
+  annotate       Add notes to completed activities or planned workouts
 
-Write operations (push/move/delete) default to PREVIEW mode.
+Write operations default to PREVIEW mode.
 Add --confirm to execute. Agents: always preview first, show the
 athlete, then --confirm only after approval.
 
 Usage:
-  # Preview a push (safe - nothing written)
-  python push.py push --json week.json
-
-  # Execute after athlete approves
-  python push.py push --json week.json --confirm
-
-  # List this week's planned workouts (read-only, no --confirm needed)
-  python push.py list
-
-  # List next two weeks
-  python push.py list --newest +13
-
-  # Move workout to Thursday
-  python push.py move --event-id 33375903 --date 2026-03-06 --confirm
-
-  # Delete a workout
-  python push.py delete --event-id 33375903 --confirm
-
-  # Backward compatible (no subcommand = push)
-  python push.py --json week.json --confirm
+  python push.py push --json week.json                # preview
+  python push.py push --json week.json --confirm      # execute
+  python push.py list                                 # this week
+  python push.py list --newest +13                    # next two weeks
+  python push.py move --event-id 123 --date 2026-03-06 --confirm
+  python push.py delete --event-id 123 --confirm
+  python push.py set-threshold --sport Ride --ftp 295 --confirm
+  python push.py annotate --activity-id abc --message "Knee pain" --confirm
+  python push.py annotate --event-id 123 --message "Focus cadence" --confirm
+  python push.py --json week.json --confirm           # backward compat
 
 Credentials (checked in order):
   1. CLI args: --athlete-id, --api-key
@@ -60,7 +52,7 @@ class IntervalsPush:
     """Manage planned workouts on Intervals.icu calendar."""
 
     BASE_URL = "https://intervals.icu/api/v1"
-    VERSION = "0.2"
+    VERSION = "0.3"
 
     VALID_TYPES = {
         "Ride", "VirtualRide", "MountainBikeRide", "GravelRide", "EBikeRide",
@@ -74,6 +66,20 @@ class IntervalsPush:
     }
 
     VALID_CATEGORIES = {"WORKOUT", "RACE_A", "RACE_B", "RACE_C", "NOTE"}
+
+    # Maps sync.py sport families to Intervals.icu activity types for API calls.
+    # Agents see families in JSON ("cycling"); API needs types ("Ride").
+    FAMILY_TO_TYPE = {
+        "cycling": "Ride",
+        "run": "Run",
+        "swim": "Swim",
+        "walk": "Walk",
+        "ski": "NordicSki",
+        "rowing": "Rowing",
+    }
+
+    # Valid threshold fields for set-threshold
+    THRESHOLD_FIELDS = {"ftp", "indoor_ftp", "lthr", "max_hr", "threshold_pace"}
 
     def __init__(self, athlete_id: str, api_key: str):
         if not athlete_id or not api_key:
@@ -442,6 +448,185 @@ class IntervalsPush:
         except Exception as e:
             return {"success": False, "error": self._handle_error(e)}
 
+    # ── Raw URL helpers (for non-athlete endpoints) ────────────────
+
+    def _get_raw(self, url: str) -> any:
+        """GET from an absolute Intervals.icu URL."""
+        import requests
+        response = requests.get(url, headers=self._headers())
+        response.raise_for_status()
+        return response.json()
+
+    def _post_raw(self, url: str, payload) -> any:
+        """POST to an absolute Intervals.icu URL."""
+        import requests
+        response = requests.post(url, headers=self._headers(), json=payload)
+        response.raise_for_status()
+        return response.json()
+
+    # ── Set threshold ──────────────────────────────────────────────
+
+    def _resolve_sport_type(self, sport: str) -> str:
+        """Resolve a sport family name or activity type to the API type."""
+        # If it's already a valid activity type, use it
+        if sport in self.VALID_TYPES:
+            return sport
+        # Try family mapping (case-insensitive)
+        mapped = self.FAMILY_TO_TYPE.get(sport.lower())
+        if mapped:
+            return mapped
+        return sport  # pass through, let API reject if invalid
+
+    def get_sport_settings(self, sport_type: str) -> dict:
+        """Fetch current sport settings for a sport type."""
+        try:
+            response = self._get(f"sport-settings/{sport_type}")
+            return {"success": True, "settings": response}
+        except Exception as e:
+            return {"success": False, "error": self._handle_error(e)}
+
+    def preview_set_threshold(self, sport: str, updates: dict) -> dict:
+        """Preview threshold update: shows current → new values."""
+        sport_type = self._resolve_sport_type(sport)
+
+        # Validate fields
+        invalid = set(updates.keys()) - self.THRESHOLD_FIELDS
+        if invalid:
+            return {
+                "success": False, "mode": "preview",
+                "error": f"invalid threshold fields: {sorted(invalid)} - valid: {sorted(self.THRESHOLD_FIELDS)}",
+            }
+        if not updates:
+            return {"success": False, "mode": "preview", "error": "no threshold fields provided"}
+
+        # Fetch current values
+        current = self.get_sport_settings(sport_type)
+        if not current["success"]:
+            return {"success": False, "mode": "preview", "error": current["error"]}
+
+        settings = current["settings"]
+        changes = {}
+        for field, new_val in updates.items():
+            old_val = settings.get(field)
+            changes[field] = {"from": old_val, "to": new_val}
+
+        return {
+            "success": True,
+            "mode": "preview",
+            "sport": sport_type,
+            "changes": changes,
+            "message": "Preview only - add --confirm to update thresholds",
+        }
+
+    def set_threshold(self, sport: str, updates: dict) -> dict:
+        """Update sport-specific thresholds."""
+        sport_type = self._resolve_sport_type(sport)
+
+        invalid = set(updates.keys()) - self.THRESHOLD_FIELDS
+        if invalid:
+            return {"success": False, "error": f"invalid fields: {sorted(invalid)}"}
+        if not updates:
+            return {"success": False, "error": "no threshold fields provided"}
+
+        try:
+            response = self._put(f"sport-settings/{sport_type}", updates)
+            # Return the updated values for confirmation
+            result = {}
+            for field in updates:
+                result[field] = response.get(field)
+            return {"success": True, "sport": sport_type, "updated": result}
+        except Exception as e:
+            return {"success": False, "error": self._handle_error(e)}
+
+    # ── Annotate ───────────────────────────────────────────────────
+
+    def get_activity_messages(self, activity_id: str) -> dict:
+        """Fetch messages/notes for a completed activity."""
+        try:
+            url = f"{self.BASE_URL}/activity/{activity_id}/messages"
+            response = self._get_raw(url)
+            messages = []
+            if isinstance(response, list):
+                messages = [{"text": m.get("text", ""), "created": m.get("created")} for m in response]
+            return {"success": True, "messages": messages}
+        except Exception as e:
+            return {"success": False, "error": self._handle_error(e)}
+
+    def preview_annotate_activity(self, activity_id: str, message: str) -> dict:
+        """Preview adding a note to a completed activity."""
+        if not message or not message.strip():
+            return {"success": False, "mode": "preview", "error": "message is required"}
+
+        return {
+            "success": True,
+            "mode": "preview",
+            "target": "activity",
+            "activity_id": activity_id,
+            "message": message.strip(),
+            "note": "Preview only - add --confirm to post this note",
+        }
+
+    def annotate_activity(self, activity_id: str, message: str) -> dict:
+        """Post a note to a completed activity's messages/chat."""
+        if not message or not message.strip():
+            return {"success": False, "error": "message is required"}
+
+        try:
+            url = f"{self.BASE_URL}/activity/{activity_id}/messages"
+            response = self._post_raw(url, {"text": message.strip()})
+            return {
+                "success": True,
+                "target": "activity",
+                "activity_id": activity_id,
+                "message": message.strip(),
+            }
+        except Exception as e:
+            return {"success": False, "error": self._handle_error(e)}
+
+    def preview_annotate_event(self, event_id: int, message: str) -> dict:
+        """Preview adding a NOTE: line to a planned workout's description."""
+        if not message or not message.strip():
+            return {"success": False, "mode": "preview", "error": "message is required"}
+
+        # Fetch current event to show context
+        current = self.get_event(event_id)
+        if not current["success"]:
+            return {"success": False, "mode": "preview", "error": current["error"]}
+
+        evt = current["event"]
+        return {
+            "success": True,
+            "mode": "preview",
+            "target": "event",
+            "event_id": event_id,
+            "name": evt.get("name"),
+            "date": (evt.get("start_date_local") or "")[:10],
+            "message": message.strip(),
+            "note": "Preview only - add --confirm to add this note",
+        }
+
+    def annotate_event(self, event_id: int, message: str) -> dict:
+        """Add a NOTE: line to a planned workout's description."""
+        if not message or not message.strip():
+            return {"success": False, "error": "message is required"}
+
+        # Fetch current event
+        current = self.get_event(event_id)
+        if not current["success"]:
+            return {"success": False, "error": current["error"]}
+
+        evt = current["event"]
+        existing_desc = evt.get("description") or ""
+        note_line = f"NOTE: {message.strip()}"
+
+        # Prepend NOTE: line to description
+        if existing_desc:
+            new_desc = f"{note_line}\n\n{existing_desc}"
+        else:
+            new_desc = note_line
+
+        return self.update_event(event_id, {"description": new_desc})
+
 
 # ── CLI ────────────────────────────────────────────────────────────
 
@@ -549,6 +734,48 @@ def _cmd_delete(args, pusher: IntervalsPush):
         _output(pusher.delete_event(args.event_id))
 
 
+def _cmd_set_threshold(args, pusher: IntervalsPush):
+    """Handle set-threshold subcommand."""
+    updates = {}
+    if args.ftp is not None:
+        updates["ftp"] = args.ftp
+    if args.indoor_ftp is not None:
+        updates["indoor_ftp"] = args.indoor_ftp
+    if args.lthr is not None:
+        updates["lthr"] = args.lthr
+    if args.max_hr is not None:
+        updates["max_hr"] = args.max_hr
+    if args.threshold_pace is not None:
+        updates["threshold_pace"] = args.threshold_pace
+
+    if not updates:
+        _output({"success": False, "error": "provide at least one threshold field (--ftp, --indoor-ftp, --lthr, --max-hr, --threshold-pace)"})
+
+    if not args.confirm:
+        _output(pusher.preview_set_threshold(args.sport, updates))
+    else:
+        _output(pusher.set_threshold(args.sport, updates))
+
+
+def _cmd_annotate(args, pusher: IntervalsPush):
+    """Handle annotate subcommand."""
+    if args.activity_id and args.event_id:
+        _output({"success": False, "error": "provide --activity-id OR --event-id, not both"})
+    if not args.activity_id and not args.event_id:
+        _output({"success": False, "error": "provide --activity-id (completed) or --event-id (planned)"})
+
+    if args.activity_id:
+        if not args.confirm:
+            _output(pusher.preview_annotate_activity(args.activity_id, args.message))
+        else:
+            _output(pusher.annotate_activity(args.activity_id, args.message))
+    else:
+        if not args.confirm:
+            _output(pusher.preview_annotate_event(args.event_id, args.message))
+        else:
+            _output(pusher.annotate_event(args.event_id, args.message))
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Manage planned workouts on Intervals.icu calendar"
@@ -589,10 +816,27 @@ def main():
     delete_parser.add_argument("--event-id", type=int, required=True, help="Event ID to delete")
     delete_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
 
+    # ── set-threshold ──
+    thresh_parser = subparsers.add_parser("set-threshold", help="Update sport thresholds")
+    thresh_parser.add_argument("--sport", required=True, help="Sport family (cycling, run, swim) or activity type (Ride, Run)")
+    thresh_parser.add_argument("--ftp", type=int, help="Functional Threshold Power")
+    thresh_parser.add_argument("--indoor-ftp", type=int, dest="indoor_ftp", help="Indoor FTP")
+    thresh_parser.add_argument("--lthr", type=int, help="Lactate Threshold Heart Rate")
+    thresh_parser.add_argument("--max-hr", type=int, dest="max_hr", help="Maximum Heart Rate")
+    thresh_parser.add_argument("--threshold-pace", type=float, dest="threshold_pace", help="Threshold pace")
+    thresh_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
+
+    # ── annotate ──
+    annotate_parser = subparsers.add_parser("annotate", help="Add notes to activities or planned workouts")
+    annotate_parser.add_argument("--activity-id", dest="activity_id", help="Completed activity ID (from sync.py output)")
+    annotate_parser.add_argument("--event-id", type=int, dest="event_id", help="Planned workout event ID")
+    annotate_parser.add_argument("--message", required=True, help="Note text to add")
+    annotate_parser.add_argument("--confirm", action="store_true", help="Execute write (default is preview)")
+
     # Backward compatibility: if no subcommand in argv, default to push.
     # Must insert 'push' at the right position (after top-level flags like
     # --athlete-id/--api-key, before subcommand-specific flags like --json).
-    known_commands = {"push", "list", "move", "delete"}
+    known_commands = {"push", "list", "move", "delete", "set-threshold", "annotate"}
     # Top-level flags that consume a value
     top_level_value_flags = {"--athlete-id", "--api-key"}
 
@@ -634,6 +878,10 @@ def main():
         _cmd_move(args, pusher)
     elif args.command == "delete":
         _cmd_delete(args, pusher)
+    elif args.command == "set-threshold":
+        _cmd_set_threshold(args, pusher)
+    elif args.command == "annotate":
+        _cmd_annotate(args, pusher)
     else:
         parser.print_help()
         sys.exit(1)
