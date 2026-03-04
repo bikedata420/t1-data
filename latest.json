@@ -4,7 +4,7 @@
     "display_formatting": "For durations and sleep, always display the '_formatted' fields (e.g., sleep_formatted, duration_formatted, total_training_formatted) instead of converting decimal '_hours' values. The formatted fields are pre-calculated from raw seconds and avoid rounding errors.",
     "data_period": "Last 7 days (including today)",
     "extended_data_note": "ACWR and baselines calculated from 28 days of data",
-    "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values.",
+    "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), HRRc trend (heart rate recovery 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values. HRRc is display only \u2014 higher = better parasympathetic recovery.",
     "quick_stats": {
       "total_training_hours": 20.55,
       "total_training_formatted": "20h32m",
@@ -14,18 +14,16 @@
   },
   "metadata": {
     "athlete_id": "REDACTED",
-    "last_updated": "2026-03-04T20:53:48.489552",
+    "last_updated": "2026-03-04T21:08:22.686272",
     "data_range_days": 7,
     "extended_range_days": 28,
-    "version": "3.7"
+    "version": "3.71"
   },
   "alerts": [],
   "history": {
-    "available": true,
-    "last_generated": "2026-03-04",
-    "age_days": 0,
-    "total_months": 35,
-    "history_confidence": "high"
+    "available": false,
+    "history_confidence": "low",
+    "note": "No history.json available. Longitudinal analysis limited to current 28-day window."
   },
   "summary": {
     "period_description": "Last 7 days of training (including today)",
@@ -217,6 +215,14 @@
         "trend": "stable",
         "note": "Steady-state cycling sessions only (VI <= 1.05, VI > 0, >= 20min, power+HR data). Rising EF = improving aerobic efficiency. Compare like-for-like sessions only \u2014 EF varies with intensity. Trend compares 7d vs 28d mean (+/-0.03 = stable)."
       },
+      "hrrc": {
+        "mean_hrrc_7d": null,
+        "mean_hrrc_28d": 21.7,
+        "qualifying_sessions_7d": 0,
+        "qualifying_sessions_28d": 3,
+        "trend": null,
+        "note": "HRRc = heart rate recovery (largest 60s HR drop in bpm after exceeding threshold HR for >1 min). Higher = better parasympathetic recovery. Null when threshold not reached, recording stopped before cooldown, or no HR data. Trend: 7d mean vs 28d mean, >10% = meaningful (min 1 session/7d, 3 sessions/28d). Display only \u2014 not wired into readiness or AAS."
+      },
       "tid_comparison": {
         "classification_7d": "Polarized",
         "classification_28d": "Polarized",
@@ -251,34 +257,40 @@
       ]
     },
     "phase_detection": {
-      "phase": "Build",
-      "confidence": "medium",
-      "reason_codes": [],
+      "phase": null,
+      "confidence": "low",
+      "reason_codes": [
+        "INSUFFICIENT_LOOKBACK",
+        "INSUFFICIENT_DATA"
+      ],
       "basis": {
         "stream_1": {
-          "ctl_slope": 0.72,
-          "acwr_trend": "falling",
-          "hard_day_pattern": 1.8,
-          "weeks_available": 4
+          "ctl_slope": null,
+          "acwr_trend": null,
+          "hard_day_pattern": null,
+          "weeks_available": 0
         },
         "stream_2": {
-          "planned_tss_delta": 0.93,
+          "planned_tss_delta": null,
           "hard_sessions_planned": 2,
           "race_proximity": null,
-          "next_week_load": 1.19,
+          "next_week_load": null,
           "plan_coverage_current_week": 2.0,
           "plan_coverage_next_week": 2.6
         },
-        "data_quality": "good",
+        "data_quality": "poor",
         "stream_agreement": null
       },
-      "previous_phase": "Build",
-      "phase_duration_weeks": 4,
+      "previous_phase": null,
+      "phase_duration_weeks": 0,
       "dossier_declared": null,
       "dossier_agreement": null
     },
-    "phase_detected": "Build",
-    "phase_triggers": [],
+    "phase_detected": null,
+    "phase_triggers": [
+      "INSUFFICIENT_LOOKBACK",
+      "INSUFFICIENT_DATA"
+    ],
     "seasonal_context": "Late Base / Build",
     "benchmark_indoor": {
       "current_ftp": 275,
@@ -300,7 +312,7 @@
     "p_max": 871,
     "power_model_source": "wellness.sportInfo",
     "vo2max": 63.0,
-    "calculation_timestamp": "2026-03-04T20:53:48.488767",
+    "calculation_timestamp": "2026-03-04T21:08:22.686128",
     "data_quality": {
       "hrv_data_points": 7,
       "rhr_data_points": 7,
@@ -342,6 +354,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": 32.0,
       "feel": null,
       "rpe": null,
@@ -385,6 +398,7 @@
       "variability_index": 1.1011236,
       "decoupling": 19.639273,
       "efficiency_factor": 1.4736842,
+      "hrrc": null,
       "elevation_m": 0.0,
       "feel": null,
       "rpe": null,
@@ -440,6 +454,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": 34.0,
       "feel": null,
       "rpe": null,
@@ -483,6 +498,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -526,6 +542,7 @@
       "variability_index": 1.0,
       "decoupling": 0.40541384,
       "efficiency_factor": 1.4414414,
+      "hrrc": null,
       "elevation_m": 0.0,
       "feel": null,
       "rpe": null,
@@ -581,6 +598,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -624,6 +642,7 @@
       "variability_index": 1.0,
       "decoupling": 2.125549,
       "efficiency_factor": 1.4414414,
+      "hrrc": null,
       "elevation_m": 0.0,
       "feel": null,
       "rpe": null,
@@ -676,6 +695,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": 37.0,
       "feel": null,
       "rpe": null,
@@ -719,6 +739,7 @@
       "variability_index": 1.1607143,
       "decoupling": 4.4160457,
       "efficiency_factor": 1.6525424,
+      "hrrc": null,
       "elevation_m": 0.0,
       "feel": null,
       "rpe": null,
@@ -771,6 +792,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": 25.0,
       "feel": null,
       "rpe": null,
@@ -814,6 +836,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -857,6 +880,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -900,6 +924,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -943,6 +968,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -986,6 +1012,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": 17.0,
       "feel": null,
       "rpe": null,
@@ -1029,6 +1056,7 @@
       "variability_index": 1.0,
       "decoupling": 4.808013,
       "efficiency_factor": 1.3846154,
+      "hrrc": null,
       "elevation_m": 0.0,
       "feel": null,
       "rpe": null,
@@ -1081,6 +1109,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": 32.0,
       "feel": null,
       "rpe": null,
@@ -1124,6 +1153,7 @@
       "variability_index": null,
       "decoupling": null,
       "efficiency_factor": null,
+      "hrrc": null,
       "elevation_m": null,
       "feel": null,
       "rpe": null,
@@ -1167,6 +1197,7 @@
       "variability_index": 1.0,
       "decoupling": 2.2254493,
       "efficiency_factor": 1.4247788,
+      "hrrc": null,
       "elevation_m": 0.0,
       "feel": null,
       "rpe": null,
