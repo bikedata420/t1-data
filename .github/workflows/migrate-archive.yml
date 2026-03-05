@@ -1,0 +1,75 @@
+name: Migrate Archive to Monthly Subdirectories
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for git mv
+
+      - name: Migrate files to YYYY-MM subdirectories
+        run: |
+          cd archive
+
+          # Count files to migrate
+          FILE_COUNT=$(ls -1 *.json 2>/dev/null | wc -l)
+          echo "Found ${FILE_COUNT} files to migrate"
+
+          if [ "$FILE_COUNT" -eq 0 ]; then
+            echo "⏭️  No files to migrate"
+            exit 0
+          fi
+
+          MIGRATED=0
+          DELETED=0
+
+          for f in *.json; do
+            # Extract YYYY-MM from filename (format: YYYYMMDD_HHMMSS.json)
+            YEAR_MONTH="${f:0:4}-${f:4:2}"
+
+            # Skip files that don't match expected naming pattern
+            if ! [[ "$f" =~ ^[0-9]{8}_[0-9]{6}\.json$ ]]; then
+              echo "⚠️  Skipping unexpected filename: $f"
+              continue
+            fi
+
+            # Delete empty/1-byte files
+            FILE_SIZE=$(stat -c%s "$f")
+            if [ "$FILE_SIZE" -le 1 ]; then
+              echo "🗑️  Removing empty file: $f (${FILE_SIZE} bytes)"
+              git rm "$f"
+              DELETED=$((DELETED + 1))
+              continue
+            fi
+
+            # Create subdirectory and move
+            mkdir -p "$YEAR_MONTH"
+            git mv "$f" "$YEAR_MONTH/$f"
+            MIGRATED=$((MIGRATED + 1))
+          done
+
+          echo ""
+          echo "✅ Migrated: ${MIGRATED} files"
+          echo "🗑️  Deleted:  ${DELETED} empty files"
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Migrate archive/ to YYYY-MM subdirectories"
+            git push
+            echo "✅ Migration committed and pushed"
+          else
+            echo "⏭️  Nothing to commit"
+          fi
