@@ -4,33 +4,46 @@ Intervals.icu → GitHub/Local JSON Export
 Exports training data for LLM access.
 Supports both automated GitHub sync and manual local export.
 
+Version 3.73 - Phase detection: week-aligned prospective windows
+  - Stream 2 windows aligned to training week instead of rolling 7-day from today
+  - Fixes mid-week deload misclassification: rolling window leaked next week's build sessions
+  - Configurable week start: .sync_config.json "week_start", WEEK_START env var, or --week-start CLI
+  - Default Monday (ISO). Set once in config, never think about it again
+  - Current week window: today → week end. Next week: next full training week
+  - Planned TSS delta projected to full-week equivalent from remaining days
+  - Hard sessions and plan coverage scoped to current week remainder only
+
+Version 3.72 - Readiness Decision (AAS formalization)
+  - Pre-computed go/modify/skip via P0-P3 priority ladder (safety → overload → fatigue → green light)
+  - 7 signals evaluated: HRV, RHR, Sleep, TSB, ACWR, Feel, RI — green/amber/red/unavailable
+  - Phase modifiers: Build loosens (3 amber), Taper/Race week/Recovery/Deload tighten (1 amber)
+  - Structured modification output: triggers + adjustment directions (intensity/volume/cap_zone)
+  - Wires into existing tier-1 alerts (P0/P1) — no duplication
+  - Top-level readiness_decision object in output JSON, alongside alerts
+
 Version 3.71 - HRRc (heart rate recovery) integration
   - Added icu_hrr (HRRc) field to formatted activity output as "hrrc"
   - Added _calculate_hrrc_trend(): 7d/28d aggregate HRRc in capability namespace
   - Qualifying: icu_hrr not null, min 1 session/7d, min 3 sessions/28d
   - Trend: >10% difference = improving/declining (conservative for field noise)
-  - Display only — not wired into readiness or AAS
+  - Display only — not wired into readiness_decision signals
 
 Version 3.7 - Phase detection v2: dual-stream architecture (retrospective + prospective)
-  - Parse NOTE: lines from activity descriptions into "coach_notes" array
-  - Parse NOTE: lines from planned workout descriptions into "coach_notes" array
-  - NOTE: lines stripped from planned workout descriptions to avoid duplication
-  - Fetch activity chat messages (has_messages) into "chat_notes" array
-  - Activity and event IDs always real (opaque keys, not PII) — enables annotate round-trip
-  - Supports push.py v0.3 annotate round-trip (write via push.py, read via sync.py)
+  - Stream 1: 4-week lookback from weekly_180d — CTL slope, ACWR trend, hard-day density, monotony
+  - Stream 2: planned workouts + race calendar — planned TSS delta, hard sessions, race proximity
+  - 8 phase states: Build/Base/Peak/Taper/Deload/Recovery/Overreached/null
+  - Confidence scoring (high/medium/low), reason codes, hysteresis from previous_phase
+  - weekly_180d enriched: per-week phase_detected, acwr, monotony, intensity_basis_breakdown
+  - Overreached false-positive fixes, Peak/Deload gate refinements
 
-Version 3.6.4 - READ_THIS_FIRST display_formatting instruction + report template alignment
-  - Added display_formatting note in READ_THIS_FIRST directing AI to use _formatted fields
-  - All report templates updated: XhYm format for sleep, duration, training hours
-  - All report examples updated: zero decimal hours remaining in templates or prose
-  - Formatting Rule section added to all four templates (pre/post/weekly/block)
+Version 3.6.5 - Real IDs + Coach Notes
+  - Activity/event IDs always real (opaque keys, not PII). Athlete ID still REDACTED when anonymized
+  - coach_notes array: NOTE: lines parsed from activity/event descriptions
+  - chat_notes array: fetches activity messages endpoint when has_messages is true
+  - Enables push.py v0.3 annotate round-trip (write via push.py, read via sync.py)
 
-Version 3.6.3 - Human-readable formatted fields (no virtual math)
-  - duration_formatted on planned workouts (from moving_time seconds, not decimal hours)
-  - sleep_formatted on current_status, wellness_data, and daily tier rows
-  - total_training_formatted on quick_stats and weekly_summary
-  - All formatted fields floored to minutes (no stray seconds in output)
-
+Version 3.6.4 - READ_THIS_FIRST display_formatting instruction, report template XhYm alignment
+Version 3.6.3 - Human-readable _formatted fields (duration, sleep, training hours), floored to minutes
 Version 3.6.2 - Workout summary parser (Pattern A/B), tiered planned workout detail (0-7d full, 8-42d skeleton)
 Version 3.6.1 - Hard day HR zone fallback (2-rung ladder), intensity_basis audit field
 Version 3.6.0 - Efficiency Factor (EF) tracking, 7d/28d aggregate with trend
@@ -66,7 +79,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.71"
+    VERSION = "3.73"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -96,14 +109,19 @@ class IntervalsSync:
     OUTDOOR_TYPES = {"Ride", "MountainBikeRide", "GravelRide", "EBikeRide",
                      "Run", "TrailRun", "NordicSki", "Walk", "Hike"}
     
+    # Training week start day (Python weekday: Mon=0, Tue=1, Wed=2, Thu=3, Fri=4, Sat=5, Sun=6)
+    # Default Monday (ISO). Override via .sync_config.json, WEEK_START env var, or --week-start CLI arg.
+    WEEK_START_DAY = 0
+    
     def __init__(self, athlete_id: str, intervals_api_key: str, github_token: str = None, 
-                 github_repo: str = None, debug: bool = False):
+                 github_repo: str = None, debug: bool = False, week_start_day: int = None):
         self.athlete_id = athlete_id
         self.intervals_auth = base64.b64encode(f"API_KEY:{intervals_api_key}".encode()).decode()
         self.github_token = github_token
         self.github_repo = github_repo
         self.debug = debug
         self.script_dir = Path(__file__).parent
+        self.week_start_day = week_start_day if week_start_day is not None else self.WEEK_START_DAY
     
     def _intervals_get(self, endpoint: str, params: Dict = None) -> Dict:
         """Fetch from Intervals.icu API"""
@@ -515,6 +533,20 @@ class IntervalsSync:
         else:
             print("  🏁 No races in 90-day window")
         
+        # Compute readiness decision (v3.72)
+        print("Computing readiness decision...")
+        readiness_decision = self._compute_readiness_decision(
+            derived_metrics=derived_metrics,
+            alerts=alerts,
+            latest_wellness=latest_wellness,
+            activities=activities_extended,
+            race_calendar=race_calendar,
+            current_tsb=tsb
+        )
+        rd_rec = readiness_decision["recommendation"].upper()
+        rd_pri = readiness_decision["priority"]
+        print(f"  {'🟢' if rd_rec == 'GO' else '🟡' if rd_rec == 'MODIFY' else '🔴'} Readiness: {rd_rec} (P{rd_pri})")
+        
         # History confidence (v3.3.0)
         history_info = self._get_history_confidence()
         
@@ -525,6 +557,7 @@ class IntervalsSync:
                 "data_period": f"Last {days_back} days (including today)",
                 "extended_data_note": f"ACWR and baselines calculated from {days_for_acwr} days of data",
                 "capability_metrics_note": "The 'capability' block in derived_metrics contains durability trend (aggregate decoupling 7d/28d), efficiency factor trend (aggregate EF 7d/28d), HRRc trend (heart rate recovery 7d/28d), and TID comparison (7d vs 28d distribution drift). These measure HOW the athlete expresses fitness, not just load. Use these for coaching context alongside traditional load metrics. Durability and EF trend direction matters more than absolute values. HRRc is display only — higher = better parasympathetic recovery.",
+                "readiness_decision_note": "The 'readiness_decision' block contains a pre-computed go/modify/skip recommendation with priority level (P0=safety, P1=overload, P2=fatigue, P3=green), individual signal statuses, phase-adjusted thresholds, and structured modification guidance. Use this as the baseline for pre-workout recommendations. Override with explanation in the coach note if the AI's contextual judgment disagrees.",
                 "quick_stats": {
                     "total_training_hours": round(sum(act.get("moving_time", 0) for act in activities_display) / 3600, 2),
                     "total_training_formatted": self._format_duration(int(sum(act.get("moving_time", 0) for act in activities_display)) // 60 * 60),
@@ -540,6 +573,7 @@ class IntervalsSync:
                 "version": self.VERSION
             },
             "alerts": alerts,
+            "readiness_decision": readiness_decision,
             "history": history_info,
             "summary": self._compute_activity_summary(activities_display, days_back),
             "current_status": {
@@ -1725,7 +1759,7 @@ class IntervalsSync:
                      "not reached, recording stopped before cooldown, or no "
                      "HR data. Trend: 7d mean vs 28d mean, >10% = meaningful "
                      "(min 1 session/7d, 3 sessions/28d). Display only — "
-                     "not wired into readiness or AAS.")
+                     "not wired into readiness_decision signals.")
         }
 
     def _calculate_tid_comparison(self, seiler_tid_7d: Dict,
@@ -1974,6 +2008,14 @@ class IntervalsSync:
                                  stream1: Dict, today: str) -> Dict:
         """
         Extract Stream 2 (prospective) features from planned workouts and race calendar.
+        
+        Windows are aligned to the training week (configurable via
+        .sync_config.json, WEEK_START env var, or --week-start CLI;
+        default Monday/ISO). This prevents mid-week contamination where
+        a deload week's window leaks into the next build week.
+        
+        - Current week remainder: today → last day of training week
+        - Next week: next full training week (7 days)
         """
         result = {
             "planned_tss_delta": None,
@@ -1997,16 +2039,21 @@ class IntervalsSync:
         if not planned_workouts:
             return result
         
-        # Rolling 7-day windows for plan coverage (aligned with planned_tss_delta)
-        current_week_start = today_date
-        current_week_end = today_date + timedelta(days=6)
-        next_week_start = today_date + timedelta(days=7)
-        next_week_end = today_date + timedelta(days=13)
+        # Week-aligned boundaries (configurable via self.week_start_day)
+        # week_start_day: Mon=0..Sun=6 (Python weekday convention)
+        # Week end day = day before start (e.g., Sun start → Sat end, Mon start → Sun end)
+        week_end_day = (self.week_start_day - 1) % 7
+        today_weekday = today_date.weekday()  # Mon=0..Sun=6
+        days_to_week_end = (week_end_day - today_weekday) % 7
+        current_week_end = today_date + timedelta(days=days_to_week_end)
+        # Next training week: day after current_week_end → 6 days later
+        next_week_start = current_week_end + timedelta(days=1)
+        next_week_end = next_week_start + timedelta(days=6)
         
-        # Classify planned workouts into current and next rolling week
+        # Classify planned workouts into current week remainder and next full week
         current_week_workouts = []
         next_week_workouts = []
-        next_7d_tss = 0
+        current_week_tss = 0
         
         for pw in planned_workouts:
             pw_date_str = (pw.get("date") or "")[:10]
@@ -2017,27 +2064,21 @@ class IntervalsSync:
             except ValueError:
                 continue
             
-            # Next 7 days TSS (rolling, for planned_tss_delta)
-            days_from_today = (pw_date - today_date).days
-            if 0 <= days_from_today < 7:
-                next_7d_tss += (pw.get("planned_tss") or 0)
-            
-            # Rolling week classification (for plan coverage)
-            if current_week_start <= pw_date <= current_week_end:
+            # Current week remainder (today through Saturday)
+            if today_date <= pw_date <= current_week_end:
                 current_week_workouts.append(pw)
+                current_week_tss += (pw.get("planned_tss") or 0)
+            # Next full training week (Sunday through Saturday)
             elif next_week_start <= pw_date <= next_week_end:
                 next_week_workouts.append(pw)
-        
-        # Plan coverage: sessions / expected sessions
-        # Expected sessions = avg activity count from stream1 recent weeks
-        tss_values = stream1.get("tss_values", [])
-        weeks_avail = stream1.get("weeks_available", 0)
         
         # Plan coverage: sessions / expected sessions
         # TODO(v3.71): expected_sessions should use avg activity_count from weekly_180d rows
         # (available in rows but not currently passed through stream1 features).
         # Hard-coded 5 means athletes training 7×/week get coverage >1.0, and 3×/week get 0.6.
         # Impact is limited: plan_coverage only adjusts confidence, not classification.
+        tss_values = stream1.get("tss_values", [])
+        weeks_avail = stream1.get("weeks_available", 0)
         expected_sessions = 5
         if weeks_avail > 0:
             pass  # Future: extract from weekly_rows activity_count average
@@ -2049,46 +2090,42 @@ class IntervalsSync:
             len(next_week_workouts) / expected_sessions, 2
         ) if expected_sessions > 0 else 0.0
         
-        # Planned TSS delta: planned next 7d / avg of prior 21d actual
+        # Planned TSS delta: current week remainder planned / avg of prior 3 weeks actual
         avg_tss_prev_21d = None
         if tss_values and len(tss_values) >= 3:
             avg_tss_prev_21d = statistics.mean(tss_values[-3:])
         elif tss_values:
             avg_tss_prev_21d = statistics.mean(tss_values)
         
-        if avg_tss_prev_21d and avg_tss_prev_21d > 0 and next_7d_tss > 0:
-            result["planned_tss_delta"] = round(next_7d_tss / avg_tss_prev_21d, 2)
+        # Scale: project current week remainder to full-week equivalent
+        # so it's comparable to the historical weekly average.
+        # days_remaining = days_to_week_end + 1 (inclusive of today)
+        days_remaining = days_to_week_end + 1
+        if avg_tss_prev_21d and avg_tss_prev_21d > 0 and current_week_tss > 0 and days_remaining > 0:
+            projected_week_tss = current_week_tss * (7 / days_remaining)
+            result["planned_tss_delta"] = round(projected_week_tss / avg_tss_prev_21d, 2)
         
         # Next week TSS delta (for Deload confirmation: does load resume?)
         next_week_tss = sum(pw.get("planned_tss") or 0 for pw in next_week_workouts)
         if avg_tss_prev_21d and avg_tss_prev_21d > 0 and next_week_tss > 0:
             result["next_week_tss_delta"] = round(next_week_tss / avg_tss_prev_21d, 2)
         
-        # Hard sessions planned (next 7 days)
+        # Hard sessions planned (current week remainder only)
         # A planned workout is "hard" if its name or type suggests intensity
         hard_count = 0
-        next_7d_sessions = 0
-        for pw in planned_workouts:
-            pw_date_str = (pw.get("date") or "")[:10]
-            if not pw_date_str or pw_date_str == "unknown":
-                continue
-            try:
-                pw_date = datetime.strptime(pw_date_str, "%Y-%m-%d")
-            except ValueError:
-                continue
-            if 0 <= (pw_date - today_date).days < 7:
-                next_7d_sessions += 1
-                ws = pw.get("workout_summary") or ""
-                cat = (pw.get("type") or "").upper()
-                name = (pw.get("name") or "").lower()
-                # Heuristic: interval markers, race categories, or intensity keywords
-                if ("×" in ws or "sets" in ws.lower() or
-                    cat in ("RACE_A", "RACE_B", "RACE_C") or
-                    any(kw in name for kw in ("interval", "vo2", "threshold", "sprint", "tempo",
-                                               "race", "hard", "intensity", "sweet spot"))):
-                    hard_count += 1
+        current_week_sessions = len(current_week_workouts)
+        for pw in current_week_workouts:
+            ws = pw.get("workout_summary") or ""
+            cat = (pw.get("type") or "").upper()
+            name = (pw.get("name") or "").lower()
+            # Heuristic: interval markers, race categories, or intensity keywords
+            if ("×" in ws or "sets" in ws.lower() or
+                cat in ("RACE_A", "RACE_B", "RACE_C") or
+                any(kw in name for kw in ("interval", "vo2", "threshold", "sprint", "tempo",
+                                           "race", "hard", "intensity", "sweet spot"))):
+                hard_count += 1
         result["hard_sessions_planned"] = hard_count
-        result["next_7d_sessions"] = next_7d_sessions
+        result["next_7d_sessions"] = current_week_sessions  # renamed semantically but key preserved for compat
         
         # Stream 2 suggested phase
         result["suggested_phase"] = self._phase_from_stream2(result)
@@ -2738,6 +2775,418 @@ class IntervalsSync:
             else:
                 break
         return count
+    
+    # === READINESS DECISION (v3.72) ===
+    
+    def _get_latest_feel(self, activities: List[Dict]) -> Optional[int]:
+        """Get most recent non-null feel value from activities.
+        Intervals.icu convention: 1=Strong(best), 5=Weak(worst)."""
+        for act in reversed(activities):
+            feel = act.get("feel")
+            if feel is not None:
+                return feel
+        return None
+    
+    def _get_phase_modifiers(self, phase: Optional[str], race_week_active: bool) -> Dict:
+        """Return threshold modifiers based on current phase and race proximity.
+        
+        Returns:
+            amber_threshold: int — number of amber signals before Modify triggers
+            tsb_amber: float — TSB threshold for amber classification
+            tighten_red: bool — whether single red = Skip (not just Modify)
+            modifier_applied: str — audit label for which rule was applied
+        """
+        if race_week_active:
+            return {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": True, "modifier_applied": "race_week_tightened"}
+        
+        modifiers = {
+            "Build":       {"amber_threshold": 3, "tsb_amber": -20, "tighten_red": False, "modifier_applied": "build_loosened"},
+            "Taper":       {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": True,  "modifier_applied": "taper_tightened"},
+            "Recovery":    {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "recovery_tightened"},
+            "Deload":      {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "deload_tightened"},
+            "Overreached": {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "overreached_tightened"},
+        }
+        
+        default = {"amber_threshold": 2, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "default"}
+        return modifiers.get(phase, default)
+    
+    def _compute_readiness_decision(self, derived_metrics: Dict, alerts: List[Dict],
+                                     latest_wellness: Dict, activities: List[Dict],
+                                     race_calendar: Dict, current_tsb: float = None) -> Dict:
+        """
+        Pre-compute deterministic readiness decision (go/modify/skip).
+        
+        Priority ladder (first match wins):
+          P0 — Safety stop: RI < 0.6 or any tier-1 alarm → Skip
+          P1 — Acute overload: ACWR > 1.5, compound TSB+HRV, RI < 0.7 + persistent alerts → Skip/Modify
+          P2 — Accumulated fatigue: signal counting with phase-adjusted thresholds → Modify
+          P3 — Green light → Go
+        
+        Phase modifiers shift amber thresholds (Build loosens, Taper/Race week tightens).
+        AI reads the decision and writes the coaching note. Can override with explanation.
+        """
+        # --- Gather inputs ---
+        ri = derived_metrics.get("recovery_index")
+        acwr = derived_metrics.get("acwr")
+        tsb = current_tsb
+        
+        latest_hrv = derived_metrics.get("latest_hrv")
+        latest_rhr = derived_metrics.get("latest_rhr")
+        hrv_baseline_7d = derived_metrics.get("hrv_baseline_7d")
+        rhr_baseline_7d = derived_metrics.get("rhr_baseline_7d")
+        
+        phase_detection = derived_metrics.get("phase_detection", {})
+        current_phase = phase_detection.get("phase")
+        phase_duration = phase_detection.get("phase_duration_weeks")
+        
+        race_week_active = race_calendar.get("race_week", {}).get("active", False)
+        
+        # Sleep from latest wellness
+        sleep_secs = latest_wellness.get("sleepSecs")
+        sleep_hours = round(sleep_secs / 3600, 2) if sleep_secs else None
+        sleep_quality = latest_wellness.get("sleepQuality")
+        
+        # Feel from most recent activity (1=Strong/best, 5=Weak/worst)
+        feel = self._get_latest_feel(activities)
+        
+        # Phase modifiers
+        modifiers = self._get_phase_modifiers(current_phase, race_week_active)
+        
+        # --- Compute signal statuses ---
+        signals = {}
+        
+        # HRV signal
+        if latest_hrv and hrv_baseline_7d and hrv_baseline_7d > 0:
+            hrv_delta_pct = round(((latest_hrv - hrv_baseline_7d) / hrv_baseline_7d) * 100, 1)
+            if hrv_delta_pct <= -20:
+                hrv_status = "red"
+            elif hrv_delta_pct <= -10:
+                hrv_status = "amber"
+            else:
+                hrv_status = "green"
+            signals["hrv"] = {"status": hrv_status, "value": round(latest_hrv, 1), "baseline_7d": round(hrv_baseline_7d, 1), "delta_pct": hrv_delta_pct}
+        else:
+            hrv_delta_pct = None
+            signals["hrv"] = {"status": "unavailable", "value": latest_hrv, "baseline_7d": hrv_baseline_7d, "delta_pct": None}
+        
+        # RHR signal
+        if latest_rhr and rhr_baseline_7d and rhr_baseline_7d > 0:
+            rhr_delta = round(latest_rhr - rhr_baseline_7d, 1)
+            if rhr_delta >= 5:
+                rhr_status = "red"
+            elif rhr_delta >= 3:
+                rhr_status = "amber"
+            else:
+                rhr_status = "green"
+            signals["rhr"] = {"status": rhr_status, "value": round(latest_rhr, 1), "baseline_7d": round(rhr_baseline_7d, 1), "delta_bpm": rhr_delta}
+        else:
+            rhr_delta = None
+            signals["rhr"] = {"status": "unavailable", "value": latest_rhr, "baseline_7d": rhr_baseline_7d, "delta_bpm": None}
+        
+        # Sleep signal
+        if sleep_hours is not None:
+            sleep_red = sleep_hours < 5 or (sleep_quality is not None and sleep_quality >= 4)
+            sleep_amber = (not sleep_red) and (sleep_hours < 7 or (sleep_quality is not None and sleep_quality >= 3))
+            if sleep_red:
+                sleep_status = "red"
+            elif sleep_amber:
+                sleep_status = "amber"
+            else:
+                sleep_status = "green"
+            signals["sleep"] = {"status": sleep_status, "hours": sleep_hours, "quality": sleep_quality}
+        else:
+            signals["sleep"] = {"status": "unavailable", "hours": None, "quality": sleep_quality}
+        
+        # ACWR signal
+        if acwr is not None:
+            if acwr > 1.5:
+                acwr_status = "red"
+            elif acwr > 1.3:
+                acwr_status = "amber"
+            elif acwr < 0.8:
+                acwr_status = "amber"
+            else:
+                acwr_status = "green"
+            signals["acwr"] = {"status": acwr_status, "value": acwr}
+        else:
+            signals["acwr"] = {"status": "unavailable", "value": None}
+        
+        # Feel signal (1=Strong/best, 5=Weak/worst — Intervals.icu convention)
+        if feel is not None:
+            if feel >= 5:
+                feel_status = "red"
+            elif feel >= 4:
+                feel_status = "amber"
+            else:
+                feel_status = "green"
+            signals["feel"] = {"status": feel_status, "value": feel}
+        else:
+            signals["feel"] = {"status": "unavailable", "value": None}
+        
+        # RI signal (Section 8: >= 0.8 good, 0.6-0.79 moderate fatigue, < 0.6 deload)
+        if ri is not None:
+            if ri < 0.6:
+                ri_status = "red"
+            elif ri < 0.8:
+                ri_status = "amber"
+            else:
+                ri_status = "green"
+            signals["ri"] = {"status": ri_status, "value": ri}
+        else:
+            signals["ri"] = {"status": "unavailable", "value": None}
+        
+        # --- Count signals ---
+        green_count = sum(1 for s in signals.values() if s["status"] == "green")
+        amber_count = sum(1 for s in signals.values() if s["status"] == "amber")
+        red_count = sum(1 for s in signals.values() if s["status"] == "red")
+        unavailable_count = sum(1 for s in signals.values() if s["status"] == "unavailable")
+        
+        signal_summary = {"green": green_count, "amber": amber_count, "red": red_count, "unavailable": unavailable_count}
+        
+        # Collect amber/red signal names for reason strings
+        amber_signals = [k for k, v in signals.items() if v["status"] == "amber"]
+        red_signals = [k for k, v in signals.items() if v["status"] == "red"]
+        
+        # --- P0: Safety stop ---
+        tier1_alarms = [a for a in alerts if a.get("severity") == "alarm" and a.get("tier") == 1]
+        
+        if (ri is not None and ri < 0.6) or tier1_alarms:
+            alarm_refs = [a["metric"] for a in tier1_alarms]
+            reasons = []
+            if ri is not None and ri < 0.6:
+                reasons.append(f"RI {ri} < 0.6")
+            if tier1_alarms:
+                reasons.append(f"tier-1 alarms: {', '.join(alarm_refs)}")
+            
+            return {
+                "recommendation": "skip",
+                "priority": 0,
+                "signals": signals,
+                "signal_summary": signal_summary,
+                "phase_context": {
+                    "phase": current_phase,
+                    "phase_week": phase_duration,
+                    "amber_threshold": modifiers["amber_threshold"],
+                    "modifier_applied": modifiers["modifier_applied"]
+                },
+                "race_week_defers": False,
+                "modification": None,
+                "reason": f"P0 safety stop. {'; '.join(reasons)}.",
+                "alarm_refs": alarm_refs
+            }
+        
+        # --- P1: Acute overload ---
+        p1_skip_reasons = []
+        p1_modify_reasons = []
+        
+        if acwr is not None and acwr > 1.5:
+            p1_skip_reasons.append(f"ACWR {acwr} > 1.5")
+        
+        # Compound: deep TSB + HRV confirming
+        if tsb is not None and tsb < -30 and hrv_delta_pct is not None and hrv_delta_pct < -10:
+            p1_skip_reasons.append(f"TSB {tsb} < -30 with HRV {hrv_delta_pct}% below baseline")
+        
+        # RI < 0.7 + persistent tier-1 alerts
+        tier1_persistent = [a for a in alerts if a.get("tier") == 1 and (a.get("persistence_days") or 0) >= 2]
+        if ri is not None and ri < 0.7 and tier1_persistent:
+            persistent_metrics = [a["metric"] for a in tier1_persistent]
+            p1_skip_reasons.append(f"RI {ri} < 0.7 with persistent alerts: {', '.join(persistent_metrics)}")
+        
+        if p1_skip_reasons:
+            return {
+                "recommendation": "skip",
+                "priority": 1,
+                "signals": signals,
+                "signal_summary": signal_summary,
+                "phase_context": {
+                    "phase": current_phase,
+                    "phase_week": phase_duration,
+                    "amber_threshold": modifiers["amber_threshold"],
+                    "modifier_applied": modifiers["modifier_applied"]
+                },
+                "race_week_defers": False,
+                "modification": None,
+                "reason": f"P1 acute overload. {'; '.join(p1_skip_reasons)}.",
+                "alarm_refs": [a["metric"] for a in tier1_persistent]
+            }
+        
+        # P1 modify tier (sub-skip thresholds)
+        if acwr is not None and acwr > 1.3:
+            p1_modify_reasons.append(f"ACWR {acwr} > 1.3")
+        if tsb is not None and tsb < -25 and hrv_delta_pct is not None and hrv_delta_pct < -10:
+            p1_modify_reasons.append(f"TSB {tsb} < -25 with HRV {hrv_delta_pct}% below baseline")
+        
+        if p1_modify_reasons:
+            return {
+                "recommendation": "modify",
+                "priority": 1,
+                "signals": signals,
+                "signal_summary": signal_summary,
+                "phase_context": {
+                    "phase": current_phase,
+                    "phase_week": phase_duration,
+                    "amber_threshold": modifiers["amber_threshold"],
+                    "modifier_applied": modifiers["modifier_applied"]
+                },
+                "race_week_defers": race_week_active,
+                "modification": self._build_modification(["acwr"] if acwr and acwr > 1.3 else amber_signals),
+                "reason": f"P1 acute overload (modify). {'; '.join(p1_modify_reasons)}.",
+                "alarm_refs": []
+            }
+        
+        # --- P2: Accumulated fatigue (signal counting) ---
+        # Phase-adjusted TSB signal (override default if phase shifts threshold)
+        tsb_amber_threshold = modifiers["tsb_amber"]
+        if tsb is not None:
+            if tsb < -30:
+                signals["tsb"] = {"status": "red", "value": round(tsb, 1)}
+            elif tsb < tsb_amber_threshold:
+                signals["tsb"] = {"status": "amber", "value": round(tsb, 1)}
+            else:
+                signals["tsb"] = {"status": "green", "value": round(tsb, 1)}
+        else:
+            signals["tsb"] = {"status": "unavailable", "value": None}
+        
+        # Recount after TSB added
+        amber_count = sum(1 for s in signals.values() if s["status"] == "amber")
+        red_count = sum(1 for s in signals.values() if s["status"] == "red")
+        green_count = sum(1 for s in signals.values() if s["status"] == "green")
+        unavailable_count = sum(1 for s in signals.values() if s["status"] == "unavailable")
+        signal_summary = {"green": green_count, "amber": amber_count, "red": red_count, "unavailable": unavailable_count}
+        amber_signals = [k for k, v in signals.items() if v["status"] == "amber"]
+        red_signals = [k for k, v in signals.items() if v["status"] == "red"]
+        
+        # Red signal handling
+        if red_count >= 2 or (red_count >= 1 and modifiers["tighten_red"]):
+            triggers = red_signals + amber_signals
+            return {
+                "recommendation": "skip" if red_count >= 2 else "modify",
+                "priority": 2,
+                "signals": signals,
+                "signal_summary": signal_summary,
+                "phase_context": {
+                    "phase": current_phase,
+                    "phase_week": phase_duration,
+                    "amber_threshold": modifiers["amber_threshold"],
+                    "modifier_applied": modifiers["modifier_applied"]
+                },
+                "race_week_defers": race_week_active and red_count < 2,
+                "modification": self._build_modification(triggers) if red_count < 2 else None,
+                "reason": f"P2 signal count. {red_count} red ({', '.join(red_signals)}), {amber_count} amber ({', '.join(amber_signals)}).",
+                "alarm_refs": []
+            }
+        
+        if red_count >= 1:
+            # Single red (not tightened phase) = modify
+            triggers = red_signals + amber_signals
+            return {
+                "recommendation": "modify",
+                "priority": 2,
+                "signals": signals,
+                "signal_summary": signal_summary,
+                "phase_context": {
+                    "phase": current_phase,
+                    "phase_week": phase_duration,
+                    "amber_threshold": modifiers["amber_threshold"],
+                    "modifier_applied": modifiers["modifier_applied"]
+                },
+                "race_week_defers": race_week_active,
+                "modification": self._build_modification(triggers),
+                "reason": f"P2 signal count. 1 red ({', '.join(red_signals)}), {amber_count} amber ({', '.join(amber_signals)}).",
+                "alarm_refs": []
+            }
+        
+        # Amber threshold check
+        if amber_count >= modifiers["amber_threshold"]:
+            return {
+                "recommendation": "modify",
+                "priority": 2,
+                "signals": signals,
+                "signal_summary": signal_summary,
+                "phase_context": {
+                    "phase": current_phase,
+                    "phase_week": phase_duration,
+                    "amber_threshold": modifiers["amber_threshold"],
+                    "modifier_applied": modifiers["modifier_applied"]
+                },
+                "race_week_defers": race_week_active,
+                "modification": self._build_modification(amber_signals),
+                "reason": f"P2 signal count. {amber_count} amber ({', '.join(amber_signals)}) >= threshold {modifiers['amber_threshold']}.",
+                "alarm_refs": []
+            }
+        
+        # --- P3: Green light ---
+        # Check data availability
+        available_count = green_count + amber_count + red_count
+        reason = f"P3 green light. {green_count} green, {amber_count} amber (threshold {modifiers['amber_threshold']}), {red_count} red."
+        if unavailable_count > 3:
+            reason += f" Note: {unavailable_count} signals unavailable — limited data."
+        
+        return {
+            "recommendation": "go",
+            "priority": 3,
+            "signals": signals,
+            "signal_summary": signal_summary,
+            "phase_context": {
+                "phase": current_phase,
+                "phase_week": phase_duration,
+                "amber_threshold": modifiers["amber_threshold"],
+                "modifier_applied": modifiers["modifier_applied"]
+            },
+            "race_week_defers": False,
+            "modification": None,
+            "reason": reason,
+            "alarm_refs": []
+        }
+    
+    def _build_modification(self, triggers: List[str]) -> Dict:
+        """Build structured modification guidance from trigger signals.
+        
+        Returns adjustment directions as data — AI writes the coaching language.
+        Trigger → adjustment mapping is deterministic.
+        """
+        if not triggers:
+            return {"triggers": [], "suggested_adjustments": {"intensity": "preserve", "volume": "preserve", "cap_zone": None}}
+        
+        # Determine adjustment directions based on trigger pattern
+        has_sleep = "sleep" in triggers
+        has_hrv = "hrv" in triggers
+        has_rhr = "rhr" in triggers
+        has_acwr = "acwr" in triggers
+        has_tsb = "tsb" in triggers
+        has_feel = "feel" in triggers
+        has_ri = "ri" in triggers
+        
+        autonomic = has_hrv or has_rhr or has_ri
+        load = has_acwr or has_tsb
+        multiple = len(triggers) >= 2
+        
+        # ACWR-driven: cap intensity, cut volume
+        if has_acwr:
+            return {"triggers": triggers, "suggested_adjustments": {"intensity": "reduce", "volume": "reduce", "cap_zone": "Z2"}}
+        
+        # Combined (2+ triggers): reduce both
+        if multiple:
+            return {"triggers": triggers, "suggested_adjustments": {"intensity": "reduce", "volume": "reduce", "cap_zone": None}}
+        
+        # Sleep-only: reduce volume, preserve intensity
+        if has_sleep and not autonomic and not load:
+            return {"triggers": triggers, "suggested_adjustments": {"intensity": "preserve", "volume": "reduce", "cap_zone": None}}
+        
+        # Autonomic-only (HRV/RHR/RI): reduce intensity, preserve volume
+        if autonomic and not has_sleep and not load:
+            return {"triggers": triggers, "suggested_adjustments": {"intensity": "reduce", "volume": "preserve", "cap_zone": None}}
+        
+        # TSB-only: reduce volume
+        if has_tsb and not autonomic and not has_sleep:
+            return {"triggers": triggers, "suggested_adjustments": {"intensity": "preserve", "volume": "reduce", "cap_zone": None}}
+        
+        # Feel-only: reduce intensity
+        if has_feel:
+            return {"triggers": triggers, "suggested_adjustments": {"intensity": "reduce", "volume": "preserve", "cap_zone": None}}
+        
+        # Fallback: reduce both
+        return {"triggers": triggers, "suggested_adjustments": {"intensity": "reduce", "volume": "reduce", "cap_zone": None}}
     
     # === HISTORY GENERATION (v3.3.0) ===
     
@@ -4761,6 +5210,8 @@ def main():
     parser.add_argument("--output", help="Save to local file instead of GitHub")
     parser.add_argument("--anonymize", action="store_true", default=True, help="Remove identifying information (default: enabled)")
     parser.add_argument("--debug", action="store_true", help="Show debug output for API fields")
+    parser.add_argument("--week-start", choices=["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+                        default=None, help="Training week start day (default: mon, or from config)")
     parser.add_argument("--generate-history", action="store_true", help="Force generate history.json (pulls up to 3 years)")
     
     args = parser.parse_args()
@@ -4780,6 +5231,10 @@ def main():
             config["github_token"] = github_token
         if github_repo:
             config["github_repo"] = github_repo
+        
+        week_input = input("Training week starts on (mon/tue/wed/thu/fri/sat/sun, default: mon): ").strip().lower()
+        if week_input in ("mon", "tue", "wed", "thu", "fri", "sat", "sun"):
+            config["week_start"] = week_input
             
         with open(".sync_config.json", "w") as f:
             json.dump(config, f, indent=2)
@@ -4800,12 +5255,19 @@ def main():
     github_token = args.github_token or config.get("github_token") or os.getenv("GITHUB_TOKEN")
     github_repo = args.github_repo or config.get("github_repo") or os.getenv("GITHUB_REPO")
     
+    # Week start: CLI → config file → env var → default (Monday/ISO)
+    week_day_map = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
+    week_start_raw = args.week_start or config.get("week_start") or os.getenv("WEEK_START") or "mon"
+    week_start_day = week_day_map.get(week_start_raw.lower(), 0)
+    week_start_name = {v: k for k, v in week_day_map.items()}.get(week_start_day, "mon")
+    
     print(f"📋 Configuration:")
     print(f"   Athlete ID: {athlete_id[:5] + '...' if athlete_id else 'NOT SET'}")
     print(f"   Intervals Key: {intervals_key[:5] + '...' if intervals_key else 'NOT SET'}")
     print(f"   GitHub Repo: {github_repo or 'NOT SET'}")
     print(f"   GitHub Token: {'SET' if github_token else 'NOT SET'}")
     print(f"   Days: {args.days}")
+    print(f"   Week start: {week_start_name}")
     print(f"   Version: {IntervalsSync.VERSION}")
     
     if not athlete_id or not intervals_key:
@@ -4813,7 +5275,8 @@ def main():
         print("   Run: python sync.py --setup")
         return
     
-    sync = IntervalsSync(athlete_id, intervals_key, github_token, github_repo, debug=args.debug)
+    sync = IntervalsSync(athlete_id, intervals_key, github_token, github_repo, 
+                         debug=args.debug, week_start_day=week_start_day)
     
     # Manual history generation
     if args.generate_history:
