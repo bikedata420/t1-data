@@ -2802,9 +2802,6 @@ class IntervalsSync:
         modifiers = {
             "Build":       {"amber_threshold": 3, "tsb_amber": -20, "tighten_red": False, "modifier_applied": "build_loosened"},
             "Taper":       {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": True,  "modifier_applied": "taper_tightened"},
-            "Recovery":    {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "recovery_tightened"},
-            "Deload":      {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "deload_tightened"},
-            "Overreached": {"amber_threshold": 1, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "overreached_tightened"},
         }
         
         default = {"amber_threshold": 2, "tsb_amber": -15, "tighten_red": False, "modifier_applied": "default"}
