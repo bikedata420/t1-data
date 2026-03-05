@@ -79,7 +79,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.73"
+    VERSION = "3.74"
 
     # Sport family mapping for per-sport monotony calculation
     # Multi-sport athletes get inflated total monotony when cross-training
@@ -4678,11 +4678,11 @@ class IntervalsSync:
                         stats["bail_no_match"] += 1
                 if summary:
                     stats["success"] += 1
-            elif evt.get("description", "").strip():
+            elif (evt.get("description") or "").strip():
                 stats["bail_no_workout_doc"] += 1
 
             # Parse NOTE: lines from description (v0.3 — coach annotations)
-            raw_desc = evt.get("description", "")
+            raw_desc = evt.get("description") or ""
             coach_notes = []
             clean_desc_lines = []
             past_notes = False
@@ -4705,8 +4705,8 @@ class IntervalsSync:
                 "name": evt.get("name", ""),
                 "type": evt.get("category", ""),
                 "planned_tss": evt.get("icu_training_load"),
-                "duration_hours": round(evt.get("moving_time", 0) / 3600, 2),
-                "duration_formatted": self._format_duration(int(evt.get("moving_time", 0))),
+                "duration_hours": round((evt.get("moving_time") or 0) / 3600, 2),
+                "duration_formatted": self._format_duration(int(evt.get("moving_time") or 0)),
                 "workout_summary": summary
             }
 
